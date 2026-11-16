@@ -8,3 +8,8 @@
 {"at":"2026-11-16T15:18:14Z","feature":"initial","stage":"test-planner","kind":"done","text":"Preparamos 208 comprobaciones y 71 pruebas de pantalla, al menos una por cada cosa que pediste","refs":[]}
 {"at":"2026-11-16T15:20:04Z","feature":"initial","stage":"security-auditor","kind":"start","text":"Vamos a revisar la seguridad de lo que se va a construir","refs":[]}
 {"at":"2026-11-16T15:21:00Z","feature":"initial","stage":"security-auditor","kind":"done","text":"Revisamos la seguridad: 4 riesgos importantes que te propondremos corregir","refs":[]}
+{"at":"2026-11-16T15:22:20Z","feature":"initial","stage":"tech-designer","kind":"start","text":"Vamos a elegir la tecnología y la forma de montar el sistema","refs":[]}
+{"at":"2026-11-16T15:22:21Z","feature":"initial","stage":"tech-designer","kind":"change","text":"default-policy: aplicación SPA Vite + API Node en el mismo proyecto (el perfil fija Vite y el almacén es de servidor)","refs":[]}
+{"at":"2026-11-16T15:22:21Z","feature":"initial","stage":"tech-designer","kind":"change","text":"default-policy: SQLite integrado de Node como almacén (sin servicios externos; reversible)","refs":[]}
+{"at":"2026-11-16T15:22:21Z","feature":"initial","stage":"tech-designer","kind":"change","text":"default-policy: sesión por cookie con contraseñas scrypt con sal (cierra AUTH-002/CRYPTO-001 en diseño)","refs":[]}
+{"at":"2026-11-16T15:24:34Z","feature":"initial","stage":"tech-designer","kind":"done","text":"Elegimos la tecnología: una aplicación web con su propia base de datos, 3 decisiones técnicas por aprobar","refs":[]}
