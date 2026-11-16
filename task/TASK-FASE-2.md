@@ -4,7 +4,7 @@
 > **Generated:** 2026-11-16
 > **Total tasks:** 8
 > **Parallel capacity:** 1 work Stream (A); base serial
-> **Critical path:** 8 tasks
+> **Critical path:** 7 tasks
 
 ---
 
@@ -17,16 +17,17 @@
 | Work Streams | 1 (A: 6 tasks) |
 | Setup phase | 0 tasks |
 | Foundation phase | 1 task |
-| Slices phase | 6 tasks (1 `[PLAN GAP]`) |
+| Slices phase | 6 tasks |
 | Integration phase | 0 tasks |
 | Verification phase | 1 task |
 
-> **Plan gap abierta:** el plan no define qué operación lista las reservas de todos los socios en `#/entregas` (Q-task-generator-001). TASK-F2-005 la recoge y bloquea 006 y 007 hasta que el cliente decida.
+> **Cambio REQ-F-020:** el plan de la FASE ya define `listarReservas` (API-002-07, UC-019). TASK-F2-005 deja de ser `[PLAN GAP]` y pasa a ser su corte vertical. Source: CASCADE-MANUAL.
 
 ## Traceability
 
 | Spec Reference | Task Coverage |
 |---------------|---------------|
+| UC-019 / API-002-07 | TASK-F2-005 |
 | UC-006 | TASK-F2-002 |
 | UC-007 | TASK-F2-003 |
 | UC-005 (AC-005-08) | TASK-F2-004 |
@@ -36,7 +37,9 @@
 | INV-ACC-005 | TASK-F2-002, 003 |
 | INCIDENT-001 | TASK-F2-001, 002, 003 |
 | REQ-F-006 / REQ-F-007 | TASK-F2-002, 006 / TASK-F2-003, 006 |
+| REQ-F-020 | TASK-F2-005, 006, 008 |
 | REQ-NF-001 | TASK-F2-005, 007 |
+| INV-ACC-005 (listar) | TASK-F2-005 |
 
 ---
 
@@ -62,7 +65,7 @@
 ## Phase 3: Slices
 
 **Purpose:** Un corte vertical por operación, con la prueba escrita antes.
-**Checkpoint:** Pruebas de UC-006, UC-007 y AC-005-08 en verde.
+**Checkpoint:** Pruebas de UC-019, UC-006, UC-007 y AC-005-08 en verde.
 
 ### UC-006 — Entregar lo reservado
 
@@ -111,22 +114,32 @@
     - [ ] Usa la tabla SM-001
     - [ ] No altera los códigos de FASE-1
 
-### REQ-NF-001 — Datos compartidos entre dispositivos
+### UC-019 — Ver las reservas de todos los socios
 
-- [ ] TASK-F2-005 [PLAN GAP] List every member's reservations for the encargado on Entregas y devoluciones
-  - blocked-by: TASK-F2-003
-  - **Gap:** PLAN-FASE-2 §5 does not specify which operation feeds the table of #/entregas: API-002-02 only returns the actor's reservations and API-002-06 is FASE-4 and per day (REQ-NF-001 AC1 and SCR-004 need every member's reservations)
-  - **Action:** Run `sdd-plan-architect --fase 2` once Q-task-generator-001 is answered (recommended: read-only `listarReservas`, encargado only, filter Por entregar / Entregadas / Todas)
-  - **Commit:** N/A (blocked)
-  - **Refs:** FASE-2, REQ-NF-001, REQ-F-006, REQ-F-007, UC-006, SCR-004, Q-task-generator-001
+- [ ] TASK-F2-005 List every member's reservations for the encargado (API-002-07), test-first | `src/domain/reservas.js`, `src/server/http/reservas.js`, `src/server/http/rutas.js`, `src/shared/textos.js`, `tests/integration/listar-reservas.test.js`
+  - blocked-by: TASK-F2-004
+  - **Commit:** `feat(reservas): list every member's reservations, encargado only`
+  - **Acceptance:**
+    - Test first: `AC-019-01 REQ-F-020 AC1` — sin filtro, `listarReservas` devuelve solo las `Reservada` de todos los socios, cada una con material y correo del socio (filtro por defecto `Por entregar`)
+    - Test first: `AC-019-02 AC-019-03 AC-019-08` — los filtros `Entregadas` y `Todas` (las cuatro estados) cambian la lista y no modifican ningún dato
+    - Test first: `AC-019-04 REQ-F-020 AC4` — sin coincidencias devuelve `reservas: []` y el mensaje «No hay reservas»; un filtro desconocido da 400
+    - Test first: `AC-019-05 AC-019-06 AC-019-07 INV-ACC-005` — socio y junta reciben `E_FORBIDDEN_ROLE` antes de leer datos y sin ninguna reserva; sin sesión `E_AUTH_REQUIRED`
+    - Proyección por estado sobre la tabla `reserva`, sin índice ni esquema nuevos (D-PA-012); `tests/integration/entregas.test.js` queda en el Stream de 002..004, esta prueba va en su propio fichero
+  - **Refs:** FASE-2, REQ-F-020, REQ-NF-001, UC-019, API-002-07, INV-ACC-005, D-PA-012
+  - **Revert:** COUPLED — comparte `reservas.js`, `rutas.js` y `textos.js` con 002..004
+  - **Review:**
+    - [ ] Rol comprobado antes de leer datos
+    - [ ] Lectura pura: sin efectos ni registro de escritura
+
+### REQ-NF-001 — Datos compartidos y pantalla
 
 - [ ] TASK-F2-006 Deliveries and returns screen SCR-004 with the shared reservations table | `src/ui/pantallas/entregas.js`, `src/ui/tabla-reservas.js`, `src/ui/router.js`, `src/ui/cabecera.js`, `src/shared/textos.js`
   - blocked-by: TASK-F2-002, TASK-F2-003, TASK-F2-005
   - **Commit:** `feat(ui): deliveries and returns screen for the encargado`
   - **Acceptance:**
-    - Verify: `npx vite build` → sin errores; `#/entregas` pinta la tabla con material, correo, fechas y estado, botón Entregar y campo «Devuelta el» con botón Devolver; un socio o la junta que llega ve SCR-009 (sin permiso)
+    - Verify: `npx vite build` → sin errores; `#/entregas` pinta la tabla con material, correo, fechas y estado de las reservas de todos (por defecto «Por entregar»; filtro «Entregadas» / «Todas»; «No hay reservas» si vacío), botón Entregar y campo «Devuelta el» con botón Devolver; un socio o la junta que llega ve SCR-009 (sin permiso)
     - Los avisos `O_ALREADY_DELIVERED` y los errores `E_CANCEL_STATE` salen en la región de mensaje; comprobado por el journey TASK-F2-008
-  - **Refs:** FASE-2, REQ-F-006, REQ-F-007, UC-006, UC-007, WIREFRAMES SCR-004
+  - **Refs:** FASE-2, REQ-F-006, REQ-F-007, REQ-F-020, UC-019, UC-006, UC-007, AC-019-01, AC-019-04, WIREFRAMES SCR-004
   - **Revert:** SAFE — pantalla nueva
   - **Review:**
     - [ ] Solo el encargado ve los botones
@@ -154,12 +167,12 @@
   - blocked-by: TASK-F2-006, TASK-F2-007
   - **Commit:** `test(e2e): FASE-2 journey WF-001 with captures`
   - **Acceptance:**
-    - Test first: nombrado `AC-006-01 …`, `AC-006-02`, `AC-006-03`, `AC-006-04`, `AC-006-05`, `AC-006-06`, `AC-006-07`, `AC-007-01`, `AC-007-02`, `AC-007-03`, `AC-007-04`, `AC-007-05`, `AC-007-06`, `AC-005-08`, `REQ-NF-001 AC1` (REQ-F-006, REQ-F-007, REQ-NF-001)
+    - Test first: nombrado `AC-006-01 …`, `AC-006-02`, `AC-006-03`, `AC-006-04`, `AC-006-05`, `AC-006-06`, `AC-006-07`, `AC-007-01`, `AC-007-02`, `AC-007-03`, `AC-007-04`, `AC-007-05`, `AC-007-06`, `AC-019-01`, `AC-019-02`, `AC-019-03`, `AC-019-04`, `AC-019-05`, `AC-019-06`, `AC-019-07`, `AC-019-08`, `AC-005-08`, `REQ-NF-001 AC1` (REQ-F-006, REQ-F-007, REQ-F-020, REQ-NF-001)
     - El título del journey lleva `WF-001`: es el id del vídeo y lo que busca `sdd gate --fase 2`
     - Entra por el paso 1 de la Demo: lucia reserva «Casco» en un navegador y marta abre `#/entregas` en otro; nunca por un punto de entrada interno
-    - Comprueba el texto de cada criterio sobre el elemento que lo muestra: «Casco» y «lucia@club.es» en la tabla de marta, «Entregada», el aviso de ya entregada, el literal de `E_CANCEL_STATE`, «Devuelta», el literal de `E_NOT_DELIVERED`
+    - Comprueba el texto de cada criterio sobre el elemento que lo muestra: «Casco» y «lucia@club.es» en la tabla de marta (filtros «Por entregar», «Entregadas», «Todas»), «No hay reservas» en la lista vacía, el literal de `E_FORBIDDEN_ROLE` para un socio, «Entregada», el aviso de ya entregada, el literal de `E_CANCEL_STATE`, «Devuelta», el literal de `E_NOT_DELIVERED`
     - Guarda `evidencias/FASE-2/{AC-NNN-NN | REQ-NF-001-AC1}.png` por criterio y un vídeo con `WF-001` en el nombre, adjuntos a la prueba (JUnit)
-  - **Refs:** FASE-2, REQ-F-006, REQ-F-007, REQ-NF-001, WF-001, AC-006-01..07, AC-007-01..06, AC-005-08
+  - **Refs:** FASE-2, REQ-F-006, REQ-F-007, REQ-F-020, REQ-NF-001, WF-001, AC-006-01..07, AC-007-01..06, AC-019-01..08, AC-005-08
   - **Revert:** SAFE — solo prueba
   - **Review:**
     - [ ] Dos contextos de navegador distintos
@@ -179,26 +192,25 @@
 ### Task Dependency Graph
 
 ```text
-001 ─► 002 ─► 003 ─► 004
-              └────► 005 [PLAN GAP] ─┬─► 006 ─┐
-                                     └─► 007 ─┴─► 008
+001 ─► 002 ─► 003 ─► 004 ─► 005 ─┬─► 006 ─┐
+                                  └─► 007 ─┴─► 008
 ```
 
 ### Critical Path
 
-1. TASK-F2-001 → 002 → 003 → 005 → 006 → 008
-   (6 tasks on critical path; 005 bloqueada por la decisión del cliente)
+1. TASK-F2-001 → 002 → 003 → 004 → 005 → 006 → 008
+   (7 tasks on critical path)
 
 ### Parallel Execution Plan
 
-**Stream A:** entregar, devolver, cancelar entregada, pantalla y prueba de datos compartidos, en serie (comparten `reservas.js`, `rutas.js` y `textos.js`).
+**Stream A:** entregar, devolver, cancelar entregada, listar reservas, pantalla y prueba de datos compartidos, en serie (comparten `reservas.js`, `rutas.js` y `textos.js`).
 
 ## Stream Ownership
 
 | Stream | Tasks | Owns (write-set) | Runs in |
 |--------|-------|------------------|---------|
 | base | TASK-F2-001 | src/server/log-seguridad.js, tests/unit/domain/reservas-estados.test.js, tests/unit/log-seguridad.test.js | main checkout, before worktrees (checkpoint `fase-2-foundation`) |
-| A | TASK-F2-002, TASK-F2-003, TASK-F2-004, TASK-F2-005, TASK-F2-006, TASK-F2-007 | src/domain/reservas.js, src/server/http/reservas.js, src/server/http/rutas.js, src/shared/textos.js, src/ui/pantallas/entregas.js, src/ui/tabla-reservas.js, src/ui/router.js, src/ui/cabecera.js, tests/integration/entregas.test.js | worktree `feat/fase-2-a` |
+| A | TASK-F2-002, TASK-F2-003, TASK-F2-004, TASK-F2-005, TASK-F2-006, TASK-F2-007 | src/domain/reservas.js, src/server/http/reservas.js, src/server/http/rutas.js, src/shared/textos.js, src/ui/pantallas/entregas.js, src/ui/tabla-reservas.js, src/ui/router.js, src/ui/cabecera.js, tests/integration/entregas.test.js, tests/integration/listar-reservas.test.js | worktree `feat/fase-2-a` |
 | integración | — | — | main checkout, after `--integrate --fase 2` |
 | verificación | TASK-F2-008 | — | main checkout, Phase 9 |
 

@@ -30,9 +30,9 @@ FASE-0 ──► FASE-1 ──► FASE-2 ──┬──► FASE-3 ──► FAS
 ### Wave 3: Entregas
 **FASE-2** (depends on: FASE-1)
 - 8 tasks, 0 parallelizable
-- Critical path: 6 sequential tasks
+- Critical path: 7 sequential tasks
 - Streams: serial
-- **Bloqueo:** TASK-F2-005 es `[PLAN GAP]` (Q-task-generator-001); bloquea TASK-F2-006, 007 y 008 hasta que el cliente decida y se rehaga el plan de la FASE.
+- TASK-F2-005 (UC-019 `listarReservas`, REQ-F-020) alimenta la pantalla 006 y la prueba 007; ya no hay plan gap.
 
 ### Wave 4: Multas y Hoy
 **FASE-3** (depends on: FASE-2)
@@ -83,7 +83,7 @@ El MVP es FASE-0..FASE-3: entrar, reservar, entregar y devolver con multa. FASE-
 |-------|-----------|--------------------------|
 | FASE-0 | `fase-0-verified` | el encargado entra, añade material y los socios lo ven; la app arranca con `npm start` |
 | FASE-1 | `fase-1-verified` | un socio reserva, ve y cancela |
-| FASE-2 | `fase-2-verified` | el encargado entrega y recibe (tras resolver la plan gap) |
+| FASE-2 | `fase-2-verified` | el encargado entrega y recibe |
 | FASE-3 | `fase-3-verified` | multas por retraso, bloqueo y pago |
 | FASE-4 | `fase-4-verified` | Hoy y bajas de unidades |
 | FASE-5 | `fase-5-verified` | la junta consulta; datos solo del dueño |
