@@ -1,27 +1,27 @@
 # Test Plan — material-montana2
 
 > Spec v1.0 · audit gate CONDITIONAL · Project type: WEB-APP (sin `ux/`; contratos `Style: operations`)
-> Companion files: TEST-MATRIX-UC-001..018.md (18), E2E-SCENARIOS.md. Sin PERF-SCENARIOS.md: la ruta lo omite (ningún REQ-NF habla de velocidad o carga).
+> Companion files: TEST-MATRIX-UC-001..019.md (19), E2E-SCENARIOS.md. Sin PERF-SCENARIOS.md: la ruta lo omite (ningún REQ-NF habla de velocidad o carga).
 
 ## 1. Strategy Summary
 
 | Dimension | Target | Current | Source |
 |-----------|--------|---------|--------|
-| UC main + exception flows with BDD | 100% | 100% (18/18 UC, 0 excepciones sin AC) | spec/tests/ |
+| UC main + exception flows with BDD | 100% | 100% (19/19 UC, 0 excepciones sin AC) | spec/tests/ |
 | Invariants with property tests | 100% of INV-* | 0% en spec (no hay PROPERTY-TESTS.md); planificado 18/18 en §7 | domain/05-INVARIANTS.md |
-| Contract operations (API-NNN-NN) with contract tests | 100% | 100% planificado (14/14 en matrices) | spec/contracts/ |
+| Contract operations (API-NNN-NN) with contract tests | 100% | 100% planificado (15/15 en matrices) | spec/contracts/ |
 | Quantified NFRs with a scenario | 100% | n/a: 0 NFR cuantificados de velocidad; REQ-NF-001/002 con AC | spec/nfr/ |
 | Applicable security controls | 100% | 100% planificado (§7 SEC-T) | nfr/SECURITY.md |
 | User-facing WF-* with E2E | 100% | 100% (WF-001) | spec/workflows/ |
-| REQ-F criteria with a capturing E2E | 100% de los visibles | 67/67 visibles + REQ-NF-001; 5 `No visible` sin captura | requirements/ |
+| REQ-F criteria with a capturing E2E | 100% de los visibles | 71/71 visibles + REQ-NF-001; 5 `No visible` sin captura | requirements/ |
 
 ## 2. Test Levels
 
 | Level | Scope | Technique | Framework / runner | Coverage target | Runs on |
 |-------|-------|-----------|--------------------|-----------------|---------|
 | Unit | INV-*, VO-*, cálculo de días y multa | propiedades (fast-check si el implementer lo añade; si no, tablas de ejemplos) | Vitest | 90% líneas del dominio | every commit |
-| Integration | UC-001..018, operaciones API-001..004, almacén | BDD Given/When/Then + matrices; almacén en memoria con la misma interfaz que el real | Vitest (`maxWorkers: 2`) | 100% flujos principales y de excepción | every commit |
-| E2E | WF-001 + pantallas de los 19 REQ-F | Smoke / Critical / Full; captura por criterio, vídeo por WF | Playwright (Chromium) sobre `npx vite` en 127.0.0.1:5173 | 100% WF y criterios visibles | PR / main / nightly |
+| Integration | UC-001..019, operaciones API-001..004, almacén | BDD Given/When/Then + matrices; almacén en memoria con la misma interfaz que el real | Vitest (`maxWorkers: 2`) | 100% flujos principales y de excepción | every commit |
+| E2E | WF-001 + pantallas de los 20 REQ-F | Smoke / Critical / Full; captura por criterio, vídeo por WF | Playwright (Chromium) sobre `npx vite` en 127.0.0.1:5173 | 100% WF y criterios visibles | PR / main / nightly |
 | Performance | — | — | — | exento: ningún objetivo numérico de velocidad en spec/nfr | — |
 | Security | SECURITY.md, REQ-NF-002, INV-ACC-* | checklist ASVS v4 (V2, V4), error guessing | Vitest + Playwright | controles aplicables | release candidate |
 
@@ -58,6 +58,7 @@
 | GAP-009 | INCOMPLETE-BDD | UC-001, 003, 004, 016, API-004-01 | Hallazgos de matrices: login concurrente, catálogo vacío, API-002-02 sin id ajeno (`E_FORBIDDEN_DATA` inalcanzable), junta en API-004-01 | Low |
 | GAP-010 | INCOMPLETE-BDD | UC-001, INV-ACC-006 | Instante exacto +15:00, intentos con la cuenta bloqueada, correo sin cuenta y fallos simultáneos sin AC | Medium |
 | GAP-011 | INCOMPLETE-BDD | UC-017, UC-018 | Exactamente 30:00 sin actividad; "Salir" con sesión caducada; 2.ª petición tras caducar; almacén caído al salir | Medium |
+| GAP-012 | INCOMPLETE-BDD | UC-019 | `filtro` fuera del enum sin error definido (F-019-01) | Low |
 
 Los 5 criterios `No visible` (REQ-F-005 AC5, REQ-F-006 AC5, REQ-F-010 AC4, REQ-F-015 AC2 y AC3) y REQ-NF-002 se prueban en integración por API, sin captura: decisión del cliente en requisitos, no es hueco.
 
@@ -85,12 +86,14 @@ REQ-F-0NN ↔ UC-0NN (uno a uno; REQ-F-017 va en UC-001); los AC ids son los de 
 | UC-016 | REQ-F-016 | AC-016-01..05 | UNIT-T-004 | matriz UC-016 | C-016-* |
 | UC-017 | REQ-F-018 | AC-017-01..03 | UNIT-T-018 | matriz UC-017 | C-017-* |
 | UC-018 | REQ-F-019 | AC-018-01..05 | UNIT-T-018 | matriz UC-018 | C-018-* |
+| UC-019 | REQ-F-020 | AC-019-01..08 | UNIT-T-003 | matriz UC-019 | C-019-01..04 |
 
 ## 6. Traceability REQ → tests
 
 | REQ | UC / WF | Matrix rows | E2E | Perf / Sec |
 |-----|---------|-------------|-----|------------|
 | REQ-F-001..016, 018, 019 | UC-001..016, 017, 018 (REQ-F-002, 005..008, 010 en WF-001) | TEST-MATRIX-UC-0NN (mismo número) | E2E-WF-001-S0..S2 + C-0NN-* | SEC-T-001..005 |
+| REQ-F-020 | UC-019 (WF-001: entregas) | TEST-MATRIX-UC-019 T01..T10 | C-019-01..04 | — |
 | REQ-F-017 | UC-001 | TEST-MATRIX-UC-001 T14..T23 | C-001-05..09 | SEC-T-006 |
 | REQ-NF-001 | UC-002, UC-006 | AC-NF1-01 en matriz UC-006 | E2E-WF-001-C-NF1 | — |
 | REQ-NF-002 | UC-001 | UC-001 AC-001-06 | — (No visible) | SEC-T-001 |
@@ -158,8 +161,8 @@ REQ-F-0NN ↔ UC-0NN (uno a uno; REQ-F-017 va en UC-001); los AC ids son los de 
 
 | Metric | Value |
 |--------|-------|
-| Matrices / cases | 18 / 240 (22 replay, 15 race) |
-| E2E scenarios Smoke / Critical / Full | 3 / 72 / 9 |
+| Matrices / cases | 19 / 251 (23 replay, 15 race) |
+| E2E scenarios Smoke / Critical / Full | 3 / 76 / 9 |
 | PERF scenarios | 0 |
-| Gaps | 11 |
+| Gaps | 12 |
 | Chars: this file / test/ total | ~15 200 / ~102 000 bytes (sobre el límite de 65 000 por 18 matrices en lugar de ~7) |

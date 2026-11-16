@@ -23,7 +23,7 @@
 
 Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 
-## Field Inventory: WF-001 y pantallas de los 16 REQ-F
+## Field Inventory: WF-001 y pantallas de los REQ-F
 
 | Field | UC input | Operation input | Required | Type | Validation | Conditional |
 |-------|----------|-----------------|----------|------|-----------|-------------|
@@ -34,6 +34,7 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 | Devuelta el | UC-007 | API-002-05.devueltaEl | Yes | Dia | día natural; retraso → multa | multa si `> hasta` |
 | Material, Unidades (Inventario) | UC-011, UC-012 | API-003-02/03 | Yes | string, Unidades (VO-006) | `n ≥ 1` (`E_UNITS_MIN`); baja `n ≤ activas` | No |
 | Día (Hoy) | UC-013 | API-002-06.dia | No | Dia | por defecto hoy | No |
+| Filtro (Entregas y devoluciones) | UC-019 | API-002-07.filtro | No | FiltroReservas | Por entregar · Entregadas · Todas; por defecto Por entregar | No |
 | Socio (Historial) | UC-014 | API-004-03.correo | Yes | Correo | solo junta/encargado | No |
 | reservaId, multaId | UC-005..007, 010 | API-002-03..05, 004-02 | Yes | botón de fila | existente | No |
 
@@ -47,6 +48,7 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 | Devuelta el | AC-007-01 | no definido en spec | fecha pasada/futura: GAP-003 | `hasta` y `hasta+1`: AC-008-02, 03 | retraso → multa AC-008-01 |
 | Unidades | AC-011-01, 012-01 | AC-011-03 | AC-012-02, 012-04 | 0, 1, activas (matriz UC-012) | — |
 | Día / Socio | AC-013-02 / AC-014-01 | día por defecto AC-013-01 / — | — | — | — |
+| Filtro (Entregas) | AC-019-02, 03 | por defecto Por entregar AC-019-01 | — | sin coincidencias AC-019-04 | — |
 
 ## Scenarios
 
@@ -160,6 +162,10 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 | C-018-03 | lucia activa 10:00; 10:29 abre Material | "Hola, lucia@club.es" en Material (AC-018-02) |
 | C-018-04 | lucia activa 10:00, 10:20, 10:40; 10:55 abre Material | "Hola, lucia@club.es" en Material (AC-018-03) |
 | C-018-05 | sesión caducada; lucia entra con su contraseña | "Hola, lucia@club.es" en Material (AC-018-04) |
+| C-019-01 | marta; `Casco` de lucia Reservada 12-10..12-12, `Cuerda` de pablo Entregada; abre Entregas y devoluciones | "Casco" "lucia@club.es" en Entregas y devoluciones, sin la Cuerda (AC-019-01) |
+| C-019-02 | mismos datos; marta elige el filtro "Entregadas" | "Cuerda" "pablo@club.es" en Entregas y devoluciones, sin el Casco (AC-019-02) |
+| C-019-03 | mismos datos; marta elige el filtro "Todas" | "Casco" "lucia@club.es" y "Cuerda" "pablo@club.es" en Entregas y devoluciones (AC-019-03) |
+| C-019-04 | ninguna reserva coincide con el filtro; marta abre Entregas y devoluciones | "No hay reservas" en Entregas y devoluciones (AC-019-04) |
 | C-NF1 | lucia reserva en una sesión; marta abre Entregas y devoluciones en otra | "Casco" "lucia@club.es" en Entregas y devoluciones (REQ-NF-001 AC1, AC-NF1-01) |
 
 ### Variaciones de validación y accesibilidad (P1)
@@ -168,7 +174,7 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 |------------|-------------------|--------|----------|----------|
 | E2E-WF-001-V01 | Correo y Contraseña vacíos | enviar | `E_AUTH_INVALID` "Correo o contraseña incorrectos", sin sesión | AC-001-05 |
 | E2E-WF-001-V02 | Material inexistente | reservar | `E_MATERIAL_NOT_FOUND` "Ese material no existe" | AC-002-09 |
-| E2E-WF-001-V03 | socio abre Hoy / Entregas | navegar | sin pantalla ni botones de encargado (`E_FORBIDDEN_ROLE`) | AC-013-04, AC-006-05 |
+| E2E-WF-001-V03 | socio o junta abre Hoy / Entregas | navegar | sin pantalla ni botones de encargado (`E_FORBIDDEN_ROLE`) | AC-013-04, AC-006-05, AC-019-05, AC-019-06 |
 | E2E-WF-001-A11Y-01 | teclado en S1 | Tab por todos los campos, Enter envía | cada campo alcanzable, envío correcto | S1 |
 
 ### Full tier (P2) — lista
@@ -180,9 +186,9 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 | E2E-WF-001-F03 | almacén caído al devolver tarde | devolver | `E_STORAGE_UNAVAILABLE`; ni devolución ni multa | AC-008-05 |
 | E2E-WF-001-F04 | lucia con 1 multa | reserva mientras marta paga | decide el estado al confirmar | AC-009-05 |
 | E2E-WF-001-F05 | `res(lucia)` futura | baja de la unidad | reserva sigue Reservada; sin aviso del sistema | AC-012-07, RN-002 |
-| E2E-WF-001-F06 | sin sesión | abrir Mis reservas, Hoy, Historial | `E_AUTH_REQUIRED` → Iniciar sesión | AC-004-04, 013-05, 014-04 |
+| E2E-WF-001-F06 | sin sesión | abrir Mis reservas, Hoy, Historial, Entregas | `E_AUTH_REQUIRED` → Iniciar sesión | AC-004-04, 013-05, 014-04, 019-07 |
 | E2E-WF-001-F07 | ana (junta) | forzar pagar / reservar | `E_FORBIDDEN_ROLE`, estado intacto | AC-015-02, 015-03 |
-| E2E-WF-001-F08 | cualquier lectura | abrir otra vez | misma lista | AC-003-04, 004-06, 013-06, 014-05, 016-05 |
+| E2E-WF-001-F08 | cualquier lectura | abrir otra vez | misma lista | AC-003-04, 004-06, 013-06, 014-05, 016-05, 019-08 |
 | E2E-WF-001-F09 | altas y bajas repetidas | repetir formulario | suma/resta otra vez | AC-011-04, 012-08 |
 
 ### smoke-deploy
@@ -199,12 +205,13 @@ Target environment: none (sin `staging_url`); sin escenarios.
 | Devuelta el | S1 #5 ✅ | HUECO | GAP-003 | S2 #1 ✅ | INCOMPLETE → GAP-003, GAP-008 |
 | Unidades | C-011-01 ✅ | C-011-03 ✅ | C-012-02 ✅ | N/A | COMPLETE |
 | Día, Socio | C-013-02, C-014-01 ✅ | N/A | N/A | N/A | COMPLETE |
+| Filtro (Entregas) | C-019-02, C-019-03 ✅ | C-019-01 (por defecto) ✅ | N/A (enum; F-019-01) | N/A | COMPLETE |
 
 ## Coverage Matrix
 
 | REQ ID | Type | E2E Coverage | Justification |
 |--------|------|--------------|---------------|
-| REQ-F-001..019 | UI-func | S0..S2 + C-NNN-* (67 criterios visibles; REQ-F-017..019 = C-001-05..09, C-017-*, C-018-*) | los 5 `No visible` en integración |
+| REQ-F-001..020 | UI-func | S0..S2 + C-NNN-* (71 criterios visibles; REQ-F-017..019 = C-001-05..09, C-017-*, C-018-*; REQ-F-020 = C-019-01..04) | los 5 `No visible` en integración |
 | REQ-NF-001 | UI-effect | C-NF1 | — |
 | REQ-NF-002 | Security | — | EXEMPT-NFR: SEC-T-001 |
 | REQ-C-001..003 | Constraint | texto de cada captura | EXEMPT-NFR: MNT-T-001..003 |
