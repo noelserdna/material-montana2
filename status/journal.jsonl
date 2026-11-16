@@ -6,3 +6,5 @@
 {"at":"2026-11-16T15:13:30Z","feature":"initial","stage":"spec-auditor","kind":"done","text":"Revisamos la descripción: 8 puntos corregidos y 3 preguntas para ti; ninguno bloquea del todo","refs":[]}
 {"at":"2026-11-16T15:15:16Z","feature":"initial","stage":"test-planner","kind":"start","text":"Vamos a decidir cómo comprobaremos cada cosa que pediste","refs":[]}
 {"at":"2026-11-16T15:18:14Z","feature":"initial","stage":"test-planner","kind":"done","text":"Preparamos 208 comprobaciones y 71 pruebas de pantalla, al menos una por cada cosa que pediste","refs":[]}
+{"at":"2026-11-16T15:20:04Z","feature":"initial","stage":"security-auditor","kind":"start","text":"Vamos a revisar la seguridad de lo que se va a construir","refs":[]}
+{"at":"2026-11-16T15:21:00Z","feature":"initial","stage":"security-auditor","kind":"done","text":"Revisamos la seguridad: 4 riesgos importantes que te propondremos corregir","refs":[]}
