@@ -24,7 +24,7 @@ interface HoyOutput { prestado: { material: string; correo: Correo }[]; vuelve: 
 - Failure: sin datos.
 
 ## Main flow
-1. Encargado: abre Hoy y, opcionalmente, elige un día.
+1. Encargado: abre Hoy y, opcionalmente, elige un día (sin elegir, el día es hoy).
 2. System: lista "Prestado: {material} ({correo})".
 3. System: lista "Vuelve: {material} ({correo})" del día; si nada prestado, "No hay nada prestado".
 
