@@ -50,7 +50,7 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 
 ## Scenarios
 
-> Fixtures: `stock1` = Casco con 1 unidad · `stock2` = Casco con 2 · `res(lucia)` = reserva Casco 2026-12-10..2026-12-12 de lucia · `tarde` = res devuelta 2026-12-15 (3 días) · hoy = 2026-12-01 (D-T-001)
+> Fixtures: `stock1` = Casco con 1 unidad · `stock2` = Casco con 2 · `res(lucia)` = reserva Casco 2026-12-10..2026-12-12 de lucia · `tarde` = res devuelta 2026-12-15 (3 días) · hoy = 2026-12-01 (D-T-001) · `reloj` = hora del día fijada y avanzable (D-T-011): `10:00`, `+30 min`…
 
 ### E2E-WF-001-S0: Entrar (P0, smoke)
 
@@ -97,6 +97,11 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 | C-001-02 | pablo, Iniciar sesión | "Hola, pablo@club.es" en Material |
 | C-001-03 (S0) | contraseña errónea | "Correo o contraseña incorrectos" en Iniciar sesión |
 | C-001-04 | lucia con sesión envía otra vez | "Hola, lucia@club.es" en Material |
+| C-001-05 | `reloj` 10:11, lucia con 5 fallos 10:00–10:10, envía la contraseña correcta | "Demasiados intentos fallidos: espera 15 minutos" en Iniciar sesión (AC-001-07) |
+| C-001-06 | lo mismo, `reloj` 10:26 | "Hola, lucia@club.es" en Material (AC-001-08) |
+| C-001-07 | lucia con 4 fallos, envía la correcta | "Hola, lucia@club.es" en Material (AC-001-09) |
+| C-001-08 | lucia bloqueada; pablo entra | "Hola, pablo@club.es" en Material (AC-001-10) |
+| C-001-09 | 5 fallos, 1.º a 10:00 y 5.º a 10:16; envía a 10:17 | "Hola, lucia@club.es" en Material (AC-001-11) |
 | C-002-01 (S1) | `stock2`, lucia reserva | "Reserva creada: Casco del 2026-12-10 al 2026-12-12" en Mis reservas |
 | C-002-02 | `stock2` con una ocupada parte del rango | "Reserva creada: Casco del 2026-12-11 al 2026-12-13" en Mis reservas |
 | C-002-03 | `stock1` ocupada 12-10..12-12; pablo pide 12-11..12-13 | "No quedan unidades libres de Casco esas fechas" en Material |
@@ -147,6 +152,14 @@ Viewport: móvil 375 px para Smoke y Critical; escritorio 1280 px para todo.
 | C-016-02 | pablo pide el de lucia | "No tienes permiso para ver estos datos" en Historial del socio |
 | C-016-03 | marta, multas de varios socios | "lucia@club.es" y "Multa de 6 €" en Multas |
 | C-016-04 | sin sesión abre Material | "Iniciar sesión" en Iniciar sesión |
+| C-017-01 | lucia con sesión elige "Salir" | "Iniciar sesión" en Iniciar sesión (AC-017-01) |
+| C-017-02 | lucia sale; se restaura su sesión anterior y se abre Material | "Iniciar sesión" en Iniciar sesión, sin datos (AC-017-02) |
+| C-017-03 | lucia sale; se repite "Salir" con la sesión anterior | "Iniciar sesión" en Iniciar sesión (AC-017-03) |
+| C-018-01 | `reloj` 10:00 lucia activa; 10:31 abre Material | "Tu sesión ha caducado" en Iniciar sesión (AC-018-01) |
+| C-018-02 | pablo activo 09:00; 09:45 abre Material | "Tu sesión ha caducado" en Iniciar sesión (AC-018-05) |
+| C-018-03 | lucia activa 10:00; 10:29 abre Material | "Hola, lucia@club.es" en Material (AC-018-02) |
+| C-018-04 | lucia activa 10:00, 10:20, 10:40; 10:55 abre Material | "Hola, lucia@club.es" en Material (AC-018-03) |
+| C-018-05 | sesión caducada; lucia entra con su contraseña | "Hola, lucia@club.es" en Material (AC-018-04) |
 | C-NF1 | lucia reserva en una sesión; marta abre Entregas y devoluciones en otra | "Casco" "lucia@club.es" en Entregas y devoluciones (REQ-NF-001 AC1, AC-NF1-01) |
 
 ### Variaciones de validación y accesibilidad (P1)
@@ -191,7 +204,7 @@ Target environment: none (sin `staging_url`); sin escenarios.
 
 | REQ ID | Type | E2E Coverage | Justification |
 |--------|------|--------------|---------------|
-| REQ-F-001..016 | UI-func | S0..S2 + C-NNN-* (54 criterios visibles) | los 5 `No visible` en integración |
+| REQ-F-001..019 | UI-func | S0..S2 + C-NNN-* (67 criterios visibles; REQ-F-017..019 = C-001-05..09, C-017-*, C-018-*) | los 5 `No visible` en integración |
 | REQ-NF-001 | UI-effect | C-NF1 | — |
 | REQ-NF-002 | Security | — | EXEMPT-NFR: SEC-T-001 |
 | REQ-C-001..003 | Constraint | texto de cada captura | EXEMPT-NFR: MNT-T-001..003 |
