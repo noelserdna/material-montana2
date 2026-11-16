@@ -1,2 +1,3 @@
 {"at":"2026-11-16T15:01:41Z","feature":"initial","stage":"requirements-engineer","kind":"done","text":"Convertimos tus 11 peticiones en 21 requisitos con ejemplos, listos para que los revises","refs":["N-001"]}
 {"at":"2026-11-16T15:02:52Z","feature":"initial","stage":"requirements-engineer","kind":"decision","text":"Andres Leon aprobó los requisitos (versión 1.0) el 2026-11-16","refs":["requirements-v1.0"],"by":"Andres Leon (Cliente)"}
+{"at":"2026-11-16T15:03:31Z","feature":"initial","stage":"route","kind":"decision","text":"Acordamos el recorrido: se harán 7 etapas opcionales y se dejan fuera 0.","refs":[],"by":"Jev (jev-1.14.0) (Agente automático (modo auto)) vía jev"}
