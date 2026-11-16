@@ -7,7 +7,7 @@
       "skill": "sdd-security-auditor",
       "contexto": "SEC AUTH-001, AUTH-002 (audits/SECURITY-AUDIT-BASELINE.md)",
       "tema": "bloqueo-y-caducidad-de-sesion",
-      "estado": "OPEN",
+      "estado": "ANSWERED",
       "pregunta": "API-001-01 has no failed-login throttling/lockout and INV-ACC-002 defines no session expiry or logout. Which policy should the spec adopt?",
       "para_cliente": "¿Qué hacemos si alguien falla la contraseña muchas veces, y cuánto tiempo puede quedar abierta una sesión?",
       "opciones": [
@@ -41,7 +41,12 @@
         }
       ],
       "bloquea": "Remediación AUTH-001, AUTH-002",
-      "respuesta": null
+      "respuesta": {
+        "letra": "A",
+        "como": "opción recomendada, aceptada por",
+        "quien": "Andres Leon (Cliente)",
+        "fecha": "2026-11-16"
+      }
     }
   ]
 }

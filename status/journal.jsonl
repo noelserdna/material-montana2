@@ -15,3 +15,4 @@
 {"at":"2026-11-16T15:24:34Z","feature":"initial","stage":"tech-designer","kind":"done","text":"Elegimos la tecnología: una aplicación web con su propia base de datos, 3 decisiones técnicas por aprobar","refs":[]}
 {"at":"2026-11-16T15:25:52Z","feature":"initial","stage":"ux-designer","kind":"start","text":"Vamos a diseñar las pantallas y cómo se usan","refs":[]}
 {"at":"2026-11-16T15:32:26Z","feature":"initial","stage":"ux-designer","kind":"done","text":"Diseñamos 9 pantallas con sus estados, usables también con teclado y lector de pantalla","refs":[]}
+{"at":"2026-11-16T15:35:36Z","feature":"initial","stage":"task-implementer","kind":"decision","text":"Andres Leon respondió las preguntas del mantenimiento","refs":[],"by":"Andres Leon (Cliente)"}
