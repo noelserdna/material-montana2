@@ -19,7 +19,7 @@
 | API-002-04 | entregarReserva | encargado | reservaId | `Entregada` (INV-RES-005) | `E_RES_CANCELLED`, `E_DELIVER_STATE`, `E_RES_NOT_FOUND`, `E_FORBIDDEN_ROLE`; `O_ALREADY_DELIVERED` | UC-006 |
 | API-002-05 | devolverReserva | encargado | reservaId, devueltaEl: Dia | `Devuelta`; multa si hay retraso (INV-FIN-001, INV-FIN-002) | `E_NOT_DELIVERED`, `E_RES_NOT_FOUND`, `E_FORBIDDEN_ROLE`, `E_STORAGE_UNAVAILABLE`; `O_ALREADY_RETURNED` | UC-007, UC-008 |
 | API-002-06 | verHoy | encargado | dia?: Dia | prestado y vuelve del día; sin cambios | `E_FORBIDDEN_ROLE`, `E_AUTH_REQUIRED` | UC-013 |
-| API-002-07 | listarReservas | encargado | filtro?: `Por entregar` \| `Entregadas` \| `Todas` (por defecto `Por entregar`) | reservas de todos los socios según el filtro; sin cambios (INV-ACC-004, INV-ACC-005) | `E_FORBIDDEN_ROLE`, `E_AUTH_REQUIRED` | UC-019 |
+| API-002-07 | listarReservas | encargado | filtro?: `Por entregar` \| `Entregadas` \| `Todas` (por defecto `Por entregar`) | reservas de todos los socios según el filtro; sin cambios; solo encargado (INV-ACC-005) | `E_FORBIDDEN_ROLE`, `E_AUTH_REQUIRED` | UC-019 |
 
 ## Errors
 

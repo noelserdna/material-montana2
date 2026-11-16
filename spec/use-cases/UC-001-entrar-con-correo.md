@@ -25,7 +25,7 @@ interface IniciarSesionOutput { saludo: string /* "Hola, {correo}" */; rol: Rol 
 
 ## Main flow
 1. Persona: envía correo y contraseña.
-2. System: comprueba que la cuenta no está bloqueada (INV-ACC-006) y verifica la contraseña contra el hash (INV-ACC-001); un fallo suma al contador de la cuenta, un acierto lo pone a cero.
+2. System: comprueba que la cuenta no está bloqueada (INV-ACC-006) y verifica la contraseña contra el hash (INV-ACC-001); un fallo suma al contador de la cuenta, un acierto lo pone a cero; con la cuenta bloqueada, intentar más no alarga la espera (contada desde el 5.º fallo).
 3. System: abre la sesión y muestra Material.
 
 ## Extensions

@@ -56,3 +56,8 @@ Scenario: AC-001-11 — fallos fuera de la ventana [REQ-F-017 AC5]
   Given el primero de 5 fallos a las 10:00 y el último a las 10:16
   When envía "Cumbre2026" a las 10:17
   Then ve "Hola, lucia@club.es" en Material
+
+Scenario: AC-001-12 — probar durante el bloqueo no lo alarga (Q-spec-auditor-004)
+  Given la cuenta bloqueada tras el 5.º fallo de las 10:10 y un intento erróneo a las 10:20
+  When envía "Cumbre2026" a las 10:26
+  Then ve "Hola, lucia@club.es" en Material

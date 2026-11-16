@@ -26,7 +26,7 @@ interface ListarReservasOutput { reservas: { id: number; material: string; corre
 
 ## Main flow
 1. Encargado: abre Entregas y devoluciones (filtro "Por entregar") o elige otro filtro.
-2. System: comprueba rol (INV-ACC-004).
+2. System: comprueba rol: solo el encargado (INV-ACC-005, PERMISSIONS-MATRIX).
 3. System: lista "{material}" "{correo}" con fechas y estado; si no hay ninguna, "No hay reservas".
 
 ## Exceptions & errors

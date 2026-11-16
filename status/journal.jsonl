@@ -31,3 +31,4 @@
 {"at":"2026-11-16T16:53:50Z","feature":"initial","stage":"plan-architect","kind":"gate","text":"Jev (jev-1.14.0) dio conformidad al plan","refs":[],"by":"Jev (jev-1.14.0) (Agente automático (modo auto))"}
 {"at":"2026-11-16T17:05:59Z","feature":"initial","stage":"req-change","kind":"change","text":"El encargado podrá ver en Entregas y devoluciones las reservas de todos los socios, filtradas por Por entregar, Entregadas o Todas","refs":["REQ-F-020"],"by":"Jev (Agente automático)"}
 {"at":"2026-11-16T17:07:26Z","feature":"initial","stage":"requirements-engineer","kind":"decision","text":"Andres Leon aprobó los requisitos (versión 1.2) el 2026-11-16","refs":["requirements-v1.2"],"by":"Andres Leon (Cliente)"}
+{"at":"2026-11-16T17:09:19Z","feature":"initial","stage":"spec-auditor","kind":"done","text":"Revisamos la lista de reservas del encargado: un detalle corregido, nada que bloquee","refs":[]}
