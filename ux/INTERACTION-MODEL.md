@@ -9,6 +9,7 @@
 |---------|------|---------|
 | 1.0.0 | 2026-11-16 | Initial interaction model |
 | 1.1.0 | 2026-11-16 | REQ-F-017..019: estados de bloqueo, «Salir» y caducidad con renovación por actividad |
+| 1.2.0 | 2026-11-16 | REQ-F-020: lista vacía de Entregas y devoluciones con el literal «No hay reservas» |
 
 Principio: el servidor decide; la interfaz muestra el literal que devuelve en el sitio fijo de la pantalla y deja el foco ahí. Nada se anticipa en el cliente (ni se deshabilitan botones por reglas de negocio) salvo el envío en curso.
 
@@ -124,7 +125,7 @@ Los errores no usan sacudidas ni sonido; el foco se mueve al mensaje.
 | Hoy sin nada prestado | texto | «No hay nada prestado» | — |
 | Hoy, nada vuelve ese día | texto | «Nada vuelve este día» (`UX-TXT-15`) | — |
 | Historial sin multas | texto | «Sin multas» | — |
-| Entregas sin filas en el filtro | texto | «No hay reservas en este filtro» (`UX-TXT-16`) | cambiar filtro |
+| Entregas sin filas en el filtro | texto | «No hay reservas» (`UX-TXT-16`, literal de REQ-F-020) | cambiar filtro |
 | Catálogo vacío (instalación nueva) | texto | «Todavía no hay material» (`UX-TXT-17`); el encargado ve además enlace a Inventario | enlace |
 
 ---

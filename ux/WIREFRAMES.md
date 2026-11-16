@@ -10,6 +10,7 @@
 |---------|------|---------|
 | 1.0.0 | 2026-11-16 | Initial wireframes: 8 pantallas de los requisitos + estado «sin permiso» |
 | 1.1.0 | 2026-11-16 | REQ-F-017..019: botón «Salir» en la cabecera, mensaje de bloqueo y de sesión caducada en SCR-001 (UX-TXT-03 pasa a literal de REQ-F-019) |
+| 1.2.0 | 2026-11-16 | REQ-F-020: SCR-004 lista las reservas de todos los socios con filtro «Por entregar» por defecto; lista vacía = literal «No hay reservas» (UX-TXT-16 pasa a literal de REQ-F-020) |
 
 Reglas comunes a todas las pantallas:
 
@@ -26,7 +27,7 @@ Reglas comunes a todas las pantallas:
 | SCR-001 | Iniciar sesión | UC-001, UC-017, UC-018 | REQ-F-001, REQ-F-016, REQ-F-017, REQ-F-018, REQ-F-019 | todos (sin sesión) | HIGH | desktop, mobile |
 | SCR-002 | Material | UC-003, UC-002, UC-009 | REQ-F-003, REQ-F-002, REQ-F-009, REQ-F-012 | socio, encargado (reserva); junta (solo ve) | HIGH | desktop, mobile |
 | SCR-003 | Mis reservas | UC-004, UC-005 | REQ-F-004, REQ-F-005 | socio, encargado | HIGH | desktop, mobile |
-| SCR-004 | Entregas y devoluciones | UC-006, UC-007 | REQ-F-006, REQ-F-007, REQ-NF-001 | encargado | HIGH | desktop, mobile |
+| SCR-004 | Entregas y devoluciones | UC-006, UC-007, UC-019 | REQ-F-006, REQ-F-007, REQ-F-020, REQ-NF-001 | encargado | HIGH | desktop, mobile |
 | SCR-005 | Multas | UC-008, UC-010 | REQ-F-008, REQ-F-010, REQ-F-016 | encargado | HIGH | desktop, mobile |
 | SCR-006 | Inventario | UC-011, UC-012 | REQ-F-011, REQ-F-012 | encargado | MED | desktop, mobile |
 | SCR-007 | Hoy | UC-013 | REQ-F-013 | encargado | HIGH | desktop, mobile |
@@ -328,7 +329,7 @@ Decisión de diseño: el botón se muestra en toda reserva `Reservada` aunque ya
 El encargado entrega lo reservado y marca devoluciones con su fecha real (UC-006, UC-007). Es el sitio donde ve las reservas de todos los socios (REQ-NF-001, AC-NF-001).
 
 ### Entry Conditions
-- Sesión del encargado. Un socio o la junta que llegue aquí ve SCR-009.
+- Sesión del encargado. Un socio o la junta no ve esta pantalla en su menú, y si llega por la dirección ve SCR-009 (la lista se les rechaza, REQ-F-020).
 
 ### ASCII Wireframe (Desktop)
 
@@ -374,7 +375,7 @@ El encargado entrega lo reservado y marca devoluciones con su fecha real (UC-006
 ```
 
 ### Layout Description
-- **Structure:** filtro por estado + lista. Cada fila ofrece **una sola acción** según su estado: `Reservada` → «Entregar»; `Entregada` → fecha «Devuelta el» (por defecto hoy) + «Devolver»; `Devuelta`/`Cancelada` → sin acción.
+- **Structure:** filtro por estado + lista de las reservas de **todos los socios** (REQ-F-020, UC-019). El filtro arranca en «Por entregar» (Reservada); «Entregadas» muestra las Entregada; «Todas» muestra todas, también Devuelta y Cancelada. Si ninguna reserva cumple el filtro, la lista se sustituye por «No hay reservas» (`UX-TXT-16`). Cada fila ofrece **una sola acción** según su estado: `Reservada` → «Entregar»; `Entregada` → fecha «Devuelta el» (por defecto hoy) + «Devolver»; `Devuelta`/`Cancelada` → sin acción.
 - **Primary Action:** la de cada fila.
 - **Aviso de falta de material (RN-002):** sobre la lista, si algún día de una reserva `Reservada` o `Entregada` supera las unidades activas del material, bloque `atom-alert` de aviso `UX-TXT-07` con el material, el día y los socios afectados, para que el encargado avise por su cuenta. Se calcula en el cliente con las unidades activas (Inventario) y las reservas ya listadas; no hay envío automático ni correo.
 
@@ -408,7 +409,7 @@ La fecha de devolución es editable (el encargado puede registrar el día real s
 - **Screen Reader:** nombre del botón: «Entregar Casco a lucia@club.es», «Devolver Cuerda de pablo@club.es»; mensajes `role="status"`/`alert`; el aviso de falta de material `role="status"` (no interrumpe).
 
 ### Related Specs
-- UC-006, UC-007, UC-008, REQ-F-006, REQ-F-007, REQ-NF-001, RN-002, WF-001 pasos 2–3
+- UC-006, UC-007, UC-008, UC-019, REQ-F-006, REQ-F-007, REQ-F-020, REQ-NF-001, RN-002, WF-001 pasos 2–3
 
 ---
 
@@ -787,5 +788,5 @@ No proceden de un REQ ni de VO-010; van en `src/shared/textos.js`. Son clase R (
 | UX-TXT-13 | «Volver» | SCR-009 |
 | UX-TXT-14 | Títulos de pantalla y de menú = nombres literales del índice (Material, Mis reservas, …); «Menú», «Salir» (literal de REQ-F-018), «Reservar», «Cancelar reserva», «Entregar», «Devolver», «Marcar pagada», «Añadir», «Dar de baja», «Reservar {material}», «Saltar al contenido», «Reintentar» | todas |
 | UX-TXT-15 | «Nada vuelve este día» | SCR-007 |
-| UX-TXT-16 | «No hay reservas en este filtro» | SCR-004 |
+| UX-TXT-16 | «No hay reservas» (literal de REQ-F-020; ya no es texto propio del diseño) | SCR-004 |
 | UX-TXT-17 | «Todavía no hay material» | SCR-002 |

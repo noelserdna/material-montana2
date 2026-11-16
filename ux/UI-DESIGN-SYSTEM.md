@@ -10,6 +10,7 @@
 |---------|------|---------|
 | 1.0.0 | 2026-11-16 | Initial design system |
 | 1.1.0 | 2026-11-16 | REQ-F-017..019: «Cerrar sesión» pasa a «Salir»; mensaje de bloqueo («Demasiados intentos fallidos: espera 15 minutos»); caducidad con literal «Tu sesión ha caducado»; AUTH-001 resuelto |
+| 1.2.0 | 2026-11-16 | REQ-F-020: Entregas y devoluciones lista las reservas de todos los socios; lista vacía con el literal «No hay reservas» |
 
 Decisiones del cliente aplicadas sin impugnar: **RN-001** (el encargado prepara las cuentas: no hay pantalla de registro, ni de «olvidé mi contraseña», ni de alta de roles) y **RN-002** (la baja de unidades se permite; la reserva futura sigue en pie y el encargado avisa a quien corresponda fuera de la web: la interfaz solo le señala dónde falta material).
 

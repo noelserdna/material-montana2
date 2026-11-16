@@ -35,3 +35,4 @@
 {"at":"2026-11-16T17:10:55Z","feature":"initial","stage":"test-planner","kind":"done","text":"Añadimos las comprobaciones de la lista de reservas de todos los socios: 11 casos y 4 pantallas a capturar","refs":[]}
 {"at":"2026-11-16T17:12:15Z","feature":"initial","stage":"tech-designer","kind":"change","text":"default-policy: listarReservas sin índice nuevo (escala de club)","refs":[]}
 {"at":"2026-11-16T17:12:15Z","feature":"initial","stage":"tech-designer","kind":"done","text":"Añadimos al diseño la lista de reservas de todos los socios para el encargado","refs":[]}
+{"at":"2026-11-16T17:13:54Z","feature":"initial","stage":"ux-designer","kind":"done","text":"Actualizamos la pantalla Entregas y devoluciones para ver las reservas de todos los socios, con el aviso «No hay reservas» cuando no hay ninguna","refs":[]}
