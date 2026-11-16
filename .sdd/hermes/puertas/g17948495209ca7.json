@@ -1,0 +1,36 @@
+{
+  "id": "g17948495209ca7",
+  "tipo": "plan",
+  "fase": "",
+  "tablero": "material-montana2",
+  "tarjeta": "t_a34f3faa",
+  "adopcion": false,
+  "sha": "07b49cb109ef36ba39ffe0e820eeb51e622ee956",
+  "creada": "2026-11-16T17:18:40Z",
+  "repo": "/Users/andresleon/proyectos-sdd/material-montana2",
+  "titulo": "Plan por fases",
+  "texto": "🗺 Plan de «material-montana2»: 7 fases, en este orden:\n\n• FASE-0: Entrar, añadir material y verlo en el catálogo (18 tareas)\n• FASE-1: Reservar, ver y cancelar mis reservas (8 tareas)\n• FASE-2: Entregar y recibir el material (8 tareas)\n• FASE-3: Multas por retraso (10 tareas)\n• FASE-4: Ver el día y dar de baja unidades rotas (7 tareas)\n• FASE-5: La junta consulta y cada dato es de su dueño (7 tareas)\n• FASE-6: Salir y caducidad de la sesión (7 tareas)\n\n📐 Antes del plan se hizo: especificaciones, auditoría de especificaciones, plan de pruebas, revisión de seguridad, diseño técnico, diseño visual y de uso. El plan parte de esos documentos.\n\nCada fase se programa, se prueba y te llega con una demo para que la aceptes antes de pasar a la siguiente.\n\n👉 Si el orden te parece bien, pulsa ✅ Conforme. Nada se programa hasta entonces.",
+  "opciones": [
+    {
+      "verbo": "conforme",
+      "etiqueta": "✅ Conforme"
+    },
+    {
+      "verbo": "cambios",
+      "etiqueta": "✏️ Cambiar",
+      "texto": true
+    }
+  ],
+  "demo": "",
+  "preguntas": [],
+  "preguntas_error": false,
+  "hallazgos": null,
+  "tests_editados": 0,
+  "bloqueo": false,
+  "unica": false,
+  "revisar": [],
+  "encargado": {
+    "avisos": [],
+    "graves": 0
+  }
+}

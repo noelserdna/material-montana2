@@ -1,0 +1,132 @@
+{
+  "id": "g1794843317ded5",
+  "tipo": "preguntas",
+  "fase": "",
+  "tablero": "material-montana2",
+  "tarjeta": "t_0c812590",
+  "adopcion": false,
+  "sha": "547823c8f1a37dfe830447146a5c7503f5cbaf3f",
+  "creada": "2026-11-16T15:35:17Z",
+  "repo": "/Users/andresleon/proyectos-sdd/material-montana2",
+  "titulo": "Dudas antes del plan",
+  "texto": "🧩 Antes de hacer el plan de «material-montana2» hay que decidir esto (todas las dudas del diseño, juntas).\n\nAl responder, se hace el plan con tus respuestas. Si alguna pide cambiar los requisitos, antes te llega su puerta de requisitos con lo que cambia.\n\n👉 Elige en los botones Q (la recomendada ya está marcada) y pulsa ✅ Responder.\n\n❓ Antes, 4 preguntas (la recomendada ya está marcada en los botones Q):\n\n1. ¿Qué hacemos si alguien falla la contraseña muchas veces, y cuánto tiempo puede quedar abierta una sesión?\n   🔧 Detalle técnico: API-001-01 has no failed-login throttling/lockout and INV-ACC-002 defines no session expiry or logout. Which policy should the spec adopt?\n   A) Tras varios fallos se espera unos minutos; la sesión se cierra sola por inactividad y hay botón de salir  ⭐ recomendada  (📝 abre un cambio de requisitos)\n   B) Solo botón de salir; sin esperas tras fallar  (📝 abre un cambio de requisitos)\n   C) Se deja como está\n\n2. ¿Una reserva que ya se ha entregado puede cancelarse antes de su fecha de inicio, y se puede entregar una reserva que ya fue devuelta?\n   🔧 Detalle técnico: No se especifica qué ocurre al cancelar una reserva Entregada (posible si se entrega antes de `desde`, hoy < desde) ni al entregar una reserva Devuelta. INV-RE…\n   A) No: cancelar y entregar solo valen para reservas que aún no se han entregado; en otro caso se avisa y no cambia nada  ⭐ recomendada\n   B) Sí, se puede cancelar aunque ya se haya entregado  (📝 abre un cambio de requisitos)\n\n3. ¿Se puede reservar o devolver con fechas pasadas o futuras raras (por ejemplo reservar para ayer, o marcar una devolución con una fecha anterior a la reserva)?\n   🔧 Detalle técnico: No se especifica: (1) si se puede reservar un rango que empieza antes de hoy; (2) qué día vale como `devueltaEl` (¿lo teclea el encargado? ¿puede ser anterior…\n   A) Se deja como está: no se añaden más comprobaciones de fechas  ⭐ recomendada\n   B) Sí, no se aceptan esas fechas  (📝 abre un cambio de requisitos)\n\n4. En el historial de un socio, ¿salen solo los materiales que de verdad se le entregaron, o también sus reservas pendientes y canceladas?\n   🔧 Detalle técnico: UC-014 lista `prestamos` pero no define qué reservas cuentan: ¿Entregada y Devuelta, o también Reservada y Cancelada? «Préstamo» no está en el glosario. Defect…\n   A) Solo lo que se le entregó  ⭐ recomendada\n   B) Todas sus reservas, también pendientes y canceladas  (📝 abre un cambio de requisitos)\n\n👉 Si firmas sin tocar los botones Q, esto lanzará: 📝 abre un cambio de requisitos (antes de seguir te llega su puerta): Q1 · sin más efecto: Q2, Q3, Q4.",
+  "opciones": [
+    {
+      "verbo": "respondo",
+      "etiqueta": "✅ Responder"
+    }
+  ],
+  "demo": "",
+  "preguntas": [
+    {
+      "n": 1,
+      "id": "Q-security-auditor-001",
+      "opciones": [
+        "A",
+        "B",
+        "C"
+      ],
+      "recomendada": "A",
+      "efectos": {
+        "A": {
+          "efecto": "req-change",
+          "ficheros": [
+            "requirements/REQUIREMENTS.md",
+            "spec/nfr/SECURITY.md"
+          ],
+          "declarado": true
+        },
+        "B": {
+          "efecto": "req-change",
+          "ficheros": [
+            "requirements/REQUIREMENTS.md",
+            "spec/nfr/SECURITY.md"
+          ],
+          "declarado": true
+        },
+        "C": {
+          "efecto": "ninguno",
+          "ficheros": [],
+          "declarado": true
+        }
+      },
+      "cliente": "¿Qué hacemos si alguien falla la contraseña muchas veces, y cuánto tiempo puede quedar abierta una sesión?"
+    },
+    {
+      "n": 2,
+      "id": "Q-spec-auditor-001",
+      "opciones": [
+        "A",
+        "B"
+      ],
+      "recomendada": "A",
+      "efectos": {
+        "A": {
+          "efecto": "ninguno",
+          "ficheros": [],
+          "declarado": true
+        },
+        "B": {
+          "efecto": "req-change",
+          "ficheros": [],
+          "declarado": true
+        }
+      },
+      "cliente": "¿Una reserva que ya se ha entregado puede cancelarse antes de su fecha de inicio, y se puede entregar una reserva que ya fue devuelta?"
+    },
+    {
+      "n": 3,
+      "id": "Q-spec-auditor-002",
+      "opciones": [
+        "A",
+        "B"
+      ],
+      "recomendada": "A",
+      "efectos": {
+        "A": {
+          "efecto": "ninguno",
+          "ficheros": [],
+          "declarado": true
+        },
+        "B": {
+          "efecto": "req-change",
+          "ficheros": [],
+          "declarado": true
+        }
+      },
+      "cliente": "¿Se puede reservar o devolver con fechas pasadas o futuras raras (por ejemplo reservar para ayer, o marcar una devolución con una fecha anterior a la reserva)?"
+    },
+    {
+      "n": 4,
+      "id": "Q-spec-auditor-003",
+      "opciones": [
+        "A",
+        "B"
+      ],
+      "recomendada": "A",
+      "efectos": {
+        "A": {
+          "efecto": "ninguno",
+          "ficheros": [],
+          "declarado": true
+        },
+        "B": {
+          "efecto": "req-change",
+          "ficheros": [],
+          "declarado": true
+        }
+      },
+      "cliente": "En el historial de un socio, ¿salen solo los materiales que de verdad se le entregaron, o también sus reservas pendientes y canceladas?"
+    }
+  ],
+  "preguntas_error": false,
+  "hallazgos": null,
+  "tests_editados": 0,
+  "bloqueo": false,
+  "unica": false,
+  "revisar": [],
+  "encargado": {
+    "avisos": [],
+    "graves": 0
+  }
+}

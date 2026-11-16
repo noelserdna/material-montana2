@@ -1,0 +1,36 @@
+{
+  "id": "g1794843537d7f6",
+  "tipo": "requisitos",
+  "fase": "",
+  "tablero": "material-montana2",
+  "tarjeta": "t_5654b170",
+  "adopcion": false,
+  "sha": "211900733de6f7f14c09bf2a7275d66e0ec09997",
+  "creada": "2026-11-16T15:38:57Z",
+  "repo": "/Users/andresleon/proyectos-sdd/material-montana2",
+  "titulo": "Requisitos (cambio INT-002)",
+  "texto": "✏️ Cambio que piden las respuestas que eligió Andres Leon (Cliente) en la puerta «Dudas antes del plan» de «material-montana2»:\n• ¿Qué hacemos si alguien falla la contraseña muchas veces, y cuánto tiempo puede quedar abierta una sesión? → A) Tras varios fallos se espera unos minutos; la sesión se cierra sola por inactividad y hay botón de salir\n\nQué cambia (versión 1.1):\n➕ Si alguien falla la contraseña 5 veces en 15 minutos, esa cuenta no deja entrar durante 15 minutos; pasado ese tiempo se puede volver a intentar.\n➕ Hay un botón \"Salir\" que cierra tu sesión; para volver a usar la web tienes que entrar otra vez.\n➕ Si dejas la web 30 minutos sin tocarla, tu sesión se cierra sola y tienes que entrar otra vez.\n\nSi lo apruebas, el proyecto sigue con esta versión: el plan por fases, que aún no está hecho, saldrá de ella.\n\n👉 Si es esto, pulsa ✅ Apruebo. Si falta o sobra algo, pulsa ✏️ y explícalo con tus palabras. Si algo de lo añadido te sobra, dilo ahí y se quita.\nAl aprobar, esta versión queda guardada como punto de partida, y confirmas que los ejemplos de cada criterio (nombres, fechas, horas, textos) son correctos: quedan firmados a tu nombre.",
+  "opciones": [
+    {
+      "verbo": "acepto",
+      "etiqueta": "✅ Apruebo"
+    },
+    {
+      "verbo": "cambios",
+      "etiqueta": "✏️ Falta o sobra algo",
+      "texto": true
+    }
+  ],
+  "demo": "",
+  "preguntas": [],
+  "preguntas_error": false,
+  "hallazgos": null,
+  "tests_editados": 0,
+  "bloqueo": false,
+  "unica": false,
+  "revisar": [],
+  "encargado": {
+    "avisos": [],
+    "graves": 0
+  }
+}

@@ -1,0 +1,7 @@
+{
+ "peticiones": [
+  "Q-security-auditor-001: API-001-01 has no failed-login throttling/lockout and INV-ACC-002 defines no session expiry or logout. Which policy should the spec adopt?\nRespuesta elegida: A) Temporary lockout after repeated failures (e.g. 5 in 15 min) and session expiry by inactivity plus explicit logout\nPara el cliente: ¿Qué hacemos si alguien falla la contraseña muchas veces, y cuánto tiempo puede quedar abierta una sesión? → A) Tras varios fallos se espera unos minutos; la sesión se cierra sola por inactividad y hay botón de salir"
+ ],
+ "por_aplicar": [],
+ "autorizaciones": []
+}

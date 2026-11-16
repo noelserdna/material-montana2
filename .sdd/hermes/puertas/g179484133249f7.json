@@ -1,0 +1,81 @@
+{
+  "id": "g179484133249f7",
+  "tipo": "requisitos",
+  "fase": "",
+  "tablero": "material-montana2",
+  "tarjeta": "t_f9d31f9c",
+  "adopcion": false,
+  "sha": "a1988e8fc90b25c1893a6b8724e510fffb570273",
+  "creada": "2026-11-16T15:02:12Z",
+  "repo": "/Users/andresleon/proyectos-sdd/material-montana2",
+  "titulo": "Requisitos",
+  "texto": "📝 Esto es lo que vamos a construir para «material-montana2» (versión 1.0).\n\n🗣 Lo que pediste:\n«Una web para el préstamo de material del club de montaña. Cada socio entra con su correo y una contraseña y puede reservar material (piolets, crampones, cascos, cuerdas, tiendas) para unas fechas concretas, siempre que haya unidades libres esas fechas; ve sus reservas y puede cancelarlas hasta el día antes. El encargado del material entrega lo reservado y marca la devolución; si alguien devuelve tarde, se le pone una multa de 2 euros por día de retraso y no puede reservar más hasta pagarla, y e…»\n\n✅ Sale de lo que pediste (15):\n• Entras con tu correo y tu contraseña; si no coinciden, se te avisa y no entras.\n• Eliges un material y unas fechas y lo reservas, siempre que quede alguna unidad libre todos esos días.\n• Ves tus reservas con el material, las fechas y si siguen activas, entregadas, devueltas o canceladas.\n• Puedes cancelar tu reserva hasta el día antes de que empiece; el material queda libre para otros.\n• El encargado marca que ha entregado el material reservado.\n• El encargado marca cuándo se devuelve el material y la unidad queda libre otra vez.\n• Si alguien devuelve tarde, se le pone una multa de 2 € por cada día de retraso.\n• Quien debe una multa no puede reservar más hasta pagarla.\n• El encargado marca la multa como pagada y el socio vuelve a poder reservar.\n• El encargado puede dar de alta material nuevo y decir cuántas unidades hay.\n• El encargado da de baja las unidades rotas y dejan de poder reservarse.\n• El encargado ve qué material está prestado y qué tiene que volver cada día.\n• La junta puede ver los préstamos y las multas de cualquier socio.\n• La junta solo mira: no puede cambiar reservas, material ni multas.\n• Cada socio solo ve lo suyo; solo el encargado y la junta ven los datos de los demás.\n\n➕ Lo añade el método, no lo pediste (3):\n• Ves qué tipos de material hay y cuántas unidades tiene el club.\n• Lo que reserva un socio desde su móvil lo ve el encargado desde su ordenador al momento.\n• Nadie puede leer las contraseñas de los socios, ni siquiera quien administre los datos.\n\n🔧 Condiciones del proyecto (3):\n• Todo lo que ves en la web está en español.\n• La web se construye con herramientas web estándar y sus pruebas se ejecutan con un solo comando.\n• Las fechas se cuentan por días completos y cada día de retraso cuesta 2 €.\n\n💬 Esto dirá la web (lo que leerá la gente, tal cual; lo que va entre llaves cambia en cada caso):\nEn Material:\n• «Hola, {correo}» (p. ej. «Hola, lucia@club.es»)\n• «No quedan unidades libres de {material} esas fechas» (p. ej. «No quedan unidades libres de Casco esas fechas»)\n• «{material}» (p. ej. «Piolet»); también en Mis reservas y en Inventario y en Historial del socio\n• «{n} unidades» (p. ej. «4 unidades»); también en Inventario\n• «No puedes reservar hasta pagar tu multa de {importe} €» (p. ej. «No puedes reservar hasta pagar tu multa de 6 €»)\nEn Mis reservas:\n• «Reserva creada: {material} del {desde} al {hasta}» (p. ej. «Reserva creada: Casco del 2026-12-10 al 2026-12-12»)\n• «{desde}» (p. ej. «Casco»); también en Historial del socio\n• «{hasta}» (p. ej. «Casco»); también en Historial del socio\n• «{estado}» (p. ej. «Casco»)\nEn Entregas y devoluciones:\n• «Entregada a {correo}» (p. ej. «Entregada a lucia@club.es»)\n• «Devuelta el {fecha} sin retraso» (p. ej. «Devuelta el 2026-12-12 sin retraso»)\nEn Multas:\n• «Multa de {importe} € por {dias} días de retraso» (p. ej. «Multa de 6 € por 3 días de retraso»)\n… y 7 más (en requirements/REQUIREMENTS.md, líneas «Se ve:»)\n\n👉 Si es esto, pulsa ✅ Apruebo. Si falta o sobra algo, pulsa ✏️ y explícalo con tus palabras. Si algo de lo añadido te sobra, dilo ahí y se quita.\nAl aprobar, esta versión queda guardada como punto de partida, y confirmas que los ejemplos de cada criterio (nombres, fechas, horas, textos) son correctos: quedan firmados a tu nombre.\n\n❓ Antes, 2 preguntas (la recomendada ya está marcada en los botones Q):\n\n1. ¿Cómo se dan de alta los socios y quién es encargado o junta?\n   🔧 Detalle técnico: The request does not say how member accounts and the manager/board roles are created. Draft assumes accounts and roles are created by the manager outside this…\n   A) El encargado prepara las cuentas; no hay pantalla de registro  ⭐ recomendada\n   B) Cada socio se registra solo y el encargado asigna roles  (📝 abre un cambio de requisitos)\n\n2. Si se rompe una unidad que ya estaba reservada para otro día, ¿qué hacemos con esa reserva?\n   🔧 Detalle técnico: What happens to future reservations when retiring units leaves fewer active units than reserved on some day? Draft only prevents retiring more units than activ…\n   A) Se da de baja y el encargado avisa a quien corresponda  ⭐ recomendada\n   B) No se deja dar de baja si dejaría una reserva sin material  (📝 abre un cambio de requisitos)\n\n👉 Si firmas sin tocar los botones Q, esto lanzará: sin más efecto: Q1, Q2.",
+  "opciones": [
+    {
+      "verbo": "acepto",
+      "etiqueta": "✅ Apruebo"
+    },
+    {
+      "verbo": "cambios",
+      "etiqueta": "✏️ Falta o sobra algo",
+      "texto": true
+    }
+  ],
+  "demo": "",
+  "preguntas": [
+    {
+      "n": 1,
+      "id": "Q-requirements-engineer-001",
+      "opciones": [
+        "A",
+        "B"
+      ],
+      "recomendada": "A",
+      "efectos": {
+        "A": {
+          "efecto": "ninguno",
+          "ficheros": [],
+          "declarado": true
+        },
+        "B": {
+          "efecto": "req-change",
+          "ficheros": [],
+          "declarado": true
+        }
+      },
+      "cliente": "¿Cómo se dan de alta los socios y quién es encargado o junta?"
+    },
+    {
+      "n": 2,
+      "id": "Q-requirements-engineer-002",
+      "opciones": [
+        "A",
+        "B"
+      ],
+      "recomendada": "A",
+      "efectos": {
+        "A": {
+          "efecto": "ninguno",
+          "ficheros": [],
+          "declarado": true
+        },
+        "B": {
+          "efecto": "req-change",
+          "ficheros": [],
+          "declarado": true
+        }
+      },
+      "cliente": "Si se rompe una unidad que ya estaba reservada para otro día, ¿qué hacemos con esa reserva?"
+    }
+  ],
+  "preguntas_error": false,
+  "hallazgos": null,
+  "tests_editados": 0,
+  "bloqueo": false,
+  "unica": false,
+  "revisar": [],
+  "encargado": {
+    "avisos": [],
+    "graves": 0
+  }
+}

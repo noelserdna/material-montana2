@@ -1,0 +1,36 @@
+{
+  "id": "g17948488099adb",
+  "tipo": "requisitos",
+  "fase": "",
+  "tablero": "material-montana2",
+  "tarjeta": "t_2681624f",
+  "adopcion": false,
+  "sha": "468a901e209cd9bae02b49a6f5f7a16c764ceee9",
+  "creada": "2026-11-16T17:06:49Z",
+  "repo": "/Users/andresleon/proyectos-sdd/material-montana2",
+  "titulo": "Requisitos (cambio INT-003)",
+  "texto": "✏️ Cambio que piden las respuestas que eligió Jev (jev-1.14.0) (Agente automático (modo auto)) en la puerta «Plan por fases» de «material-montana2»:\n• ¿Cómo ve el encargado en Entregas y devoluciones las reservas de todos los socios? → A) Una lista nueva, solo para el encargado, con el filtro Por entregar, Entregadas o Todas\n\nQué cambia (versión 1.2):\n➕ El encargado ve en Entregas y devoluciones las reservas de todos los socios y puede filtrarlas por Por entregar, Entregadas o Todas.\n\n💬 Textos nuevos o cambiados en la web (lo que leerá la gente, tal cual; lo que va entre llaves cambia en cada caso):\nEn Entregas y devoluciones:\n• «{material}» (p. ej. «Casco»)\n• «{correo}» (p. ej. «Casco»)\n\nSi lo apruebas, solo se replanifica lo nuevo: las fases ya aceptadas no se tocan.\n\n👉 Si es esto, pulsa ✅ Apruebo. Si falta o sobra algo, pulsa ✏️ y explícalo con tus palabras. Si algo de lo añadido te sobra, dilo ahí y se quita.\nAl aprobar, esta versión queda guardada como punto de partida, y confirmas que los ejemplos de cada criterio (nombres, fechas, horas, textos) son correctos: quedan firmados a tu nombre.",
+  "opciones": [
+    {
+      "verbo": "acepto",
+      "etiqueta": "✅ Apruebo"
+    },
+    {
+      "verbo": "cambios",
+      "etiqueta": "✏️ Falta o sobra algo",
+      "texto": true
+    }
+  ],
+  "demo": "",
+  "preguntas": [],
+  "preguntas_error": false,
+  "hallazgos": null,
+  "tests_editados": 0,
+  "bloqueo": false,
+  "unica": false,
+  "revisar": [],
+  "encargado": {
+    "avisos": [],
+    "graves": 0
+  }
+}

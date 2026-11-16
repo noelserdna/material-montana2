@@ -1,0 +1,54 @@
+{
+  "id": "g17948443529049",
+  "tipo": "preguntas",
+  "fase": "",
+  "tablero": "material-montana2",
+  "tarjeta": "t_605fb5ff",
+  "adopcion": false,
+  "sha": "fbb5fa5cdf51b413c38125c33b3f5b84f2a11250",
+  "creada": "2026-11-16T15:52:32Z",
+  "repo": "/Users/andresleon/proyectos-sdd/material-montana2",
+  "titulo": "Dudas antes del plan",
+  "texto": "🧩 Antes de hacer el plan de «material-montana2» hay que decidir esto (todas las dudas del diseño, juntas).\n\nAl responder, se hace el plan con tus respuestas. Si alguna pide cambiar los requisitos, antes te llega su puerta de requisitos con lo que cambia.\n\n👉 Elige en los botones Q (la recomendada ya está marcada) y pulsa ✅ Responder.\n\n❓ Antes, una pregunta (la recomendada ya está marcada en los botones Q):\n\n1. Si alguien sigue probando contraseñas mientras la cuenta está en espera, ¿la espera de 15 minutos se alarga con cada intento o sigue contando desde el 5.º fallo?\n   🔧 Detalle técnico: REQ-F-017 / INV-ACC-006 dicen que no se abre sesión hasta pasados 15 min «desde el último fallo», pero no dicen si un intento con contraseña incorrecta hecho d…\n   A) La espera sigue contando desde el 5.º fallo; probar más durante la espera no la alarga  ⭐ recomendada\n   B) Cada intento durante la espera la alarga otros 15 minutos  (📝 abre un cambio de requisitos)\n\n👉 Si firmas sin tocar los botones Q, esto lanzará: sin más efecto: Q1.",
+  "opciones": [
+    {
+      "verbo": "respondo",
+      "etiqueta": "✅ Responder"
+    }
+  ],
+  "demo": "",
+  "preguntas": [
+    {
+      "n": 1,
+      "id": "Q-spec-auditor-004",
+      "opciones": [
+        "A",
+        "B"
+      ],
+      "recomendada": "A",
+      "efectos": {
+        "A": {
+          "efecto": "ninguno",
+          "ficheros": [],
+          "declarado": true
+        },
+        "B": {
+          "efecto": "req-change",
+          "ficheros": [],
+          "declarado": true
+        }
+      },
+      "cliente": "Si alguien sigue probando contraseñas mientras la cuenta está en espera, ¿la espera de 15 minutos se alarga con cada intento o sigue contando desde el 5.º fallo?"
+    }
+  ],
+  "preguntas_error": false,
+  "hallazgos": null,
+  "tests_editados": 0,
+  "bloqueo": false,
+  "unica": false,
+  "revisar": [],
+  "encargado": {
+    "avisos": [],
+    "graves": 0
+  }
+}
