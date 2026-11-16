@@ -27,7 +27,7 @@ interface ReservarOutput { reserva: Reserva; mensaje: string /* "Reserva creada:
 1. Socio: elige material y fechas.
 2. System: valida el rango (INV-RES-002) y el rol (INV-ACC-005).
 3. System: comprueba que no hay multa pendiente (INV-FIN-003).
-4. System: comprueba unidades libres cada día (INV-RES-001, RN-003) y que no hay duplicado (INV-RES-003).
+4. System: comprueba que no hay duplicado (INV-RES-003) y, después, unidades libres cada día (INV-RES-001, RN-003).
 5. System: crea la reserva y muestra "Reserva creada: …" en Mis reservas.
 
 ## Extensions
@@ -44,4 +44,4 @@ interface ReservarOutput { reserva: Reserva; mensaje: string /* "Reserva creada:
 | E4 | 4 | ningún día libre en algún día | `E_NO_STOCK` | nada reservado | AC-002-03 |
 | E5 | 4 | material inexistente | `E_MATERIAL_NOT_FOUND` | nada reservado | AC-002-09 |
 | E6 | 4 | dos socios piden la última unidad a la vez | `E_NO_STOCK` | gana el primero confirmado; el otro ve el error | AC-002-10 |
-| E7 | 5 | replay: mismo formulario | `E_DUP_RESERVATION` | sigue una sola reserva; ve "Ya tienes esa reserva" | AC-002-05 |
+| E7 | 4 | replay: mismo formulario (se comprueba antes que el stock, también con 1 sola unidad) | `E_DUP_RESERVATION` | sigue una sola reserva; ve "Ya tienes esa reserva" | AC-002-05 |
