@@ -15,6 +15,8 @@
 |---|---|---|---|---|---|---|
 | API-001-01 | iniciarSesion | cualquiera | correo: Correo (VO-001), contrasena | sesión única de la cuenta (INV-ACC-002); contraseña contrastada con el hash (INV-ACC-001) | `E_AUTH_INVALID`, `E_STORAGE_UNAVAILABLE` | UC-001 |
 
+No hay operación de alta de cuentas: las cuentas existen antes del primer acceso y las prepara el encargado fuera de la web (RN-001).
+
 ## Errors
 
 | Code | Operations | Condition | Message (VO) |
