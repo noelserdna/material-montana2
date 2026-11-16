@@ -12,17 +12,17 @@ Scenario: AC-018-05 — otro socio, mismo mensaje [REQ-F-019 AC2]
   When abre Material a las 09:45
   Then ve "Tu sesión ha caducado" en Iniciar sesión
 
-Scenario: AC-018-02 — dentro del plazo [REQ-F-019 AC2]
+Scenario: AC-018-02 — dentro del plazo [REQ-F-019 AC3]
   Given la última actividad de lucia fue a las 10:00
   When abre Material a las 10:29
   Then ve "Hola, lucia@club.es"
 
-Scenario: AC-018-03 — la actividad renueva el plazo [REQ-F-019 AC3]
+Scenario: AC-018-03 — la actividad renueva el plazo [REQ-F-019 AC4]
   Given lucia estuvo activa a las 10:00, 10:20 y 10:40
   When abre Material a las 10:55
   Then ve "Hola, lucia@club.es"
 
-Scenario: AC-018-04 — entrar de nuevo [REQ-F-019 AC4]
+Scenario: AC-018-04 — entrar de nuevo [REQ-F-019 AC5]
   Given la sesión de lucia caducó
   When entra con "Cumbre2026"
   Then ve "Hola, lucia@club.es"

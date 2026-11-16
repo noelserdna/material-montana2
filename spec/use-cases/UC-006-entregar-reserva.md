@@ -35,4 +35,5 @@ interface EntregarOutput { mensaje: string /* "Entregada a {correo}" */; estado:
 | E1 | 2 | rol socio o junta | `E_FORBIDDEN_ROLE` | sin cambios | AC-006-05 |
 | E2 | 2 | reserva Cancelada | `E_RES_CANCELLED` | "No se puede entregar una reserva cancelada" | AC-006-04 |
 | E3 | 2 | reserva inexistente | `E_RES_NOT_FOUND` | sin cambios | AC-006-06 |
+| E5 | 2 | reserva Devuelta | `E_DELIVER_STATE` | sin cambios; "Solo se puede entregar una reserva pendiente de entrega" | AC-006-07 |
 | E4 | 3 | replay: ya Entregada | `O_ALREADY_DELIVERED` | queda Entregada una vez; "Ya estaba entregada" | AC-006-03 |

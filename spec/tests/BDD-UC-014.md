@@ -23,3 +23,8 @@ Scenario: AC-014-04 — sin sesión
 Scenario: AC-014-05 — abrir otra vez
   When la junta abre el mismo historial dos veces
   Then ve lo mismo
+
+Scenario: AC-014-06 — solo lo entregado
+  Given pablo con "Cuerda" Devuelta, "Casco" Reservada y "Tienda" Cancelada
+  When la junta abre su historial
+  Then ve "Cuerda" y no ve "Casco" ni "Tienda"

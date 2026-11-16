@@ -16,6 +16,8 @@
 | Reservada | Entregada | UC-006 | — | cuenta como prestada |
 | Entregada | Devuelta | UC-007 | — | guarda `devueltaEl`; UC-008 |
 
+Cualquier otra transición se rechaza con error de estado (`E_CANCEL_STATE`, `E_DELIVER_STATE`, `E_NOT_DELIVERED`) y la reserva no cambia; repetir la misma transición es un resultado idempotente (`O_ALREADY_*`).
+
 Refs: INV-RES-004, INV-RES-005.
 
 ## SM-002: Multa

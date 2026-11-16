@@ -9,6 +9,8 @@
 | Unidad | Ejemplar físico de un material; activa o dada de baja (ENT-002) | ejemplar, pieza |
 | Reserva | Petición de una unidad de un material para un rango de días (ENT-003) | booking, pedido |
 | Entrega | Acto del encargado de dar la unidad reservada al socio (UC-006) | préstamo físico |
+| Préstamo | Reserva Entregada o Devuelta; las Reservada y Cancelada no cuentan (UC-014) | — |
+| Sesión | Periodo en que una cuenta está identificada; termina al salir o caducar (ENT-005, INV-ACC-007) | — |
 | Devolución | Acto del encargado de registrar que la unidad vuelve (UC-007) | retorno |
 | Multa | Importe a pagar por retraso en una devolución (ENT-004) | sanción, recargo |
 | Baja | Retirada de unidades rotas del inventario (UC-012) | borrado |

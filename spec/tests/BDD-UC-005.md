@@ -34,3 +34,9 @@ Scenario: AC-005-06 — junta no cancela [REQ-F-015]
 Scenario: AC-005-07 — no existe
   When lucia cancela una reserva inexistente
   Then error `E_RES_NOT_FOUND`
+
+Scenario: AC-005-08 — ya entregada
+  Given lucia tiene "Casco" desde 2026-12-10 entregada el 2026-12-09 y hoy es 2026-12-09
+  When intenta cancelarla
+  Then error `E_CANCEL_STATE`, ve "Solo se puede cancelar una reserva que aún no se ha entregado" en Mis reservas
+  And sigue "Entregada"

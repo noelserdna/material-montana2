@@ -8,7 +8,7 @@
 | Trigger | Elige un socio en Historial del socio |
 | Priority / Status | Must / Approved |
 
-Ve los préstamos y multas del socio elegido.
+Ve los préstamos y multas del socio elegido. Préstamo = reserva Entregada o Devuelta; las Reservada y Cancelada no salen (glosario).
 
 ## Input / Output
 ```typescript
@@ -25,7 +25,7 @@ interface HistorialOutput { prestamos: { material: string; desde: Dia; hasta: Di
 
 ## Main flow
 1. Junta: elige un socio.
-2. System: muestra "{material} {desde} {hasta}" y "Multa de {importe} € ({estado})", o "Sin multas".
+2. System: muestra, de sus reservas Entregada o Devuelta, "{material} {desde} {hasta}" y "Multa de {importe} € ({estado})", o "Sin multas".
 
 ## Exceptions & errors
 

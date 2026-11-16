@@ -1,97 +1,58 @@
 # Audit Baseline — material-montana2
 
-> **Audit:** AUDIT-v1.0 · **Date:** 2026-11-16 · **Specs:** `spec/` v1.0 (2026-11-16) · **Docs audited:** 53 · **Mode:** sequential · **Cycles:** 1 Discovery → 2 Fix (solo inequívocos)
-> **Gate:** **CONDITIONAL PASS** — 0 P0, 1 P1 abierto (SIL-001, pregunta al cliente), 2 P2 abiertos
-> **Findings:** 17 · P0 0 · P1 1 · P2 7 · P3 9 · batched 0 · cross-validated 0 · excluded by baseline 0 (8 corregidos en esta pasada; 9 abiertos)
-> **Delta vs none (first audit):** new 17 · persistent 0 · regression 0 · resolved since 8
-> **Top categories:** CAT-05 (4), CAT-03 (5), CAT-07 (1)
-> **Decisiones del cliente aplicadas, no impugnadas:** RN-001 (el encargado prepara las cuentas, sin registro) y RN-002 (baja permitida; el encargado avisa). Sin hallazgos contra ellas.
+> **Audit:** AUDIT-v1.1 (modo actualización: REQ-F-017, REQ-F-018, REQ-F-019) · **Date:** 2026-11-16 · **Specs:** `spec/` (requisitos v1.1) · **Docs audited:** 53 · **Mode:** sequential (cambio acotado a 3 REQ; ver highlights) · **Cycles:** 1 Discovery → 2 Fix (solo inequívocos)
+> **Gate:** **PASS** — 0 P0, 0 P1, 4 P2 abiertos (SIL-007 con pregunta al cliente)
+> **Findings:** 11 · P0 0 · P1 0 · P2 4 · P3 7 · excluded by baseline 1 (SIL-002) · 7 corregidos o cerrados en esta pasada
+> **Delta vs AUDIT-v1.0:** new 3 (SIL-007, CON-005, CON-006) · persistent 3 (SIL-005, SIL-006, INC-002) · regression 0 · resolved 7 (SIL-001, AMB-001, SEM-001, INC-001, ADR-001, CON-005, CON-006)
+> **Decisiones del cliente aplicadas, no impugnadas:** Q-001 (cancelar/entregar solo desde Reservada), Q-002 (sin más comprobaciones de fechas), Q-003 (historial = solo lo entregado), RN-001, RN-002.
 
 ## Gate detail
 
 | Check | Result |
 |---|---|
-| 3C Completeness (SC01–SC05) | PASS 5/5 (`adr/` es condicional; ver ADR-001) |
-| 3C Correctness (SR01–SR05) | PASS tras el Fix (SR02/SR05 → CON-001, CON-003 corregidos) |
-| 3C Coherence (SH01–SH05) | WARN: SH01 → SEM-001; SH03 → INC-001, INC-002 |
-| Spec defect density | 0.02 (P0+P1)/doc (target < 2) PASS |
-| Traceability coverage | 100% (21/21) PASS |
-| Orphan rate | 0% PASS |
-| Clarification density | 0/doc PASS (`CLARIFICATIONS-PENDING.md` vacío, sin marcadores NC) |
-| Audit pass rate | 94% (3 docs con P1: UC-005, UC-006, 04-STATES) PASS |
-| Cross-reference validity | ~98% (`design/OPERATION-MAPPING.md` aún no existe) WARN |
+| 3C Completeness (SC01–SC05) | PASS 5/5 (REQ-F-017..019 → UC-001/017/018, API-001-01..02, INV-ACC-006/007, BDD) |
+| 3C Correctness (SR01–SR05) | PASS (SR03/SR04/SR05 verificados para los INV, estados y permisos nuevos) |
+| 3C Coherence (SH01–SH05) | WARN: SH04 → INC-002 (matriz generada sin WF-001) |
+| Traceability coverage | 100% (19/19 funcionales) PASS |
+| Clarification density | 0/doc PASS (sin marcadores NC) |
+| Cross-reference validity | ~99% PASS (`design/OPERATION-MAPPING.md` ya existe) |
 
 ## Findings P0–P2
 
-### SIL-001: Cancelar una Entregada / entregar una Devuelta sin definir — P1 · CAT-03 · new
-- **Where:** `use-cases/UC-005-cancelar-reserva.md:35` · `use-cases/UC-006-entregar-reserva.md:35` · `domain/04-STATES.md:12-17`
-- **What:** INV-RES-004 solo exige «hoy < `desde`»; UC-006 no tiene guarda de fecha, así que una reserva Entregada antes de `desde` cumple ese guard. Entregar una Devuelta tampoco tiene error (E_RES_CANCELLED solo cubre Cancelada).
-- **Why:** Cancelar una Entregada liberaría una unidad que sigue en manos del socio y rompería INV-RES-001. Ni SM-001 ni el catálogo (`03-VALUE-OBJECTS.md:14-32`) dicen qué pasa.
-- **Fix:** Pregunta Q-spec-auditor-001. Recomendada: cancelar y entregar solo desde Reservada; resto → error de estado nuevo, sin cambios.
+### SIL-007: Intento fallido durante el bloqueo sin definir — P2 · CAT-03 · new
+- **Where:** `domain/05-INVARIANTS.md:9` (INV-ACC-006) · `use-cases/UC-001-entrar-con-correo.md:36` · `requirements/REQUIREMENTS.md` REQ-F-017
+- **What:** «15 minutos desde el último fallo»: no se dice si un intento erróneo hecho durante el bloqueo cuenta como fallo y reinicia la espera.
+- **Why:** Con la lectura literal, el bloqueo por cuenta se podría alargar sin fin a quien conozca el correo; con la otra, no. BDD-UC-001 no lo cubre.
+- **Fix:** Pregunta Q-spec-auditor-004. Recomendada: los intentos durante el bloqueo no cuentan ni alargan la espera.
 
-### SIL-002: Fechas pasadas, `devueltaEl` y «hoy» sin definir — P2 · CAT-03 · new
-- **Where:** `domain/05-INVARIANTS.md:13` · `use-cases/UC-007-marcar-devolucion.md:15` · `use-cases/UC-013-ver-hoy.md:15`
-- **What:** No se dice si `desde` puede ser anterior a hoy, si `devueltaEl` puede ser anterior a `desde` o futuro, ni de dónde sale «hoy» (zona horaria).
-- **Why:** INV-RES-004, RN-004 y el cálculo de multa dependen de «hoy» y de `devueltaEl`; una fecha absurda genera multas o reservas sin sentido.
-- **Fix:** Pregunta Q-spec-auditor-002. Recomendada: sin restricciones nuevas; hoy = fecha del servidor.
+### SIL-005: Junta en Mis reservas sin error definido — P2 (escalado desde P3) · CAT-03 · persistent
+- **Where:** `contracts/API-reservas.md:17` — `listarMisReservas` es de socio y encargado; la junta no tiene error ni lista vacía definidos.
+- **Fix:** Definir `E_FORBIDDEN_ROLE` o lista vacía (requiere decisión de contrato; sin arreglo inequívoco).
 
-### AMB-001: «Préstamos» del historial sin definir — P2 · CAT-01 · new
-- **Where:** `use-cases/UC-014-historial-del-socio.md:16` · `domain/01-GLOSSARY.md` (término ausente)
-- **What:** `prestamos` no dice qué estados cuentan (REQ-F-014 «loan history»); «Préstamo» no está en el glosario.
-- **Why:** Con dos lecturas razonables (solo Entregada/Devuelta, o todas) el test AC-014-01 no se puede cerrar sin suponer.
-- **Fix:** Pregunta Q-spec-auditor-003. Recomendada: solo Entregada y Devuelta; añadir «Préstamo» al glosario con esa definición.
+### SIL-006: Unidades no enteras, nombre vacío o mayúsculas sin regla — P2 (escalado desde P3) · CAT-03 · persistent
+- **Where:** `domain/03-VALUE-OBJECTS.md:9` · `use-cases/UC-011:28`
+- **Fix:** Añadir validación a VO-006 y UC-011 (cambia comportamiento: pendiente de decisión).
 
-### CON-001: Matriz sin API-004-03 para el socio — P2 · CAT-05 · new — RESOLVED (`PERMISSIONS-MATRIX.md`)
-- **Where:** `contracts/PERMISSIONS-MATRIX.md:5` · `contracts/API-multas.md:18`
-- **What:** El contrato dice «el socio solo el suyo» y UC-014 E1 trata al socio como actor; la matriz no daba API-004-03 al socio.
-- **Fix aplicado:** socio ← API-004-03, regla de fila «reservas e historial» propios.
-
-### CON-003: Matriz daba API-002-03 al encargado; contrato y UC-005 solo al socio — P2 · CAT-05 · new — RESOLVED (`PERMISSIONS-MATRIX.md`)
-- **Where:** `contracts/PERMISSIONS-MATRIX.md:6` · `contracts/API-reservas.md:19` · `use-cases/UC-005:7`
-- **What:** `API-002-01..06` incluía cancelar. Regla de la minoría (3 docs vs 1): se corrige la matriz.
-- **Fix aplicado:** encargado ← `API-002-01..02, 04..06`. Residuo: que el encargado cancele sus propias reservas queda en la regla Tier 1 pendiente («el encargado también reserva», `DERIVED-SPECS.md:18`).
-
-### IMP-001: Alta de cuentas sin operación ni nota — P2 · CAT-02 · new — RESOLVED (`API-acceso.md`)
-- **Where:** `domain/02-ENTITIES.md:4` · `contracts/API-acceso.md`
-- **What:** ENT-001 «creada por el encargado (RN-001)» sin operación en contratos ni matriz.
-- **Fix aplicado:** nota en API-acceso: no hay operación de alta; las cuentas existen antes del primer acceso (RN-001).
-
-### SIL-003: Duplicado vs stock sin orden — P2 · CAT-03 · new — RESOLVED (`UC-002`)
-- **Where:** `use-cases/UC-002-reservar-material.md:30,46`
-- **What:** Con 1 sola unidad, repetir el formulario daba `E_NO_STOCK` en vez de «Ya tienes esa reserva» (REQ-F-002 AC5).
-- **Fix aplicado:** el duplicado se comprueba antes que el stock (paso 4, E7).
-
-### SIL-004: Día por defecto de «Hoy» — P2 · CAT-03 · new — RESOLVED (`UC-013`)
-- **Where:** `use-cases/UC-013-ver-hoy.md:27` · `contracts/API-reservas.md:21`
-- **What:** `dia?` opcional sin valor por defecto.
-- **Fix aplicado:** sin elegir día, el día es hoy.
+### INC-002: Matriz de trazabilidad sin WF-001 en REQ-F-006..008, 010 — P2 (escalado desde P3) · CAT-06 · persistent
+- **Where:** `TRACEABILITY-MATRIX.md:11-18` · `workflows/WF-001:7`
+- **Fix:** Regenerar con `sdd trace matrix` (el fichero es generado; no se edita a mano).
 
 ## Findings P3
 
 | ID | Cat | Where | What | Fix |
 |---|---|---|---|---|
-| CON-002 | CAT-05 | `domain/03-VALUE-OBJECTS.md:19` | E_FORBIDDEN_DATA no listaba API-002-03 | RESUELTO: añadido |
-| CON-004 | CAT-05 | `domain/05-INVARIANTS.md:17` | Validación con `dias*2` en vez de `FINE_RATE_EUR` | RESUELTO |
-| INV-001 | CAT-07 | `domain/05-INVARIANTS.md:9-20` | Columna UCs incompleta (ACC-003/004/005, RES-005, FIN-003, INV-002) | RESUELTO |
-| SIL-005 | CAT-03 | `contracts/API-reservas.md:17` | Junta en Mis reservas sin error; E_FORBIDDEN_DATA sin entrada | Definir E_FORBIDDEN_ROLE o lista vacía |
-| SIL-006 | CAT-03 | `domain/03-VALUE-OBJECTS.md:9` · `UC-011:28` | Unidades no enteras, nombre vacío o mayúsculas sin regla | Añadir validación a VO-006 y UC-011 |
-| SEM-001 | CAT-04 | `domain/01-GLOSSARY.md` | Faltan «Préstamo», «Sesión»; «activa» vale para reserva y unidad | Añadir al glosario (ligado a AMB-001) |
-| ADR-001 | CAT-09 | `spec/` (sin `adr/`) | Almacén de servidor y hash/sesión sin ADR | Lo cubre `sdd-tech-designer` |
-| INC-001 | CAT-06 | `contracts/API-*.md:6` | `design/OPERATION-MAPPING.md` aún no existe | Se crea en la fase de diseño |
-| INC-002 | CAT-06 | `TRACEABILITY-MATRIX.md:11-18` | REQ-F-006..008, 010 sin WF-001 (WF-001:7 los cita) | Regenerar con `sdd trace matrix` |
+| CON-005 | CAT-05 | `tests/BDD-UC-018.md`, `nfr/SECURITY.md` | RESUELTO: etiquetas AC2..AC4 desfasadas una posición; NFR citaba AC-018-01..04 | retag y AC-018-01..05 |
+| CON-006 | CAT-05 | `DERIVED-SPECS.md` | RESUELTO: UC-001..016 y `E_SESSION_EXPIRED` ligado a REQ-NF-001 | UC-001..018; `E_SESSION_EXPIRED` sale de esa fila |
 
 ## Coverage
 
 | Document | P0 | P1 | P2 | P3 | IDs |
 |---|---|---|---|---|---|
-| use-cases/UC-005-cancelar-reserva.md | 0 | 1 | 0 | 0 | SIL-001 |
-| use-cases/UC-006-entregar-reserva.md | 0 | 1 | 0 | 0 | SIL-001 |
-| domain/04-STATES.md | 0 | 1 | 0 | 0 | SIL-001 |
-| use-cases/UC-002 · UC-007 · UC-013 · UC-014 | 0 | 0 | 4 | 0 | SIL-002, SIL-003, SIL-004, AMB-001 |
-| contracts/PERMISSIONS-MATRIX.md · API-acceso.md | 0 | 0 | 3 | 0 | CON-001, CON-003, IMP-001 |
-| domain/03-VALUE-OBJECTS.md · 05-INVARIANTS.md · 01-GLOSSARY.md | 0 | 0 | 0 | 5 | CON-002, CON-004, INV-001, SIL-006, SEM-001 |
-| contracts/API-reservas.md · TRACEABILITY-MATRIX.md · API-* | 0 | 0 | 0 | 3 | SIL-005, INC-001, INC-002 |
-| Clean (≈ 35) | 0 | 0 | 0 | 0 | resto de UC, BDD-UC-001..016, WF-001, nfr/*, CLARIFICATIONS*, DERIVED-SPECS, VALUE-REGISTRY, README, 02-ENTITIES |
+| domain/05-INVARIANTS.md · use-cases/UC-001 · tests/BDD-UC-001.md | 0 | 0 | 1 | 0 | SIL-007 |
+| contracts/API-reservas.md · domain/03-VALUE-OBJECTS.md · UC-011 | 0 | 0 | 2 | 0 | SIL-005, SIL-006 |
+| TRACEABILITY-MATRIX.md | 0 | 0 | 1 | 0 | INC-002 |
+| tests/BDD-UC-018.md · nfr/SECURITY.md · DERIVED-SPECS.md | 0 | 0 | 0 | 2 | CON-005, CON-006 |
+| Limpios (REQ-F-017..019) | 0 | 0 | 0 | 0 | UC-017, UC-018, BDD-UC-017, API-acceso, VALUE-REGISTRY, 02-ENTITIES, 01-GLOSSARY |
 
 ## Baseline
 
@@ -102,6 +63,7 @@
 ### Won't fix
 | ID | Short description | Reason | Audit |
 |---|---|---|---|
+| SIL-002 | Fechas pasadas, `devueltaEl` y «hoy» sin definir | Q-spec-auditor-002: se deja como está, sin más comprobaciones de fechas | v1.1 |
 
 ### Deferred
 | ID | Short description | Reason | Audit | Re-evaluate on |
@@ -110,6 +72,13 @@
 ### Resolved (last 2 audits)
 | ID | Short description | Resolved in | Audit |
 |---|---|---|---|
+| SIL-001 | Cancelar una Entregada / entregar una Devuelta | `E_CANCEL_STATE`, `E_DELIVER_STATE` en UC-005, UC-006, 03, 04, 05, API-reservas, BDD-UC-005/006 (Q-001) | v1.1 |
+| AMB-001 | «Préstamos» del historial | UC-014, glosario, BDD-UC-014 AC-014-06 (Q-003) | v1.1 |
+| SEM-001 | Faltaban «Préstamo» y «Sesión» | 01-GLOSSARY | v1.1 |
+| INC-001 | `design/OPERATION-MAPPING.md` no existía | ya existe (tech-designer) | v1.1 |
+| ADR-001 | Almacén y sesión sin ADR | `design/ADR-DRAFT-002/003` (tech-designer) | v1.1 |
+| CON-005 | Etiquetas REQ-F-019 AC desfasadas en BDD-UC-018; NFR sin AC-018-05 | BDD-UC-018, nfr/SECURITY | v1.1 |
+| CON-006 | DERIVED-SPECS con rango UC-001..016 y `E_SESSION_EXPIRED` atribuido a REQ-NF-001 | DERIVED-SPECS | v1.1 |
 | CON-001 | Matriz sin API-004-03 para el socio | PERMISSIONS-MATRIX.md | v1.0 |
 | CON-002 | E_FORBIDDEN_DATA sin API-002-03 | 03-VALUE-OBJECTS.md | v1.0 |
 | CON-003 | Matriz daba API-002-03 al encargado | PERMISSIONS-MATRIX.md | v1.0 |
@@ -124,8 +93,14 @@
 - New artifacts: `audits/AUDIT-BASELINE.md`, `.sdd/questions-spec-auditor.json`
 - Documents modified: 7 · breaking changes: 0 · commits: 6 · tag: —
 
+## Fix cycle (AUDIT-v1.1)
+- Fixed 7 (SIL-001, AMB-001, SEM-001 aplicando Q-001/Q-003; CON-005, CON-006; INC-001 y ADR-001 cerrados por el diseño) · skipped 4 (SIL-007: pregunta al cliente; SIL-005, SIL-006, INC-002: sin arreglo inequívoco o regenerable) · Won't fix 1 (SIL-002, Q-002)
+- Mensajes literales de `E_CANCEL_STATE` y `E_DELIVER_STATE`: decisión por defecto (clase R), redactados en el estilo del catálogo.
+- Documents modified: 14 · breaking changes: 0
+
 ## History
 
 | Audit | Date | Docs | Total | P0 | P1 | P2 | P3 | Gate | Mode | Report chars |
 |---|---|---|---|---|---|---|---|---|---|---|
 | AUDIT-v1.0 | 2026-11-16 | 53 | 17 | 0 | 1 | 7 | 9 | CONDITIONAL | sequential | 9240 |
+| AUDIT-v1.1 | 2026-11-16 | 53 | 11 | 0 | 0 | 4 | 7 | PASS | sequential | 7100 |

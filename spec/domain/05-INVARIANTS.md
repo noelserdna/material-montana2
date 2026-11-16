@@ -14,8 +14,8 @@
 | INV-RES-001 | Cada día del rango: reservas activas (Reservada/Entregada) del material < unidades activas al crear | API, REPO | UC-002, UC-005, UC-012 | `E_NO_STOCK` | ocupadas(d) < activas ∀ d ∈ [desde, hasta] |
 | INV-RES-002 | `hasta` ≥ `desde`; los días son naturales completos | API | UC-002 | `E_DATE_RANGE` | `hasta >= desde` |
 | INV-RES-003 | Un socio no tiene dos reservas activas del mismo material y mismas fechas | API | UC-002 | `E_DUP_RESERVATION` | único (socio, material, desde, hasta) activas |
-| INV-RES-004 | Solo se cancela si hoy < `desde`, y solo el dueño | API | UC-005 | `E_CANCEL_TOO_LATE`, `E_FORBIDDEN_DATA` | `hoy < desde` |
-| INV-RES-005 | Se entrega solo lo Reservada; se devuelve solo lo Entregada | API | UC-006, UC-007, UC-013 | `E_RES_CANCELLED`, `E_NOT_DELIVERED` | transiciones de SM-001 |
+| INV-RES-004 | Solo se cancela si hoy < `desde`, y solo el dueño; solo se cancela lo Reservada | API | UC-005 | `E_CANCEL_TOO_LATE`, `E_FORBIDDEN_DATA`, `E_CANCEL_STATE` | `estado = Reservada` y `hoy < desde` |
+| INV-RES-005 | Se entrega solo lo Reservada; se devuelve solo lo Entregada | API | UC-006, UC-007, UC-013 | `E_RES_CANCELLED`, `E_DELIVER_STATE`, `E_NOT_DELIVERED` | transiciones de SM-001 |
 | INV-FIN-001 | Multa = días de retraso × `FINE_RATE_EUR`; solo si `devueltaEl` > `hasta`; días = `devueltaEl − hasta` | API | UC-008 | — | `dias > 0 → importe = dias × FINE_RATE_EUR` |
 | INV-FIN-002 | Como mucho una multa por reserva; repetir la devolución no crea otra | API, REPO | UC-007, UC-008 | — | único `reservaId` |
 | INV-FIN-003 | Con alguna multa Pendiente el socio no crea reservas; las existentes no cambian | API | UC-002, UC-009, UC-010 | `E_FINE_PENDING` | `count(Pendiente) = 0` |

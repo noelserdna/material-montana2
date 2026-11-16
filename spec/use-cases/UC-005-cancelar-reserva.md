@@ -25,7 +25,7 @@ interface CancelarOutput { mensaje: "Reserva cancelada"; estado: 'Cancelada' }
 
 ## Main flow
 1. Socio: cancela una reserva suya.
-2. System: comprueba dueño y que hoy < `desde` (INV-RES-004).
+2. System: comprueba dueño, que la reserva está Reservada y que hoy < `desde` (INV-RES-004).
 3. System: pasa a `Cancelada` y muestra "Reserva cancelada" en Mis reservas.
 
 ## Exceptions & errors
@@ -37,4 +37,5 @@ interface CancelarOutput { mensaje: "Reserva cancelada"; estado: 'Cancelada' }
 | E3 | 2 | rol junta | `E_FORBIDDEN_ROLE` | sin cambios | AC-005-06 |
 | E4 | 2 | reserva inexistente | `E_RES_NOT_FOUND` | sin cambios | AC-005-07 |
 | E5 | 3 | cancelada a la vez por dos peticiones | — | una sola cancelación; la otra ve `O_ALREADY_CANCELLED` | AC-005-04 |
+| E7 | 2 | reserva Entregada o Devuelta | `E_CANCEL_STATE` | sin cambios; "Solo se puede cancelar una reserva que aún no se ha entregado" | AC-005-08 |
 | E6 | 3 | replay: cancelar otra vez | `O_ALREADY_CANCELLED` | sigue "Cancelada"; nada más cambia | AC-005-04 |

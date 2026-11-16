@@ -27,6 +27,8 @@ type Unidades = number;               // VO-006: entero ≥ 1 en altas y bajas (
 | `E_RES_NOT_FOUND` | NotFoundError | La reserva no existe | API-002-03..05 | REQ-F-005 |
 | `E_RES_CANCELLED` | StateError | No se puede entregar una reserva cancelada | API-002-04 | REQ-F-006 |
 | `E_NOT_DELIVERED` | StateError | Solo se puede devolver lo que se ha entregado | API-002-05 | REQ-F-007 |
+| `E_CANCEL_STATE` | StateError | Solo se puede cancelar una reserva que aún no se ha entregado | API-002-03 | REQ-F-005 |
+| `E_DELIVER_STATE` | StateError | Solo se puede entregar una reserva pendiente de entrega | API-002-04 | REQ-F-006 |
 | `E_UNITS_MIN` | ValidationError | Indica al menos 1 unidad | API-003-02..03 | REQ-F-011 |
 | `E_UNITS_INSUFFICIENT` | ValidationError | No hay tantas unidades activas de {material} | API-003-03 | REQ-F-012 |
 | `E_MATERIAL_NOT_FOUND` | NotFoundError | Ese material no existe | API-002-01, API-003-03 | REQ-F-012 |

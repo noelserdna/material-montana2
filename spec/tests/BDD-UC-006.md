@@ -29,3 +29,9 @@ Scenario: AC-006-05 — socio no entrega [REQ-F-006 AC5]
 Scenario: AC-006-06 — no existe
   When el encargado entrega una reserva inexistente
   Then error `E_RES_NOT_FOUND`
+
+Scenario: AC-006-07 — devuelta
+  Given una reserva "Devuelta"
+  When el encargado intenta entregarla
+  Then error `E_DELIVER_STATE`, ve "Solo se puede entregar una reserva pendiente de entrega"
+  And sigue "Devuelta"
