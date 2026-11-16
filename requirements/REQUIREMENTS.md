@@ -1,11 +1,9 @@
 # Requirements Document
 
 > **Project:** material-montana2
-> **Version:** 1.1
+> **Version:** 1.2
 > **Last updated:** 2026-11-16
-> **Status:** Approved
-> **Approved by:** Andres Leon (Cliente), 2026-11-16
-> **Ejemplos revisados por:** Andres Leon (Cliente), 2026-11-16
+> **Status:** Review
 > **Customer needs:** [CUSTOMER-NEEDS.md](CUSTOMER-NEEDS.md)
 
 ## Functional Requirements
@@ -383,6 +381,30 @@
     - Se ve: "Hola, {correo}" en Material
 - **Dependencies:** REQ-F-001
 
+### REQ-F-020: Ver las reservas de todos los socios
+- **Statement:** WHEN the manager opens Entregas y devoluciones THE system SHALL list the reservations of all members, filtered by "Por entregar", "Entregadas" or "Todas" (default "Por entregar"), and SHALL refuse that list to every other role
+- **Para el cliente:** El encargado ve en Entregas y devoluciones las reservas de todos los socios y puede filtrarlas por Por entregar, Entregadas o Todas.
+- **Category:** Functional
+- **Priority:** Must have
+- **Needs:** N-005
+- **Verification:** test
+- **Source:** intent/INT-003.md (Q-task-generator-001, option A)
+- **Rationale:** Para entregar y recoger, el encargado necesita ver las reservas de todos los socios y no solo las suyas.
+- **Acceptance criteria:**
+  - GIVEN lucia has "Casco" reserved 2026-12-10 to 2026-12-12 (Reservada) and pablo has "Cuerda" delivered WHEN the manager opens Entregas y devoluciones THEN el usuario ve "Casco" "lucia@club.es" and not the Cuerda (filter "Por entregar")
+    - Se ve: "{material}" "{correo}" en Entregas y devoluciones
+  - GIVEN the same data WHEN the manager chooses the filter "Entregadas" THEN el usuario ve "Cuerda" "pablo@club.es" and not the Casco
+    - Se ve: "{material}" "{correo}" en Entregas y devoluciones
+  - GIVEN the same data WHEN the manager chooses the filter "Todas" THEN el usuario ve "Casco" "lucia@club.es" and "Cuerda" "pablo@club.es"
+    - Se ve: "{material}" "{correo}" en Entregas y devoluciones
+  - GIVEN no reservation matches the chosen filter WHEN the manager opens Entregas y devoluciones THEN el usuario ve "No hay reservas"
+    - Se ve: "No hay reservas" en Entregas y devoluciones
+  - GIVEN lucia logged in as a member WHEN she asks for the list of all reservations THEN it is refused
+    - No visible: lo comprueba la API al rechazar la petición; el socio no ve Entregas y devoluciones
+  - GIVEN a board member (junta) logged in WHEN they ask for the list of all reservations THEN it is refused
+    - No visible: lo comprueba la API al rechazar la petición; la junta no ve Entregas y devoluciones
+- **Dependencies:** REQ-F-002, REQ-F-006
+
 ## Nonfunctional Requirements
 
 ### REQ-NF-001: Datos compartidos entre dispositivos
@@ -466,6 +488,7 @@
 | REQ-F-017 | Functional | Must | intent/INT-002.md | N-002, N-011 | test | REQ-F-001 |
 | REQ-F-018 | Functional | Must | intent/INT-002.md | N-002, N-011 | test | REQ-F-001 |
 | REQ-F-019 | Functional | Must | intent/INT-002.md | N-002, N-011 | test | REQ-F-001 |
+| REQ-F-020 | Functional | Must | intent/INT-003.md | N-005 | test | REQ-F-002, REQ-F-006 |
 | REQ-NF-001 | Nonfunctional | Must | intent/INT-001.md | N-001, N-005 | test | None |
 | REQ-NF-002 | Nonfunctional | Must | método | N-002, N-011 | test | REQ-F-001 |
 | REQ-C-001 | Constraint | — | AGENTS.md | — | test | — |

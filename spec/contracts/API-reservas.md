@@ -5,7 +5,7 @@
 | Module | API-002 |
 | Style | operations |
 | Auth | sesión; rol por operación en `PERMISSIONS-MATRIX.md` |
-| Refs | REQ-F-002, REQ-F-004..009, REQ-F-013, REQ-F-015, REQ-F-016; UC-002, UC-004..007, UC-009, UC-013; WF-001; INV-RES-001..005, INV-FIN-001..003 |
+| Refs | REQ-F-002, REQ-F-004..009, REQ-F-013, REQ-F-015, REQ-F-016, REQ-F-020; UC-002, UC-004..007, UC-009, UC-013, UC-019; WF-001; INV-RES-001..005, INV-FIN-001..003 |
 | Errors | catalog in `domain/03-VALUE-OBJECTS.md` § Error catalog |
 | Transport | see `design/OPERATION-MAPPING.md` |
 
@@ -19,6 +19,7 @@
 | API-002-04 | entregarReserva | encargado | reservaId | `Entregada` (INV-RES-005) | `E_RES_CANCELLED`, `E_DELIVER_STATE`, `E_RES_NOT_FOUND`, `E_FORBIDDEN_ROLE`; `O_ALREADY_DELIVERED` | UC-006 |
 | API-002-05 | devolverReserva | encargado | reservaId, devueltaEl: Dia | `Devuelta`; multa si hay retraso (INV-FIN-001, INV-FIN-002) | `E_NOT_DELIVERED`, `E_RES_NOT_FOUND`, `E_FORBIDDEN_ROLE`, `E_STORAGE_UNAVAILABLE`; `O_ALREADY_RETURNED` | UC-007, UC-008 |
 | API-002-06 | verHoy | encargado | dia?: Dia | prestado y vuelve del día; sin cambios | `E_FORBIDDEN_ROLE`, `E_AUTH_REQUIRED` | UC-013 |
+| API-002-07 | listarReservas | encargado | filtro?: `Por entregar` \| `Entregadas` \| `Todas` (por defecto `Por entregar`) | reservas de todos los socios según el filtro; sin cambios (INV-ACC-004, INV-ACC-005) | `E_FORBIDDEN_ROLE`, `E_AUTH_REQUIRED` | UC-019 |
 
 ## Errors
 
@@ -35,7 +36,7 @@
 | `E_DELIVER_STATE` | 04 | reserva Devuelta | VO-010 |
 | `E_NOT_DELIVERED` | 05 | no estaba Entregada | VO-010 |
 | `E_RES_NOT_FOUND` | 03, 04, 05 | reserva inexistente | VO-010 |
-| `E_FORBIDDEN_ROLE` | 01, 03, 04, 05, 06 | rol sin permiso | VO-010 |
+| `E_FORBIDDEN_ROLE` | 01, 03, 04, 05, 06, 07 | rol sin permiso | VO-010 |
 | `E_FORBIDDEN_DATA` | 02, 03 | reserva ajena | VO-010 |
 | `E_AUTH_REQUIRED` | all | sin sesión | VO-010 |
 | `E_STORAGE_UNAVAILABLE` | all | almacén no accesible | VO-010 |

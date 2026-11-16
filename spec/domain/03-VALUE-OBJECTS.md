@@ -17,7 +17,7 @@ type Unidades = number;               // VO-006: entero ≥ 1 en altas y bajas (
 | `E_AUTH_INVALID` | AuthError | Correo o contraseña incorrectos | API-001-01 | REQ-F-001 |
 | `E_AUTH_LOCKED` | AuthError | Demasiados intentos fallidos: espera 15 minutos | API-001-01 | REQ-F-017 |
 | `E_AUTH_REQUIRED` | AuthError | Iniciar sesión | all | REQ-F-016, REQ-F-018 |
-| `E_FORBIDDEN_ROLE` | PermissionError | No tienes permiso para hacer esto | API-002-04..06, API-003-02..03, API-004-01..02, API-002-01, API-002-03 | REQ-F-015, REQ-F-006, REQ-F-010 |
+| `E_FORBIDDEN_ROLE` | PermissionError | No tienes permiso para hacer esto | API-002-04..06, API-003-02..03, API-004-01..02, API-002-01, API-002-03, API-002-07 | REQ-F-015, REQ-F-006, REQ-F-010, REQ-F-020 |
 | `E_FORBIDDEN_DATA` | PermissionError | No tienes permiso para ver estos datos | API-002-02, API-002-03, API-004-03 | REQ-F-005, REQ-F-016 |
 | `E_DATE_RANGE` | ValidationError | La fecha de fin no puede ser anterior a la de inicio | API-002-01 | REQ-F-002 |
 | `E_NO_STOCK` | ConflictError | No quedan unidades libres de {material} esas fechas | API-002-01 | REQ-F-002, REQ-F-012 |

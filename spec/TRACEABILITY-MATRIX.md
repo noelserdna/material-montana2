@@ -4,29 +4,30 @@
 
 | Requirement | Spec | FASE | Tasks | Tests | Commits |
 |---|---|---|---|---|---|
-| REQ-F-001 | BDD-UC-001, UC-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 3 |
-| REQ-F-002 | BDD-UC-002, UC-002, WF-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 2 |
-| REQ-F-003 | BDD-UC-003, UC-003, spec/contracts/API-inventario.md | — | — | — | 1 |
-| REQ-F-004 | BDD-UC-004, UC-004, spec/DERIVED-SPECS.md, spec/contracts/API-reservas.md | — | — | — | 1 |
-| REQ-F-005 | BDD-UC-005, UC-005, WF-001, spec/DERIVED-SPECS.md, spec/VALUE-REGISTRY.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 4 |
-| REQ-F-006 | BDD-UC-006, UC-006, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 3 |
-| REQ-F-007 | BDD-UC-007, UC-007, spec/DERIVED-SPECS.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-008 | BDD-UC-008, UC-007, UC-008, spec/CLARIFICATIONS.md, spec/contracts/API-multas.md | — | — | — | 1 |
-| REQ-F-009 | BDD-UC-002, BDD-UC-009, UC-002, UC-009, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-010 | BDD-UC-010, UC-010, spec/contracts/API-multas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-011 | BDD-UC-011, UC-011, spec/contracts/API-inventario.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-012 | BDD-UC-012, UC-012, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-inventario.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-013 | BDD-UC-013, UC-013, spec/contracts/API-reservas.md | — | — | — | 2 |
-| REQ-F-014 | BDD-UC-014, UC-014, spec/contracts/API-multas.md | — | — | — | 1 |
-| REQ-F-015 | BDD-UC-002, BDD-UC-005, BDD-UC-007, BDD-UC-011, BDD-UC-015, UC-015, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-016 | BDD-UC-003, BDD-UC-004, BDD-UC-014, BDD-UC-016, UC-004, UC-014, UC-016, spec/contracts/API-multas.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/SECURITY.md | — | — | — | 2 |
-| REQ-F-017 | BDD-UC-001, UC-001, spec/CLARIFICATIONS.md, spec/VALUE-REGISTRY.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | — | — | — | 0 |
-| REQ-F-018 | BDD-UC-017, UC-017, spec/README.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | — | — | — | 0 |
-| REQ-F-019 | BDD-UC-018, UC-018, spec/README.md, spec/VALUE-REGISTRY.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | — | — | — | 0 |
-| REQ-NF-001 | spec/DERIVED-SPECS.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/AVAILABILITY.md | — | — | — | 4 |
-| REQ-NF-002 | BDD-UC-001, UC-001, UC-016, spec/contracts/API-acceso.md, spec/nfr/SECURITY.md | — | — | — | 3 |
-| REQ-C-001 | spec/nfr/MAINTAINABILITY.md | — | — | — | 1 |
-| REQ-C-002 | spec/nfr/MAINTAINABILITY.md | — | — | — | 2 |
-| REQ-C-003 | UC-008, spec/VALUE-REGISTRY.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/MAINTAINABILITY.md | — | — | — | 1 |
+| REQ-F-001 | BDD-UC-001, UC-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md | FASE-0 | TASK-F0-010, TASK-F0-012, TASK-F0-013, TASK-F0-018 | — | 4 |
+| REQ-F-002 | BDD-UC-002, UC-002, WF-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | FASE-1 | TASK-F1-001, TASK-F1-002, TASK-F1-003, TASK-F1-008 | — | 2 |
+| REQ-F-003 | BDD-UC-003, UC-003, spec/contracts/API-inventario.md | FASE-0 | TASK-F0-014, TASK-F0-015, TASK-F0-018 | — | 1 |
+| REQ-F-004 | BDD-UC-004, UC-004, spec/DERIVED-SPECS.md, spec/contracts/API-reservas.md | FASE-1 | TASK-F1-004, TASK-F1-005, TASK-F1-008 | — | 1 |
+| REQ-F-005 | BDD-UC-005, UC-005, WF-001, spec/DERIVED-SPECS.md, spec/VALUE-REGISTRY.md, spec/domain/03-VALUE-OBJECTS.md | FASE-1 | TASK-F1-006, TASK-F1-007, TASK-F1-008, TASK-F2-004 | — | 4 |
+| REQ-F-006 | BDD-UC-006, UC-006, spec/domain/03-VALUE-OBJECTS.md | FASE-2 | TASK-F2-001, TASK-F2-002, TASK-F2-005, TASK-F2-006, TASK-F2-008 | — | 3 |
+| REQ-F-007 | BDD-UC-007, UC-007, spec/DERIVED-SPECS.md, spec/domain/03-VALUE-OBJECTS.md | FASE-2 | TASK-F2-001, TASK-F2-003, TASK-F2-005, TASK-F2-006, TASK-F2-008 | — | 1 |
+| REQ-F-008 | BDD-UC-008, UC-007, UC-008, spec/CLARIFICATIONS.md, spec/contracts/API-multas.md | FASE-3 | TASK-F3-001, TASK-F3-002, TASK-F3-003, TASK-F3-004, TASK-F3-005, TASK-F3-007, TASK-F3-009, TASK-F3-010 | — | 1 |
+| REQ-F-009 | BDD-UC-002, BDD-UC-009, UC-002, UC-009, spec/domain/03-VALUE-OBJECTS.md | FASE-3 | TASK-F3-006, TASK-F3-010 | — | 1 |
+| REQ-F-010 | BDD-UC-010, UC-010, spec/contracts/API-multas.md, spec/domain/03-VALUE-OBJECTS.md | FASE-3 | TASK-F3-008, TASK-F3-009, TASK-F3-010 | — | 1 |
+| REQ-F-011 | BDD-UC-011, UC-011, spec/contracts/API-inventario.md, spec/domain/03-VALUE-OBJECTS.md | FASE-0 | TASK-F0-016, TASK-F0-017, TASK-F0-018 | — | 1 |
+| REQ-F-012 | BDD-UC-012, UC-012, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-inventario.md, spec/domain/03-VALUE-OBJECTS.md | FASE-4 | TASK-F4-001, TASK-F4-002, TASK-F4-003, TASK-F4-007 | — | 1 |
+| REQ-F-013 | BDD-UC-013, UC-013, spec/contracts/API-reservas.md | FASE-4 | TASK-F4-004, TASK-F4-005, TASK-F4-006, TASK-F4-007 | — | 2 |
+| REQ-F-014 | BDD-UC-014, UC-014, spec/contracts/API-multas.md | FASE-5 | TASK-F5-002, TASK-F5-003, TASK-F5-004, TASK-F5-007 | — | 1 |
+| REQ-F-015 | BDD-UC-002, BDD-UC-005, BDD-UC-007, BDD-UC-011, BDD-UC-015, UC-015, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | FASE-5 | TASK-F5-001, TASK-F5-004, TASK-F5-005, TASK-F5-007 | — | 1 |
+| REQ-F-016 | BDD-UC-003, BDD-UC-004, BDD-UC-014, BDD-UC-016, UC-004, UC-014, UC-016, spec/contracts/API-multas.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/SECURITY.md | FASE-0, FASE-5 | TASK-F5-001, TASK-F5-006, TASK-F5-007 | — | 2 |
+| REQ-F-017 | BDD-UC-001, UC-001, spec/CLARIFICATIONS.md, spec/VALUE-REGISTRY.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | FASE-0 | TASK-F0-011, TASK-F0-013, TASK-F0-018 | — | 5 |
+| REQ-F-018 | BDD-UC-017, UC-017, spec/README.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | FASE-6 | TASK-F6-001, TASK-F6-002, TASK-F6-003, TASK-F6-007 | — | 5 |
+| REQ-F-019 | BDD-UC-018, UC-018, spec/README.md, spec/VALUE-REGISTRY.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | FASE-6 | TASK-F6-001, TASK-F6-004, TASK-F6-005, TASK-F6-006, TASK-F6-007 | — | 6 |
+| REQ-F-020 | BDD-UC-019, UC-019, spec/README.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 0 |
+| REQ-NF-001 | spec/DERIVED-SPECS.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/AVAILABILITY.md | FASE-0, FASE-2 | TASK-F0-001, TASK-F0-006, TASK-F2-004, TASK-F2-005, TASK-F2-007, TASK-F2-008 | — | 5 |
+| REQ-NF-002 | BDD-UC-001, UC-001, UC-016, spec/contracts/API-acceso.md, spec/nfr/SECURITY.md | FASE-0 | TASK-F0-010, TASK-F0-012, TASK-F0-018 | — | 3 |
+| REQ-C-001 | spec/nfr/MAINTAINABILITY.md | FASE-0, FASE-1 | TASK-F0-004, TASK-F0-009 | — | 1 |
+| REQ-C-002 | spec/nfr/MAINTAINABILITY.md | FASE-0 | TASK-F0-001, TASK-F0-003 | — | 2 |
+| REQ-C-003 | UC-008, spec/VALUE-REGISTRY.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/MAINTAINABILITY.md | FASE-1, FASE-3 | TASK-F0-005, TASK-F1-002, TASK-F3-003 | — | 1 |
 
-Coverage: 24/24 requirements specified or planned. Orphans: none. 21/24 with tests or commits.
+Coverage: 25/25 requirements specified or planned. Orphans: none. 24/25 with tests or commits.

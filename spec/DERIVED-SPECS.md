@@ -11,7 +11,7 @@
 | Artifact | Type | Derived from | Tier | Justification (≤ 8 words) | Status |
 |---|---|---|---|---|---|
 | INV-ACC-001..007, INV-RES-001..005, INV-FIN-001..003, INV-INV-001..002 | Invariant | REQ-F-001..019 | 2 | formalises requirement constraints | Registered |
-| `E_*` rows in UC-001..018 | Exception flow | REQ-F-001..019 | 2 | validation, permission, state errors | Registered |
+| `E_*` rows in UC-001..019 | Exception flow | REQ-F-001..020 | 2 | validation, permission, state errors | Registered |
 | `E_STORAGE_UNAVAILABLE`, `E_AUTH_REQUIRED` | Exception flow | REQ-NF-001 | 2 | shared failures | Registered |
 | `E_RES_NOT_FOUND`, `E_MATERIAL_NOT_FOUND`, `E_FINE_NOT_FOUND` | Exception flow | REQ-F-005, 006, 010, 012 | 2 | unknown ids | Registered |
 | `O_ALREADY_*` outcomes | Replay rows | REQ-F-005..007, 010 | 2 | idempotent writes | Registered |

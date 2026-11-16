@@ -7,9 +7,9 @@ Web del club de montaña para reservar material, entregarlo, devolverlo y multar
 | Path | Content | Start here if… |
 |---|---|---|
 | `domain/` | glosario, entidades, objetos de valor + catálogo de errores, estados, invariantes | escribes o revisas algo |
-| `use-cases/UC-001..018` | un caso de uso por requisito funcional (REQ-F-018 y REQ-F-019 con uno cada uno) | implementas una función |
+| `use-cases/UC-001..019` | un caso de uso por requisito funcional (REQ-F-018, REQ-F-019 y REQ-F-020 con uno cada uno) | implementas una función |
 | `workflows/WF-001` | ciclo de una reserva | quieres la visión de conjunto |
 | `contracts/` | API-acceso, -reservas, -inventario, -multas; permisos; eventos | implementas una operación |
-| `tests/` | BDD-UC-001..018 (AC-NNN-NN) | escribes tests |
+| `tests/` | BDD-UC-001..019 (AC-NNN-NN) | escribes tests |
 | `nfr/` | disponibilidad, seguridad, restricciones | miras los no funcionales |
 | `VALUE-REGISTRY.md`, `DERIVED-SPECS.md`, `TRACEABILITY-MATRIX.md` | valores, derivados, trazabilidad | auditas |
