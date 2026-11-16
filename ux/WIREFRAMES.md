@@ -9,6 +9,7 @@
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0.0 | 2026-11-16 | Initial wireframes: 8 pantallas de los requisitos + estado «sin permiso» |
+| 1.1.0 | 2026-11-16 | REQ-F-017..019: botón «Salir» en la cabecera, mensaje de bloqueo y de sesión caducada en SCR-001 (UX-TXT-03 pasa a literal de REQ-F-019) |
 
 Reglas comunes a todas las pantallas:
 
@@ -22,7 +23,7 @@ Reglas comunes a todas las pantallas:
 
 | ID | Screen (nombre literal) | Use Case | REQ | Roles | Priority | Breakpoints |
 |----|--------|----------|-----|-------|----------|-------------|
-| SCR-001 | Iniciar sesión | UC-001 | REQ-F-001, REQ-F-016 | todos (sin sesión) | HIGH | desktop, mobile |
+| SCR-001 | Iniciar sesión | UC-001, UC-017, UC-018 | REQ-F-001, REQ-F-016, REQ-F-017, REQ-F-018, REQ-F-019 | todos (sin sesión) | HIGH | desktop, mobile |
 | SCR-002 | Material | UC-003, UC-002, UC-009 | REQ-F-003, REQ-F-002, REQ-F-009, REQ-F-012 | socio, encargado (reserva); junta (solo ve) | HIGH | desktop, mobile |
 | SCR-003 | Mis reservas | UC-004, UC-005 | REQ-F-004, REQ-F-005 | socio, encargado | HIGH | desktop, mobile |
 | SCR-004 | Entregas y devoluciones | UC-006, UC-007 | REQ-F-006, REQ-F-007, REQ-NF-001 | encargado | HIGH | desktop, mobile |
@@ -32,12 +33,12 @@ Reglas comunes a todas las pantallas:
 | SCR-008 | Historial del socio | UC-014, UC-015, UC-016 | REQ-F-014, REQ-F-015, REQ-F-016 | junta, encargado; socio (el suyo) | MED | desktop, mobile |
 | SCR-009 | Sin permiso (estado de error) | UC-014 E1, UC-013 E1 | REQ-F-016 | cualquiera | MED | desktop, mobile |
 
-Cabecera común (`org-app-header`), usada por SCR-002..009:
+Cabecera común (`org-app-header`), usada por SCR-002..009; «Salir» (REQ-F-018) cierra la sesión y lleva a SCR-001 sin mensaje:
 
 ```
 +------------------------------------------------------------------------------+
 | Club de Montaña   Material | Mis reservas | Entregas y devoluciones | Multas…  |
-|                                              Hola, lucia@club.es [Cerrar sesión]|
+|                                              Hola, lucia@club.es [Salir]|
 +------------------------------------------------------------------------------+
 ```
 
@@ -68,7 +69,11 @@ Entrar con correo y contraseña (UC-001). Única pantalla accesible sin sesión;
 |            |                                      |              |
 |            |  [ Entrar ]                          |              |
 |            |  (zona de mensajes)                  |              |
+|            |  Un solo mensaje a la vez, p. ej.:   |              |
 |            |  ! Correo o contraseña incorrectos   |              |
+|            |  o ! Demasiados intentos fallidos:   |              |
+|            |    espera 15 minutos                 |              |
+|            |  o ! Tu sesión ha caducado           |              |
 |            +--------------------------------------+              |
 |            ¿Sin cuenta? Pídela al encargado del material         |
 +------------------------------------------------------------------+
@@ -88,6 +93,10 @@ Entrar con correo y contraseña (UC-001). Única pantalla accesible sin sesión;
 | [        Entrar       ]  |
 | ! Correo o contraseña    |
 |   incorrectos            |
+|   (o «Demasiados intentos|
+|   fallidos: espera 15    |
+|   minutos» / «Tu sesión  |
+|   ha caducado»)          |
 | ¿Sin cuenta? Pídela al   |
 | encargado del material   |
 +--------------------------+
@@ -110,6 +119,8 @@ Entrar con correo y contraseña (UC-001). Única pantalla accesible sin sesión;
 | Element | Trigger | Action | Feedback |
 |---------|---------|--------|----------|
 | Entrar | clic / Intro | envía correo y contraseña; el servidor decide | éxito: se abre la pantalla de aterrizaje del rol con «Hola, {correo}» en la cabecera; fallo: «Correo o contraseña incorrectos» en la zona de mensajes, los campos conservan el correo y vacían la contraseña |
+| Entrar con la cuenta bloqueada (5 fallos en 15 min; REQ-F-017) | clic / Intro | el servidor rechaza aunque la contraseña sea correcta; durante 15 min desde el último fallo | «Demasiados intentos fallidos: espera 15 minutos» en la zona de mensajes (`atom-alert` error, sin cuenta atrás ni hora de fin); se conserva el correo, se vacía la contraseña; pasado el plazo vuelve a funcionar el formulario sin pasos extra. El bloqueo es por cuenta: otro correo entra con normalidad |
+| Llegar con la sesión caducada o cerrada (REQ-F-019, REQ-F-018) | redirección tras una acción o al abrir una dirección privada | el servidor responde sin sesión | «Tu sesión ha caducado» (solo si caducó por inactividad; tras «Salir» no se muestra mensaje) en la zona de mensajes; no se devuelve ningún dato |
 | Reenvío del formulario ya enviado | segundo envío | conserva una sola sesión (AC-001-04) | igual que éxito |
 | Mostrar contraseña | casilla | cambia `type` password↔text | solo visual |
 
@@ -123,11 +134,11 @@ Entrar con correo y contraseña (UC-001). Única pantalla accesible sin sesión;
 ### Accessibility Notes
 - **Tab Order:** Correo → Contraseña → Mostrar contraseña → Entrar → (enlace ninguno).
 - **Landmarks:** `main`; sin `nav`. `h1` = «Iniciar sesión».
-- **Focus Management:** al cargar, foco en Correo. Tras un fallo, foco en el mensaje de error (`tabindex="-1"`), no en el campo, para que se anuncie.
-- **Screen Reader:** el error es `role="alert"`; los campos llevan `aria-describedby` al error; `autocomplete` correcto y pegar permitido (3.3.8). Sin atributos `required`/`pattern`/`type=email` bloqueantes.
+- **Focus Management:** al cargar, foco en Correo; si llegas por caducidad, foco en el mensaje «Tu sesión ha caducado» (`role="status"`, `tabindex="-1"`) y luego Tab lleva a Correo. Tras un fallo (incluido el bloqueo), foco en el mensaje de error (`tabindex="-1"`), no en el campo, para que se anuncie.
+- **Screen Reader:** el error es `role="alert"`; los campos llevan `aria-describedby` al error; `autocomplete` correcto y pegar permitido (3.3.8). Sin atributos `required`/`pattern`/`type=email` bloqueantes. El bloqueo no desactiva el botón «Entrar» (el servidor decide y el literal siempre llega).
 
 ### Related Specs
-- UC-001, REQ-F-001, REQ-F-016 (sin sesión → esta pantalla), RN-001, WF-001 (entrada)
+- UC-001, UC-017, UC-018, REQ-F-001, REQ-F-016 (sin sesión → esta pantalla), REQ-F-017 (bloqueo), REQ-F-018 (destino de «Salir»), REQ-F-019 (caducidad), RN-001, RN-005, WF-001 (entrada)
 
 ---
 
@@ -763,7 +774,7 @@ No proceden de un REQ ni de VO-010; van en `src/shared/textos.js`. Son clase R (
 |----|-------|-------|
 | UX-TXT-01 | Etiquetas de campo: «Correo», «Contraseña», «Material», «Desde», «Hasta», «Unidades», «Unidades rotas», «Correo del socio», «Día (AAAA-MM-DD)», «Devuelta el» ; indicador «(obligatorio)» | formularios |
 | UX-TXT-02 | «¿Sin cuenta? Pídela al encargado del material» | SCR-001 |
-| UX-TXT-03 | «Tu sesión ha caducado; vuelve a entrar» | SCR-001 tras caducidad |
+| UX-TXT-03 | «Tu sesión ha caducado» (literal de REQ-F-019; ya no es texto propio del diseño) | SCR-001 tras caducidad |
 | UX-TXT-04 | «Cargando…» | listas |
 | UX-TXT-05 | «Mostrar contraseña» | SCR-001 |
 | UX-TXT-06 | Filtro «Ver»: «Por entregar», «Entregadas», «Todas» | SCR-004 |
@@ -774,7 +785,7 @@ No proceden de un REQ ni de VO-010; van en `src/shared/textos.js`. Son clase R (
 | UX-TXT-11 | «Ver día» | SCR-007 |
 | UX-TXT-12 | «Ver historial»; «Historial de {correo}» | SCR-008 |
 | UX-TXT-13 | «Volver» | SCR-009 |
-| UX-TXT-14 | Títulos de pantalla y de menú = nombres literales del índice (Material, Mis reservas, …); «Menú», «Cerrar sesión», «Reservar», «Cancelar reserva», «Entregar», «Devolver», «Marcar pagada», «Añadir», «Dar de baja», «Reservar {material}», «Saltar al contenido», «Reintentar» | todas |
+| UX-TXT-14 | Títulos de pantalla y de menú = nombres literales del índice (Material, Mis reservas, …); «Menú», «Salir» (literal de REQ-F-018), «Reservar», «Cancelar reserva», «Entregar», «Devolver», «Marcar pagada», «Añadir», «Dar de baja», «Reservar {material}», «Saltar al contenido», «Reintentar» | todas |
 | UX-TXT-15 | «Nada vuelve este día» | SCR-007 |
 | UX-TXT-16 | «No hay reservas en este filtro» | SCR-004 |
 | UX-TXT-17 | «Todavía no hay material» | SCR-002 |

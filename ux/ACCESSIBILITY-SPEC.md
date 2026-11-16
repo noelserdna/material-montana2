@@ -9,6 +9,7 @@
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0.0 | 2026-11-16 | Initial accessibility specification |
+| 1.1.0 | 2026-11-16 | REQ-F-017..019: criterio 2.2.1 con la caducidad definida, mensajes de bloqueo/caducidad anunciados, botón «Salir» |
 
 ---
 
@@ -48,7 +49,7 @@
 | 2.1.1 Keyboard | A | Yes | todas | todo es `<button>`, `<a>`, `<input>`, `<select>` nativos; sin gestos | manual teclado |
 | 2.1.2 No Keyboard Trap | A | Yes | menú móvil | el menú se cierra con Escape y devuelve el foco a «Menú» | manual |
 | 2.1.4 Character Key Shortcuts | A | No: sin atajos de una tecla | — | — | — |
-| 2.2.1 Timing Adjustable | A | Yes | sesión | caducidad por inactividad 30 min; el aviso `UX-TXT-03` aparece al intentar actuar y los datos tecleados se conservan | manual |
+| 2.2.1 Timing Adjustable | A | Yes | sesión | caducidad por inactividad 30 min (REQ-F-019, límite de seguridad esencial; el requisito no pide aviso previo); «Tu sesión ha caducado» (`UX-TXT-03`) aparece al intentar actuar, se anuncia y el foco va al mensaje; los datos tecleados se conservan cuando es posible | manual |
 | 2.2.2 Pause, Stop, Hide | A | No: sin animación automática ni contenido que se mueva | — | — | — |
 | 2.3.1 Three Flashes | A | Yes | todas | nada parpadea | revisión |
 | 2.4.1 Bypass Blocks | A | Yes | tmpl-app | enlace «Saltar al contenido» (`UX-TXT-14`) como primer foco | manual |
@@ -164,6 +165,9 @@ Nota de implementación: el anillo de foco se dibuja con `outline` + `outline-of
 | Scenario | Expected Announcement | Screen Reader |
 |----------|----------------------|---------------|
 | Entrar con credenciales erróneas | «Alerta: Correo o contraseña incorrectos» y el foco queda en el mensaje | NVDA, VoiceOver |
+| Entrar con la cuenta bloqueada | «Alerta: Demasiados intentos fallidos: espera 15 minutos» y el foco queda en el mensaje | NVDA, VoiceOver |
+| Llegar con la sesión caducada | se anuncia «Tu sesión ha caducado» y Tab lleva a Correo | NVDA, VoiceOver |
+| Pulsar «Salir» | se anuncia el título «Iniciar sesión» y el foco queda en Correo | NVDA, VoiceOver |
 | Entrar bien | se anuncia el título de la pantalla de aterrizaje y «Hola, {correo}» en la cabecera | NVDA, VoiceOver |
 | Reservar con fechas invertidas | «Alerta: La fecha de fin no puede ser anterior a la de inicio»; «Hasta» marcado «no válido» si procede | NVDA, VoiceOver, TalkBack |
 | Reserva creada | tras abrirse Mis reservas: «Reserva creada: Casco del 2026-12-10 al 2026-12-12» (estado) | NVDA, VoiceOver |
@@ -181,7 +185,7 @@ Nota de implementación: el anillo de foco se dibuja con `outline` + `outline-of
 
 Los campos cuyos errores definen un literal en los criterios (correo/contraseña, fechas de reserva, unidades, fecha de devolución) **no** llevan `required`, `maxlength`, `minlength`, `pattern`, `min`, `max` ni `type="email"` bloqueante: el navegador detendría el envío y el literal (REQ-F-001/002, REQ-F-011/012) no llegaría a verse. Se usa `aria-required="true"` + «(obligatorio)» visible, el mensaje del servidor en un elemento referido por `aria-describedby`/zona de mensajes, `aria-invalid="true"` en el campo afectado y foco al mensaje (3.3.1, 3.3.3, 4.1.3). Los límites de longitud son pistas.
 
-**Estabilidad de rol y nombre (4.1.2).** Los botones fijados por los criterios mantienen su rol y nombre: «Entrar», «Reservar», «Cancelar reserva», «Entregar», «Devolver», «Marcar pagada», «Añadir», «Dar de baja». Ninguno se convierte en enlace, ni se renombra, en este diseño; los nombres accesibles *amplían* el texto visible (empiezan por él, 2.5.3) para que `getByRole('button', { name: /Cancelar reserva/ })` siga funcionando. Ninguna decisión de este diseño choca con un contrato de REQ; sin desviaciones que registrar en `feedback/`.
+**Estabilidad de rol y nombre (4.1.2).** Los botones fijados por los criterios mantienen su rol y nombre: «Entrar», «Salir», «Reservar», «Cancelar reserva», «Entregar», «Devolver», «Marcar pagada», «Añadir», «Dar de baja». Ninguno se convierte en enlace, ni se renombra, en este diseño; los nombres accesibles *amplían* el texto visible (empiezan por él, 2.5.3) para que `getByRole('button', { name: /Cancelar reserva/ })` siga funcionando. Ninguna decisión de este diseño choca con un contrato de REQ; sin desviaciones que registrar en `feedback/`.
 
 ## 8. Verification
 

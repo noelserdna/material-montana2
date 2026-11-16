@@ -8,6 +8,7 @@
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0.0 | 2026-11-16 | Initial interaction model |
+| 1.1.0 | 2026-11-16 | REQ-F-017..019: estados de bloqueo, «Salir» y caducidad con renovación por actividad |
 
 Principio: el servidor decide; la interfaz muestra el literal que devuelve en el sitio fijo de la pantalla y deja el foco ahí. Nada se anticipa en el cliente (ni se deshabilitan botones por reglas de negocio) salvo el envío en curso.
 
@@ -64,8 +65,10 @@ La junta nunca ve acciones de cambio (REQ-F-015).
 ### Sesión
 
 ```
- [Sin sesión] --entrar--> [Con sesión] --30 min sin actividad / cerrar sesión--> [Sin sesión]
- [Con sesión] --acción--> servidor responde «Iniciar sesión» (E_AUTH_REQUIRED) --> pantalla Iniciar sesión con UX-TXT-03
+ [Sin sesión] --entrar--> [Con sesión] --30 min sin actividad / «Salir»--> [Sin sesión]
+ [Con sesión] --acción--> servidor responde «Iniciar sesión» (E_AUTH_REQUIRED) --> pantalla Iniciar sesión con UX-TXT-03 («Tu sesión ha caducado»)
+ [Con sesión] --«Salir»--> [Sin sesión] (Iniciar sesión sin mensaje; se borra el estado en memoria; repetir «Salir» con la sesión vieja lleva igual a Iniciar sesión)
+ [Con sesión] --cada acción--> renueva los 30 min   [Cuenta con 5 fallos en 15 min] --15 min desde el último fallo--> [Cuenta libre]
 ```
 
 ---
@@ -101,9 +104,10 @@ Todas se anulan con `prefers-reduced-motion: reduce`.
 |-----------|---------------|----------------|-----------------|
 | Regla de negocio (sin unidades, duplicado, multa pendiente, cancelar tarde, estado) | `atom-alert` error bajo el botón/fila de la pantalla indicada por el criterio | literal VO-010 | corregir fechas/material o esperar; el formulario sigue activo |
 | Validación (fechas invertidas, unidades < 1, >activas) | igual + `aria-invalid` en el campo | literal VO-010 | editar y reenviar |
-| Credenciales | alerta en Iniciar sesión | «Correo o contraseña incorrectos» (siempre el mismo) | reintentar |
+| Credenciales | alerta en Iniciar sesión | «Correo o contraseña incorrectos» | reintentar |
+| Cuenta bloqueada (REQ-F-017) | alerta en Iniciar sesión | «Demasiados intentos fallidos: espera 15 minutos» | esperar 15 min desde el último fallo y volver a intentar |
 | Sin permiso | SCR-009 o alerta en la pantalla | «No tienes permiso para ver estos datos» / «No tienes permiso para hacer esto» | «Volver» |
-| Sesión caducada | Iniciar sesión | `UX-TXT-03` | entrar de nuevo; se vuelve a la pantalla de aterrizaje |
+| Sesión caducada | Iniciar sesión | «Tu sesión ha caducado» (`UX-TXT-03`) | entrar de nuevo; se vuelve a la pantalla de aterrizaje |
 | Almacén no disponible | alerta general | «No se puede acceder a los datos; inténtalo de nuevo» | reintentar; no se pierde lo escrito |
 | Inexistente (reserva, multa, material) | alerta | «La reserva no existe» / «La multa no existe» / «Ese material no existe» | recargar la lista |
 

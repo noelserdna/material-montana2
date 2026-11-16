@@ -9,6 +9,7 @@
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0.0 | 2026-11-16 | Initial design system |
+| 1.1.0 | 2026-11-16 | REQ-F-017..019: «Cerrar sesión» pasa a «Salir»; mensaje de bloqueo («Demasiados intentos fallidos: espera 15 minutos»); caducidad con literal «Tu sesión ha caducado»; AUTH-001 resuelto |
 
 Decisiones del cliente aplicadas sin impugnar: **RN-001** (el encargado prepara las cuentas: no hay pantalla de registro, ni de «olvidé mi contraseña», ni de alta de roles) y **RN-002** (la baja de unidades se permite; la reserva futura sigue en pie y el encargado avisa a quien corresponda fuera de la web: la interfaz solo le señala dónde falta material).
 
@@ -138,7 +139,7 @@ Especificación completa por pantalla en `WIREFRAMES.md`; ARIA por componente en
 
 | Component | Composition | Responsive | A11y Notes |
 |-----------|------------|------------|------------|
-| `org-app-header` | nombre del club + `org-main-nav` + «Hola, {correo}» + «Cerrar sesión» | colapsa en «Menú» < `md` | landmark `banner`; «Hola, {correo}» es el literal de REQ-F-001 |
+| `org-app-header` | nombre del club + `org-main-nav` + «Hola, {correo}» + «Salir» | colapsa en «Menú» < `md` | landmark `banner`; «Hola, {correo}» es el literal de REQ-F-001 |
 | `org-main-nav` | enlaces por rol (§ navegación) | lista desplegable < `md` | `<nav aria-label="Principal">`; página actual con `aria-current` |
 | `org-login-form` | 2 `mol-field` + botón + feedback | centrado, ancho máx. 24 rem | sin captcha ni preguntas cognitivas (3.3.8) |
 | `org-reserva-form` | material (select) + `mol-date-range` + botón «Reservar» + feedback | 1 col; 2 col ≥ `md` | foco al mensaje de error al fallar |
@@ -182,7 +183,7 @@ Secciones por rol (los nombres de pantalla son los de los criterios de aceptaci�
 - Un enlace nunca se muestra si el rol no puede usarlo; aun así, si se teclea la dirección, la pantalla muestra «No tienes permiso para ver estos datos» o «No tienes permiso para hacer esto» (nunca datos). La seguridad la impone el servidor (API), no el menú.
 - Sin buscador, migas ni mapa del sitio: ≤ 7 destinos.
 - 3.2.6 Consistent Help: no hay mecanismo de ayuda propio; si el club añade uno (p. ej. contacto del encargado), irá en el pie de todas las páginas en la misma posición. Mientras tanto, el pie de Iniciar sesión indica «¿Sin cuenta? Pídela al encargado del material» (`UX-TXT-02`), coherente con RN-001.
-- Sesión: «Cerrar sesión» siempre en la cabecera; si la sesión caduca (30 min de inactividad, TECHNICAL-DESIGN §7) la siguiente acción lleva a Iniciar sesión con el mensaje «Tu sesión ha caducado; vuelve a entrar» (`UX-TXT-03`), conservando lo ya escrito en formularios cuando sea posible.
+- Sesión: «Salir» siempre en la cabecera (REQ-F-018); si la sesión caduca (30 min de inactividad, REQ-F-019) la siguiente acción lleva a Iniciar sesión con el mensaje «Tu sesión ha caducado» (`UX-TXT-03`), conservando lo ya escrito en formularios cuando sea posible.
 
 ## 9. Frontend Security (Dim 9)
 
@@ -193,12 +194,12 @@ Secciones por rol (los nombres de pantalla son los de los criterios de aceptaci�
 | Clickjacking | `frame-ancestors 'none'` + `X-Frame-Options: DENY` | — |
 | CSRF | la SPA solo envía JSON con la cookie de sesión `SameSite=Strict`; sin formularios HTML que hagan POST nativo (el envío lo intercepta JS) | design §7 |
 | Token de sesión | cookie `HttpOnly; Secure`; el JS nunca la lee ni guarda nada en `localStorage`/`sessionStorage` | ADR-DRAFT-003, AUTH-002 |
-| Enumeración | Iniciar sesión muestra siempre el mismo literal «Correo o contraseña incorrectos» (también con freno de intentos); sin «cuenta no existe» | AUTH-001, AUTH-003 |
+| Enumeración | Iniciar sesión muestra «Correo o contraseña incorrectos» ante credenciales erróneas, sin «cuenta no existe»; con la cuenta bloqueada muestra «Demasiados intentos fallidos: espera 15 minutos» (literal de REQ-F-017, por cuenta) | AUTH-001 (resuelto), AUTH-003 |
 | Pantallas privadas | no se cachean (`Cache-Control: no-store` en respuestas con datos); al cerrar sesión se borra el estado en memoria | REQ-F-016 |
 | Contraseña | campo `type="password"`, sin mostrarla por defecto; opción «Mostrar contraseña» (casilla) permitida | 3.3.8 |
 | SRI | no aplica: sin recursos de terceros | — |
 
-Hallazgos abiertos de `audits/SECURITY-AUDIT-BASELINE.md` con efecto en el cliente: AUTH-001 (freno de intentos: el mensaje es el mismo literal; el diseño no añade un mensaje de bloqueo distinto hasta que se decida), AUTH-002 (ciclo de vida de la sesión: `UX-TXT-03`), AUTH-003 (sin pantalla de cambio/restablecimiento de contraseña: lo hace el encargado por CLI, `UX-TXT-02`), AUTHZ-002 (reserva ajena e inexistente indistinguibles: la UI usa un solo texto), INPUT-001 (límites de longitud solo como pista, el servidor impone). Cuatro de estos puntos (AUTH-001..003, AUTHZ-002) quedan abiertos en la auditoría; el diseño no depende de su resolución salvo por `UX-TXT-03`.
+Hallazgos abiertos de `audits/SECURITY-AUDIT-BASELINE.md` con efecto en el cliente: AUTH-001 (resuelto por REQ-F-017: la pantalla muestra el literal de bloqueo), AUTH-002 (ciclo de vida de la sesión: «Salir» y `UX-TXT-03`, REQ-F-018/019), AUTH-003 (sin pantalla de cambio/restablecimiento de contraseña: lo hace el encargado por CLI, `UX-TXT-02`), AUTHZ-002 (reserva ajena e inexistente indistinguibles: la UI usa un solo texto), INPUT-001 (límites de longitud solo como pista, el servidor impone). Los demás puntos (AUTH-003, AUTHZ-002) siguen abiertos en la auditoría; el diseño no depende de su resolución.
 
 ## 10. Frontend Performance (Dim 10)
 Objetivos p75: LCP < 2.5 s, INP < 200 ms, CLS < 0.1. Medidas: cero dependencias de ejecución (solo Vite en build), un único bundle JS pequeño y un CSS, sin fuentes web, sin imágenes; reservar el alto de las listas con esqueleto/«Cargando…» para evitar saltos de layout; renderizado por funciones sin framework. Las listas son de decenas de filas: sin virtualización ni paginación.
@@ -220,6 +221,7 @@ Canal móvil = web responsive (no nativo, no PWA, no offline). Objetivo táctil 
 | Literales fijos y módulo único de textos | REQ-C-001, VO-010 | — |
 | Menú por rol; junta sin controles de escritura | REQ-F-015, PERMISSIONS-MATRIX | ADR-DRAFT-003 |
 | Datos de otros socios nunca mostrados | REQ-F-016 | — |
+| Bloqueo por 5 fallos, «Salir» y caducidad a 30 min | REQ-F-017, REQ-F-018, REQ-F-019 | — |
 | Validación autoritativa en servidor | UC-002 E1/E7, UC-011 E2 | — |
 | Fechas AAAA-MM-DD, importes en € | REQ-C-003, REQ-F-008 | — |
 | SPA vanilla, sin CDN, CSP estricta | REQ-C-002, design §3/§7 | ADR-DRAFT-001 |
