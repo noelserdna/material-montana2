@@ -3,8 +3,9 @@
 > **Project:** material-montana2
 > **Version:** 1.1
 > **Last updated:** 2026-11-16
-> **Status:** Review
-> **Ejemplos revisados por:** Andres Leon (Cliente), 2026-11-16 (v1.0; pendientes los de REQ-F-017..019)
+> **Status:** Approved
+> **Approved by:** Andres Leon (Cliente), 2026-11-16
+> **Ejemplos revisados por:** Andres Leon (Cliente), 2026-11-16
 > **Customer needs:** [CUSTOMER-NEEDS.md](CUSTOMER-NEEDS.md)
 
 ## Functional Requirements
