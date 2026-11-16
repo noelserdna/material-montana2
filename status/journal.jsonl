@@ -4,3 +4,5 @@
 {"at":"2026-11-16T15:05:32Z","feature":"initial","stage":"specifications-engineer","kind":"start","text":"Vamos a describir con detalle cómo se comportará cada función","refs":[]}
 {"at":"2026-11-16T15:08:20Z","feature":"initial","stage":"specifications-engineer","kind":"done","text":"Describimos 16 recorridos de uso y las reglas que cumplen","refs":[]}
 {"at":"2026-11-16T15:13:30Z","feature":"initial","stage":"spec-auditor","kind":"done","text":"Revisamos la descripción: 8 puntos corregidos y 3 preguntas para ti; ninguno bloquea del todo","refs":[]}
+{"at":"2026-11-16T15:15:16Z","feature":"initial","stage":"test-planner","kind":"start","text":"Vamos a decidir cómo comprobaremos cada cosa que pediste","refs":[]}
+{"at":"2026-11-16T15:18:14Z","feature":"initial","stage":"test-planner","kind":"done","text":"Preparamos 208 comprobaciones y 71 pruebas de pantalla, al menos una por cada cosa que pediste","refs":[]}
