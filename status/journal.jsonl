@@ -33,3 +33,5 @@
 {"at":"2026-11-16T17:07:26Z","feature":"initial","stage":"requirements-engineer","kind":"decision","text":"Andres Leon aprobó los requisitos (versión 1.2) el 2026-11-16","refs":["requirements-v1.2"],"by":"Andres Leon (Cliente)"}
 {"at":"2026-11-16T17:09:19Z","feature":"initial","stage":"spec-auditor","kind":"done","text":"Revisamos la lista de reservas del encargado: un detalle corregido, nada que bloquee","refs":[]}
 {"at":"2026-11-16T17:10:55Z","feature":"initial","stage":"test-planner","kind":"done","text":"Añadimos las comprobaciones de la lista de reservas de todos los socios: 11 casos y 4 pantallas a capturar","refs":[]}
+{"at":"2026-11-16T17:12:15Z","feature":"initial","stage":"tech-designer","kind":"change","text":"default-policy: listarReservas sin índice nuevo (escala de club)","refs":[]}
+{"at":"2026-11-16T17:12:15Z","feature":"initial","stage":"tech-designer","kind":"done","text":"Añadimos al diseño la lista de reservas de todos los socios para el encargado","refs":[]}

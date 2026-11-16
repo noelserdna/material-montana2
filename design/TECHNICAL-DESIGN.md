@@ -9,6 +9,7 @@
 |---------|------|---------|
 | 1.0 | 2026-11-16 | Initial technical design |
 | 1.1 | 2026-11-16 | Update por REQ-F-017, REQ-F-018, REQ-F-019: bloqueo por cuenta, operación cerrarSesion, caducidad por inactividad distinguible (§6, §7, §8, §15, §16) |
+| 1.2 | 2026-11-16 | Update por REQ-F-020: operación listarReservas (API-002-07), lista de reservas de todos los socios solo para el encargado (§6, §8, §16) |
 
 Decisiones del cliente aplicadas sin impugnar: RN-001 (el encargado prepara las cuentas; **no hay pantalla ni operación de registro**) y RN-002 (la baja de unidades se permite; la reserva futura sigue en pie y el encargado avisa a quien corresponda fuera de la web).
 
@@ -100,6 +101,7 @@ Dependencias de ejecución: ninguna más allá de Vite (devDependency). Sin ORM.
 **Rationale:** REQ-NF-001 pide un almacén de servidor compartido; la base embebida da transacciones ACID para INV-RES-001 (comprobar disponibilidad y escribir en una sola transacción `BEGIN IMMEDIATE`, sin sobre-reserva por concurrencia) y «sin escritura parcial» (`nfr/AVAILABILITY.md`).
 **Alternatives:** PostgreSQL (servicio extra sin necesidad), fichero JSON (sin atomicidad), IndexedDB/localStorage (incumple REQ-NF-001).
 **Tablas:** `cuenta`, `material`, `reserva`, `multa`, `sesion` (ENT-001..005), más `fallo_acceso` (`cuenta_correo`, `instante` ISO 8601 UTC; INV-ACC-006). Restricciones en BD: `cuenta.correo` único, `material.nombre` único, `multa.reserva_id` único (INV-FIN-002), CHECK de estados (VO-004/005).
+**Lista de reservas (REQ-F-020):** `listarReservas` es una lectura sobre `reserva` unida a `cuenta` y `material`, filtrada por `estado` (`Por entregar` = Reservada, `Entregadas` = Entregada, `Todas` = sin filtro), ordenada por `desde` y `id`. Sin tabla ni índice nuevos: a escala de club (cientos de reservas) basta el escaneo.
 **Fechas:** texto `YYYY-MM-DD`, aritmética en días naturales UTC (sin horas; REQ-C-003). El «hoy» sale de un reloj inyectable.
 **Ocupación:** `ocupadas(d)` se calcula por consulta sobre reservas Reservada/Entregada; sin contadores desnormalizados.
 **Baja de unidades (RN-002):** `unidadesActivas` baja sin tocar reservas; puede haber días con más reservas activas que unidades. La interfaz del encargado (Ver hoy / Entregas) debe señalar esos días para que avise a mano; no hay notificaciones automáticas ni correo.
@@ -128,6 +130,7 @@ Dependencias de ejecución: ninguna más allá de Vite (devDependency). Sin ORM.
 ## 8. API Design (Dimension 6)
 
 **Style:** RPC sobre HTTP/JSON: una ruta `POST /api/<operación>` por operación de los contratos (`Style: operations`). Mapeo completo en `design/OPERATION-MAPPING.md`.
+**Lectura de reservas del club (REQ-F-020):** `POST /api/listarReservas` (API-002-07), `filtro` opcional (por defecto `Por entregar`); la comprobación de rol (solo encargado, INV-ACC-005) va en el manejador antes de tocar el almacén: socio o junta → 403 `E_FORBIDDEN_ROLE`, sin sesión → 401 `E_AUTH_REQUIRED`. Un filtro desconocido se trata como 400 (entrada inválida, familia ya existente).
 **Versioning:** none (cliente y servidor se despliegan juntos).
 **Documentation:** los contratos `spec/contracts/API-*.md` son la fuente; sin OpenAPI.
 **Errores:** `{ ok:false, codigo:'E_…', mensaje }` con el mensaje de VO-010 desde el módulo de textos; estado HTTP 400/401/403/404/409/503 según familia. Las `O_*` (idempotentes) devuelven 200 con `{ ok:true, aviso:'O_…' }`.
@@ -225,5 +228,6 @@ Aprobarlos y promoverlos a `spec/adr/` es decisión de una persona.
 | Caducidad a 30 min de inactividad | REQ-F-019, INV-ACC-007, UC-018 | draft 003 |
 | RBAC + dueño, denegar por defecto | INV-ACC-004/005, PERMISSIONS-MATRIX, AUTHZ-001 | draft 003 |
 | Sin registro; CLI de cuentas | RN-001, API-001 | — |
+| Lista de reservas de todos los socios, solo encargado | REQ-F-020, UC-019, API-002-07, INV-ACC-005 | — |
 | Baja sin tocar reservas | RN-002, INV-INV-002 | draft 002 |
 | Multa y fechas en días naturales | REQ-C-003, INV-FIN-001, RN-004 | — |
