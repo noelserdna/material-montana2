@@ -12,7 +12,8 @@ REQ-NF-002 e INV-ACC-001: contraseña solo como hash con sal. INV-ACC-002: una s
 
 - Hash con `crypto.scrypt` (N=2^15, r=8, p=1, sal de 16 B por cuenta, `timingSafeEqual`).
 - Sesión en servidor: token de 256 bits en cookie `HttpOnly; SameSite=Strict; Secure` (Secure salvo localhost); una fila por cuenta; caducidad 30 min de inactividad y 12 h absolutas; cierre explícito.
-- 5 fallos por correo/IP → bloqueo 15 min; respuesta siempre `E_AUTH_INVALID`.
+- 5 fallos de una cuenta en 15 min → bloqueo 15 min desde el último fallo, por cuenta (REQ-F-017); respuesta `E_AUTH_LOCKED` aun con la contraseña correcta; `E_AUTH_INVALID` para correos inexistentes.
+- `cerrarSesion` (API-001-02) elimina la sesión (REQ-F-018); inactividad de 30 min → `E_SESSION_EXPIRED`, conservando la fila caducada hasta el siguiente acceso para distinguirla de «sin sesión» (REQ-F-019).
 - Altas y cambios de contraseña solo por CLI del operador (`npm run cuentas`), sin ruta HTTP.
 - Autorización por rol y dueño con denegación por defecto.
 
@@ -36,11 +37,11 @@ REQ-NF-002 e INV-ACC-001: contraseña solo como hash con sal. INV-ACC-002: una s
 
 ### Risks
 
-- Bloqueo usado para denegar el acceso a un tercero: mitigado con ventana corta y por correo+IP.
+- Bloqueo usado para denegar el acceso a un tercero (el bloqueo es por cuenta, sin IP): mitigado solo con la ventana corta de 15 min; se acepta por el requisito.
 
 ## Related
 
-- **Specs:** REQ-NF-002, INV-ACC-001..005, RN-001, `nfr/SECURITY.md`, `audits/SECURITY-AUDIT-BASELINE.md`
+- **Specs:** REQ-F-017, REQ-F-018, REQ-F-019, REQ-NF-002, INV-ACC-001..005, RN-001, `nfr/SECURITY.md`, `audits/SECURITY-AUDIT-BASELINE.md`
 - **Quality Attributes:** QA-02
 - **Other ADRs:** ADR-DRAFT-001
 

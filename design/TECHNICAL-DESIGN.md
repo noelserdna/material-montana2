@@ -8,6 +8,7 @@
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-11-16 | Initial technical design |
+| 1.1 | 2026-11-16 | Update por REQ-F-017, REQ-F-018, REQ-F-019: bloqueo por cuenta, operación cerrarSesion, caducidad por inactividad distinguible (§6, §7, §8, §15, §16) |
 
 Decisiones del cliente aplicadas sin impugnar: RN-001 (el encargado prepara las cuentas; **no hay pantalla ni operación de registro**) y RN-002 (la baja de unidades se permite; la reserva futura sigue en pie y el encargado avisa a quien corresponda fuera de la web).
 
@@ -98,7 +99,7 @@ Dependencias de ejecución: ninguna más allá de Vite (devDependency). Sin ORM.
 **Caching:** not needed.
 **Rationale:** REQ-NF-001 pide un almacén de servidor compartido; la base embebida da transacciones ACID para INV-RES-001 (comprobar disponibilidad y escribir en una sola transacción `BEGIN IMMEDIATE`, sin sobre-reserva por concurrencia) y «sin escritura parcial» (`nfr/AVAILABILITY.md`).
 **Alternatives:** PostgreSQL (servicio extra sin necesidad), fichero JSON (sin atomicidad), IndexedDB/localStorage (incumple REQ-NF-001).
-**Tablas:** `cuenta`, `material`, `reserva`, `multa`, `sesion` (ENT-001..005). Restricciones en BD: `cuenta.correo` único, `material.nombre` único, `multa.reserva_id` único (INV-FIN-002), CHECK de estados (VO-004/005).
+**Tablas:** `cuenta`, `material`, `reserva`, `multa`, `sesion` (ENT-001..005), más `fallo_acceso` (`cuenta_correo`, `instante` ISO 8601 UTC; INV-ACC-006). Restricciones en BD: `cuenta.correo` único, `material.nombre` único, `multa.reserva_id` único (INV-FIN-002), CHECK de estados (VO-004/005).
 **Fechas:** texto `YYYY-MM-DD`, aritmética en días naturales UTC (sin horas; REQ-C-003). El «hoy» sale de un reloj inyectable.
 **Ocupación:** `ocupadas(d)` se calcula por consulta sobre reservas Reservada/Entregada; sin contadores desnormalizados.
 **Baja de unidades (RN-002):** `unidadesActivas` baja sin tocar reservas; puede haber días con más reservas activas que unidades. La interfaz del encargado (Ver hoy / Entregas) debe señalar esos días para que avise a mano; no hay notificaciones automáticas ni correo.
@@ -110,7 +111,9 @@ Dependencias de ejecución: ninguna más allá de Vite (devDependency). Sin ORM.
 ## 7. Auth & Security (Dimension 5)
 
 **Authentication:** correo + contraseña (API-001-01). Contraseñas con `crypto.scrypt` (N=2^15, r=8, p=1, sal aleatoria de 16 B por cuenta, comparación `timingSafeEqual`) → CRYPTO-001 e INV-ACC-001. Sesión **en servidor**: token aleatorio de 256 bits en cookie `HttpOnly; SameSite=Strict; Secure` (Secure fuera de localhost), tabla `sesion` con una fila por cuenta (INV-ACC-002), caducidad por inactividad 30 min y absoluta 12 h, cierre de sesión explícito (AUTH-002).
-**Freno de intentos (AUTH-001):** contador por correo e IP: 5 fallos → bloqueo 15 min respondiendo siempre `E_AUTH_INVALID` (sin enumerar cuentas, AUTH-003).
+**Caducidad por inactividad (REQ-F-019, INV-ACC-007):** `sesion.ultima_actividad` (Instante) se renueva en cada petición con sesión vigente; si `ahora − ultima_actividad ≥ SESSION_IDLE_MIN` (30 min, de VALUE-REGISTRY) la petición se rechaza con `E_SESSION_EXPIRED` («Tu sesión ha caducado», 401) y la SPA va a Iniciar sesión con ese mensaje. Para distinguir «caducada» de «sin sesión» (`E_AUTH_REQUIRED`) la fila caducada **no se borra al detectarla**: se conserva hasta que la cuenta inicia sesión de nuevo (INV-ACC-002 la sustituye) o la limpia la purga al arrancar; un token desconocido o ya cerrado da `E_AUTH_REQUIRED`. Reloj inyectable para los tests (10:29 vale, 10:31 no).
+**Cerrar sesión (REQ-F-018, API-001-02):** borra la fila de `sesion` y la cookie (`Max-Age=0`); un token ya cerrado se trata como «sin sesión»: la operación responde 200 sin cambiar nada y la SPA va a Iniciar sesión; cualquier otra operación con él da `E_AUTH_REQUIRED`. La SPA muestra el botón «Salir» en la barra común a todas las pantallas con sesión.
+**Freno de intentos (AUTH-001, REQ-F-017, INV-ACC-006):** **por cuenta** (el bloqueo de una no afecta a otra), no por IP. Cada fallo con un correo existente inserta una fila en `fallo_acceso`; hay bloqueo si hay `LOGIN_MAX_FAILURES` (5) fallos en los 15 min previos y no han pasado 15 min desde el último; entonces se rechaza con `E_AUTH_LOCKED` («Demasiados intentos fallidos: espera 15 minutos») **antes de comprobar la contraseña**, también si es correcta. Un acceso correcto fuera del bloqueo borra los fallos de la cuenta (contador a cero); los fallos más antiguos de 15 min no cuentan. La comprobación y el registro del fallo van en una transacción `BEGIN IMMEDIATE` (sin carrera entre intentos paralelos). Para correos inexistentes se responde `E_AUTH_INVALID` sin contar (AUTH-003); el bloqueo solo se revela a quien nombra una cuenta real, riesgo asumido por el requisito (mensaje específico). La IP queda solo en el registro de seguridad.
 **Authorization:** RBAC con tres roles + regla de fila «dueño» (INV-ACC-004). Tabla de permisos en código derivada de `PERMISSIONS-MATRIX.md`, **denegación por defecto** (AUTHZ-001). Reserva ajena e inexistente no deben distinguirse para un socio (AUTHZ-002); el código de error exacto lo fija el contrato (si choca con `E_RES_NOT_FOUND`/`E_FORBIDDEN_DATA`, es asunto del spec-auditor).
 **Input validation (INPUT-001):** esquema por operación (tipos, longitud ≤ 100 en correo/material, enteros 1..1000 en unidades, `Dia` estricto `YYYY-MM-DD`), SQL siempre parametrizado, cuerpo JSON ≤ 16 KB.
 **Encryption:** TLS terminado en el proxy inverso; HSTS; Node escucha solo en 127.0.0.1 detrás de él (DATA-001). Sin cifrado en reposo más allá del disco.
@@ -128,7 +131,7 @@ Dependencias de ejecución: ninguna más allá de Vite (devDependency). Sin ORM.
 **Versioning:** none (cliente y servidor se despliegan juntos).
 **Documentation:** los contratos `spec/contracts/API-*.md` son la fuente; sin OpenAPI.
 **Errores:** `{ ok:false, codigo:'E_…', mensaje }` con el mensaje de VO-010 desde el módulo de textos; estado HTTP 400/401/403/404/409/503 según familia. Las `O_*` (idempotentes) devuelven 200 con `{ ok:true, aviso:'O_…' }`.
-**Rate Limiting:** solo en inicio de sesión (ver §7).
+**Rate Limiting:** solo en inicio de sesión, por cuenta (ver §7). Errores nuevos: `E_AUTH_LOCKED` → 429; `E_SESSION_EXPIRED` → 401.
 
 ---
 
@@ -202,7 +205,7 @@ Sin credenciales externas ni cuentas de servicio (0 integraciones; DIM-7-002 no 
 |-----------|----------|--------|
 | `design/ADR-DRAFT-001-arquitectura-spa-api-monolito.md` | SPA Vite + API Node en un monolito modular | Proposed |
 | `design/ADR-DRAFT-002-almacen-sqlite.md` | SQLite (`node:sqlite`) como almacén | Proposed |
-| `design/ADR-DRAFT-003-autenticacion-sesion-scrypt.md` | Sesión en servidor, scrypt, freno de intentos | Proposed |
+| `design/ADR-DRAFT-003-autenticacion-sesion-scrypt.md` | Sesión en servidor, scrypt, freno de intentos por cuenta, cierre y caducidad | Proposed |
 
 Aprobarlos y promoverlos a `spec/adr/` es decisión de una persona.
 
@@ -217,6 +220,9 @@ Aprobarlos y promoverlos a `spec/adr/` es decisión de una persona.
 | Base transaccional embebida | REQ-NF-001, INV-RES-001, INV-FIN-002, `nfr/AVAILABILITY.md` | draft 002 |
 | scrypt + sal | REQ-NF-002, INV-ACC-001, CRYPTO-001 | draft 003 |
 | Sesión única por cuenta | INV-ACC-002, INV-ACC-003, AUTH-002 | draft 003 |
+| Bloqueo por cuenta tras 5 fallos / 15 min | REQ-F-017, INV-ACC-006, AUTH-001 | draft 003 |
+| Cerrar sesión (API-001-02) | REQ-F-018, INV-ACC-007, UC-017 | draft 003 |
+| Caducidad a 30 min de inactividad | REQ-F-019, INV-ACC-007, UC-018 | draft 003 |
 | RBAC + dueño, denegar por defecto | INV-ACC-004/005, PERMISSIONS-MATRIX, AUTHZ-001 | draft 003 |
 | Sin registro; CLI de cuentas | RN-001, API-001 | — |
 | Baja sin tocar reservas | RN-002, INV-INV-002 | draft 002 |
