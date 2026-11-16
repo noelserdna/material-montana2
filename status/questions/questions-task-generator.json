@@ -7,7 +7,7 @@
       "skill": "sdd-task-generator",
       "contexto": "FASE-2 / UC-006, UC-007, REQ-NF-001 AC1 (PLAN-FASE-2 §5)",
       "tema": "listado-reservas-encargado",
-      "estado": "OPEN",
+      "estado": "ANSWERED",
       "pregunta": "FASE-2 puts a table of every member's reservations on #/entregas (SCR-004, REQ-NF-001 AC1) but the 14 contracted operations have none that lists all reservations: API-002-02 listarMisReservas returns only the actor's (INV-ACC-004) and API-002-06 verHoy is FASE-4 and per day. Default taken in the task file: [PLAN GAP] task TASK-F2-005 and dependants stay blocked.",
       "para_cliente": "¿Cómo ve el encargado en Entregas y devoluciones las reservas de todos los socios?",
       "opciones": [
@@ -35,7 +35,12 @@
         }
       ],
       "bloquea": "TASK-F2-005, TASK-F2-006, TASK-F2-007",
-      "respuesta": null
+      "respuesta": {
+        "letra": "A",
+        "como": "opción recomendada, aceptada por",
+        "quien": "Jev (jev-1.14.0) (Agente automático (modo auto))",
+        "fecha": "2026-11-16"
+      }
     }
   ]
 }
