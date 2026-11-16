@@ -40,3 +40,16 @@ Options:
      cliente: Todas sus reservas, también pendientes y canceladas
 Blocks: AMB-001 (UC-014, glosario)
 Answer: A — opción recomendada, aceptada por Andres Leon (Cliente) (2026-11-16)
+
+## Q-spec-auditor-004 [ANSWERED] skill=sdd-spec-auditor context=SIL-007 · REQ-F-017, spec/domain/05-INVARIANTS.md:9 (INV-ACC-006), spec/use-cases/UC-001:36 tema=bloqueo-intento-durante-espera
+Question: REQ-F-017 / INV-ACC-006 dicen que no se abre sesión hasta pasados 15 min «desde el último fallo», pero no dicen si un intento con contraseña incorrecta hecho durante el bloqueo cuenta como fallo (y reinicia los 15 min). Con la lectura literal, quien conozca el correo de otra persona puede mantenerla bloqueada indefinidamente. Defecto escrito: los intentos rechazados por el bloqueo no cuentan ni alargan la espera.
+Para el cliente: Si alguien sigue probando contraseñas mientras la cuenta está en espera, ¿la espera de 15 minutos se alarga con cada intento o sigue contando desde el 5.º fallo?
+Options:
+  A) Los intentos durante el bloqueo se rechazan sin contar como fallo: el bloqueo termina 15 min después del 5.º fallo (recommended)
+     efecto: ninguno
+     cliente: La espera sigue contando desde el 5.º fallo; probar más durante la espera no la alarga
+  B) Cada intento fallido durante el bloqueo cuenta y reinicia los 15 minutos
+     efecto: req-change
+     cliente: Cada intento durante la espera la alarga otros 15 minutos
+Blocks: SIL-007 (INV-ACC-006, UC-001, BDD-UC-001)
+Answer: A — opción recomendada, aceptada por Jev (jev-1.14.0) (Agente automático (modo auto)) (2026-11-16)
