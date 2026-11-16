@@ -22,7 +22,7 @@ Web en español para el préstamo de material de un club de montaña: SPA de Jav
 |------|-----------|------------|------------|
 | FASE-0-SKELETON | Entrar, añadir material y verlo en el catálogo | REQ-F-001, REQ-F-017, REQ-F-011, REQ-F-003, REQ-NF-002 | — |
 | FASE-1-RESERVAS | Reservar, ver y cancelar | REQ-F-002, REQ-F-004, REQ-F-005 | FASE-0 |
-| FASE-2-ENTREGAS | Entregar y recibir el material | REQ-F-006, REQ-F-007, REQ-NF-001 | FASE-1 |
+| FASE-2-ENTREGAS | Entregar y recibir el material | REQ-F-006, REQ-F-007, REQ-F-020, REQ-NF-001 | FASE-1 |
 | FASE-3-MULTAS | Multas por retraso, bloqueo y pago | REQ-F-008, REQ-F-009, REQ-F-010 | FASE-2 |
 | FASE-4-HOY-Y-BAJAS | Ver el día y dar de baja unidades | REQ-F-012, REQ-F-013 | FASE-2 |
 | FASE-5-JUNTA | La junta consulta; datos solo del dueño | REQ-F-014, REQ-F-015, REQ-F-016 | FASE-3 |
@@ -145,7 +145,7 @@ npx vite build && node src/server/main.js        # producción en :8080
 |----|--------|------|
 | UC-001, UC-003, UC-011 | acceso, inventario | 0 |
 | UC-002, UC-004, UC-005 | reservas | 1 |
-| UC-006, UC-007 | reservas | 2 |
+| UC-006, UC-007, UC-019 | reservas | 2 |
 | UC-008, UC-009, UC-010 | multas, reservas | 3 |
 | UC-012, UC-013 | inventario, reservas | 4 |
 | UC-014, UC-015, UC-016 | multas, permisos | 5 |

@@ -5,12 +5,13 @@
 
 ## 1. FASE Overview
 
-**Objective:** el encargado entrega y marca devoluciones; REQ-NF-001 visible entre sesiones · **Scope:** reservas, registro de seguridad · **Delivers:** API-002-04, API-002-05
+**Objective:** el encargado lista las reservas de todos (UC-019), entrega y marca devoluciones; REQ-NF-001 visible entre sesiones · **Scope:** reservas, registro de seguridad · **Delivers:** API-002-07, API-002-04, API-002-05
 
 ## 2. Specs to Implement
 
 | Spec | Type | Implementation note |
 |------|------|---------------------|
+| UC-019 | UC | lectura solo encargado; filtro por estado, defecto `Por entregar`; vacío → «No hay reservas» |
 | UC-006 | UC | solo `Reservada` pasa a `Entregada`; cancelada → `E_RES_CANCELLED` |
 | UC-007 | UC | solo `Entregada` pasa a `Devuelta` con `devueltaEl` |
 | UC-005 | UC | AC-005-08: cancelar `Entregada` → `E_CANCEL_STATE` |
@@ -23,20 +24,23 @@
 |----|----------|-----|
 | D-PA-003 | `devolverReserva` sin multa; FASE-3 la añade en la misma transacción | CLARIFY-LOG |
 | D-PA-004 | REQ-NF-001 se prueba aquí | CLARIFY-LOG |
+| D-PA-012 | `listarReservas` reutiliza `tablaReservas` y la tabla `reserva`; el filtro es una proyección por estado, sin índice nuevo | FASE-2 (REQ-F-020) |
 
 ## 4. Component Implementation
 
 ### 4.1 `src/domain/reservas.js` (A)
 
-**Responsibility:** UC-006, UC-007 · **Refs:** INV-RES-005
+**Responsibility:** UC-019, UC-006, UC-007 · **Refs:** INV-RES-005, INV-ACC-005
 
 ```js
+export function listarReservas({ repo }, actor, { filtro = 'Por entregar' }) // → { reservas, mensaje? }
 export function entregarReserva({ repo }, actor, { reservaId })
 export function devolverReserva({ repo }, actor, { reservaId, devueltaEl }) // → { reserva }
 export function transicion(estado, accion) // tabla SM-001: → { estado } | { error } | { aviso }
 ```
 
 **Notes:**
+- `listarReservas`: `Por entregar` = `Reservada`, `Entregadas` = `Entregada`, `Todas` = las cuatro; filtro desconocido → 400; solo encargado.
 - Ningún efecto cuando hay error o aviso (Q-spec-auditor-001).
 - `devueltaEl` se acepta tal cual; no se añaden comprobaciones de fecha (Q-spec-auditor-002).
 - La unidad libre al devolver sale de `ocupadas`, no de un contador.
@@ -55,6 +59,7 @@ No external ports in this FASE.
 
 | API-op | Handler | Note |
 |--------|---------|------|
+| API-002-07 | `http/reservas.js#listarReservas` | lectura; 403 socio/junta antes de leer datos; «No hay reservas» si vacío |
 | API-002-04 | `http/reservas.js#entregarReserva` | solo encargado; registra en seguridad |
 | API-002-05 | `http/reservas.js#devolverReserva` | solo encargado; una transacción para que FASE-3 sume la multa |
 
@@ -74,15 +79,15 @@ Sin cambios de esquema.
 
 | Scenario | Test ids (test/) | Setup | Block |
 |----------|------------------|-------|-------|
-| Entregar y devolver | TEST-MATRIX-UC-006, UC-007, AC-006-01..07, AC-007-01..06, AC-005-08 | in-memory repository | A |
+| Entregar y devolver | TEST-MATRIX-UC-006, UC-007, UC-019 (T01..T10), AC-019-01..08, AC-006-01..07, AC-007-01..06, AC-005-08 | in-memory repository | A |
 | Datos compartidos | INT-T-001, AC-NF1-01 | dos sesiones sobre el mismo almacén | A |
 
 ### 7.3 BDD / E2E Scenarios
 
 | Source | Scenarios | Tier / Priority | Block |
 |--------|-----------|-----------------|-------|
-| `tests/BDD-UC-006.md`, `UC-007` | AC-006-01..07, AC-007-01..06 | P0/P1 | A |
-| `test/E2E-SCENARIOS.md` | Smoke: S1 · Critical: C-006-*, C-007-*, C-NF1 | por nivel | A |
+| `tests/BDD-UC-006.md`, `UC-007`, `UC-019` | AC-006-01..07, AC-007-01..06, AC-019-01..08 | P0/P1 | A |
+| `test/E2E-SCENARIOS.md` | Smoke: S1 · Critical: C-006-*, C-007-*, C-019-01..04, C-NF1 | por nivel | A |
 
 ### 7.4 Test Coverage Map (Source → Test)
 
@@ -104,12 +109,12 @@ Sin cambios de esquema.
 
 | Component | From FASE | Required for |
 |-----------|-----------|--------------|
-| `crearReserva`, `ocupadas`, tabla `reserva` | FASE-1 | reservas que entregar |
+| `crearReserva`, `ocupadas`, tabla `reserva` | FASE-1 | reservas que listar y entregar |
 | `permisos` | FASE-0 | solo encargado |
 
 ## 9. Acceptance Criteria
 
-- [ ] AC-006-01..07, AC-007-01..06, AC-005-08 pasan
+- [ ] AC-006-01..07, AC-007-01..06, AC-019-01..08, AC-005-08 pasan
 - [ ] REQ-NF-001 AC1: el encargado ve lo reservado en otra sesión
 - [ ] No new security findings
 

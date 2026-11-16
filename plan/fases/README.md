@@ -24,7 +24,7 @@ Orden de ejecución: 0 → 1 → 2 → 3 → 4 → 5 → 6 (4 solo depende de 2)
 |------|-----------|------------|------------|--------------|
 | **0** | [FASE-0-SKELETON.md](FASE-0-SKELETON.md) | Entrar, añadir material y verlo en el catálogo | REQ-F-001, REQ-F-017, REQ-F-011, REQ-F-003, REQ-NF-002 | — |
 | **1** | [FASE-1-RESERVAS.md](FASE-1-RESERVAS.md) | Reservar, ver y cancelar | REQ-F-002, REQ-F-004, REQ-F-005 | 0 |
-| **2** | [FASE-2-ENTREGAS.md](FASE-2-ENTREGAS.md) | Entregar y recibir el material | REQ-F-006, REQ-F-007, REQ-NF-001 | 1 |
+| **2** | [FASE-2-ENTREGAS.md](FASE-2-ENTREGAS.md) | Entregar y recibir el material | REQ-F-006, REQ-F-007, REQ-F-020, REQ-NF-001 | 1 |
 | **3** | [FASE-3-MULTAS.md](FASE-3-MULTAS.md) | Multas por retraso | REQ-F-008, REQ-F-009, REQ-F-010 | 2 |
 | **4** | [FASE-4-HOY-Y-BAJAS.md](FASE-4-HOY-Y-BAJAS.md) | Ver el día y dar de baja unidades | REQ-F-012, REQ-F-013 | 2 |
 | **5** | [FASE-5-JUNTA.md](FASE-5-JUNTA.md) | La junta consulta; datos solo del dueño | REQ-F-014, REQ-F-015, REQ-F-016 | 3 |
@@ -38,13 +38,13 @@ Orden de ejecución: 0 → 1 → 2 → 3 → 4 → 5 → 6 (4 solo depende de 2)
 |------|---------------|
 | 0 | UC-001, UC-011, UC-003 |
 | 1 | UC-002, UC-004, UC-005 |
-| 2 | UC-006, UC-007 (+ AC-005-08) |
+| 2 | UC-019, UC-006, UC-007 (+ AC-005-08) |
 | 3 | UC-008, UC-009, UC-010 (+ AC-002-08) |
 | 4 | UC-012, UC-013 |
 | 5 | UC-014, UC-015, UC-016 |
 | 6 | UC-017, UC-018 |
 
-**Total:** 18 casos de uso cubiertos (UC-001 a UC-018).
+**Total:** 19 casos de uso cubiertos (UC-001 a UC-019).
 
 ## Cobertura de ADRs y diseño
 

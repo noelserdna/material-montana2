@@ -48,6 +48,7 @@
 | D-PA-008 | CL-TEST | Tests en `tests/unit`, `tests/integration`, `tests/e2e` reflejando `src/`; E2E con capturas por criterio | TEST-PLAN R-3, R-6 | No |
 | D-PA-009 | CL-TEST | Reloj controlable en E2E: `POST /api/__reloj` existe solo con `MONTANA_TEST_CLOCK=1` y avanza el reloj del servidor; nunca en producción | TEST-PLAN R-1, R-8, D-T-011 | No |
 | D-PA-011 | CL-SEC | Umbral de caducidad: vigente si `ahora − ultimaActividad ≤ 30 min`, caduca por encima (INV-ACC-007, UC-018, UNIT-T-018); TECHNICAL-DESIGN §7 escribe `≥` | INV-ACC-007 | No (corregir el diseño) |
+| D-PA-012 | CL-DATA | `listarReservas` (REQ-F-020) en FASE-2: proyección por estado sobre la tabla `reserva`, sin índice ni esquema nuevos; reutiliza `tablaReservas` | API-002-07, UC-019 | No |
 | D-PA-010 | CL-DATA | Cuentas con `npm run cuentas -- alta|clave`; contraseña por stdin; sin ruta HTTP | TECHNICAL-DESIGN §6, RN-001 | No |
 
 ## Coverage Gate (Phase 2.9)
