@@ -21,3 +21,4 @@
 {"at":"2026-11-16T15:39:36Z","feature":"initial","stage":"requirements-engineer","kind":"decision","text":"Andres Leon aprobó los requisitos (versión 1.1) el 2026-11-16","refs":["requirements-v1.1"],"by":"Andres Leon (Cliente)"}
 {"at":"2026-11-16T15:42:13Z","feature":"initial","stage":"spec-auditor","kind":"done","text":"Revisamos lo nuevo (bloqueo, salir y caducidad): sin puntos graves; aplicamos tus respuestas sobre cancelar/entregar y el historial, y queda 1 pregunta sobre el bloqueo","refs":[]}
 {"at":"2026-11-16T15:44:47Z","feature":"initial","stage":"test-planner","kind":"done","text":"Añadimos las comprobaciones de bloqueo, salir y caducidad de sesión: 18 matrices, 13 pantallas nuevas por comprobar","refs":[]}
+{"at":"2026-11-16T15:47:01Z","feature":"initial","stage":"security-auditor","kind":"done","text":"Revisamos la seguridad de la sesión nueva: 2 riesgos importantes pendientes de corregir, el bloqueo por intentos queda resuelto","refs":[]}
