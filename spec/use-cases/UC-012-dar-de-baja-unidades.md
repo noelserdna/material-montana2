@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Version | 1.0 / 2026-11-16 |
-| Refs | REQ-F-012 (primary); API-003-03; INV-INV-001, INV-INV-002, INV-RES-001; RN-002; BDD-UC-012 |
+| Refs | REQ-F-012 (primary); API-003-03; INV-INV-001, INV-INV-002, INV-RES-001, INV-ACC-005; RN-002; BDD-UC-012 |
 | Actors | Primary: encargado. Secondary: inventario, reservas |
 | Trigger | Envía la baja en Inventario |
 | Priority / Status | Must / Approved |
