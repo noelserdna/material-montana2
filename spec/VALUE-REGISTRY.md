@@ -8,3 +8,7 @@
 | `ESTADO_MULTA` | Pendiente, Pagada | enum | enum | VO-005 | SM-002, UC-010, UC-014 |
 | `DATE_FORMAT` | YYYY-MM-DD | día natural | format | REQ-C-003 | VO-003, UC-002 |
 | `CANCEL_DEADLINE` | día anterior a `desde` | día | rule | REQ-F-005 | INV-RES-004 |
+| `LOGIN_MAX_FAILURES` | 5 | intentos | limit | REQ-F-017 | INV-ACC-006, UC-001 |
+| `LOGIN_WINDOW_MIN` | 15 | minutos | limit | REQ-F-017 | INV-ACC-006, UC-001 |
+| `LOCKOUT_MIN` | 15 | minutos | limit | REQ-F-017 | INV-ACC-006, UC-001 |
+| `SESSION_IDLE_MIN` | 30 | minutos | limit | REQ-F-019 | INV-ACC-007, UC-018 |

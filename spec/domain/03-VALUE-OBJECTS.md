@@ -6,6 +6,7 @@ type Rol = 'socio' | 'encargado' | 'junta';   // VO-002 (ROLES)
 type Dia = string;                    // VO-003: 'YYYY-MM-DD', día natural completo (REQ-C-003)
 type EstadoReserva = 'Reservada' | 'Entregada' | 'Devuelta' | 'Cancelada';  // VO-004
 type EstadoMulta = 'Pendiente' | 'Pagada';      // VO-005
+type Instante = string;               // VO-007: fecha y hora ISO 8601; solo para sesión y bloqueo (INV-ACC-006, INV-ACC-007); el resto del dominio cuenta días (REQ-C-003)
 type Unidades = number;               // VO-006: entero ≥ 1 en altas y bajas (INV-INV-001)
 ```
 
@@ -14,7 +15,8 @@ type Unidades = number;               // VO-006: entero ≥ 1 en altas y bajas (
 | Code | Class | Message (literal) | Raised by | Refs |
 |---|---|---|---|---|
 | `E_AUTH_INVALID` | AuthError | Correo o contraseña incorrectos | API-001-01 | REQ-F-001 |
-| `E_AUTH_REQUIRED` | AuthError | Iniciar sesión | all | REQ-F-016 |
+| `E_AUTH_LOCKED` | AuthError | Demasiados intentos fallidos: espera 15 minutos | API-001-01 | REQ-F-017 |
+| `E_AUTH_REQUIRED` | AuthError | Iniciar sesión | all | REQ-F-016, REQ-F-018 |
 | `E_FORBIDDEN_ROLE` | PermissionError | No tienes permiso para hacer esto | API-002-04..06, API-003-02..03, API-004-01..02, API-002-01, API-002-03 | REQ-F-015, REQ-F-006, REQ-F-010 |
 | `E_FORBIDDEN_DATA` | PermissionError | No tienes permiso para ver estos datos | API-002-02, API-002-03, API-004-03 | REQ-F-005, REQ-F-016 |
 | `E_DATE_RANGE` | ValidationError | La fecha de fin no puede ser anterior a la de inicio | API-002-01 | REQ-F-002 |
@@ -29,6 +31,7 @@ type Unidades = number;               // VO-006: entero ≥ 1 en altas y bajas (
 | `E_UNITS_INSUFFICIENT` | ValidationError | No hay tantas unidades activas de {material} | API-003-03 | REQ-F-012 |
 | `E_MATERIAL_NOT_FOUND` | NotFoundError | Ese material no existe | API-002-01, API-003-03 | REQ-F-012 |
 | `E_FINE_NOT_FOUND` | NotFoundError | La multa no existe | API-004-02 | REQ-F-010 |
+| `E_SESSION_EXPIRED` | AuthError | Tu sesión ha caducado | all (con sesión) | REQ-F-019 |
 | `E_STORAGE_UNAVAILABLE` | SystemError | No se puede acceder a los datos; inténtalo de nuevo | all | REQ-NF-001 |
 
 ## Idempotent outcomes (not errors; message literal, state unchanged)

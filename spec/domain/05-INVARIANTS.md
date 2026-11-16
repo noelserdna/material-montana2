@@ -5,8 +5,10 @@
 | ID | Rule | Enforced at | UCs | Violation error | Validation |
 |---|---|---|---|---|---|
 | INV-ACC-001 | La contraseña se guarda solo como hash con sal; dos cuentas con la misma contraseña difieren en lo guardado | REPO | UC-001 | — | stored ≠ plain |
-| INV-ACC-002 | Una cuenta tiene como mucho una sesión activa; repetir el acceso la mantiene | API | UC-001 | — | sesiones por correo ≤ 1 |
-| INV-ACC-003 | Toda operación requiere sesión; sin ella se envía a Iniciar sesión sin datos | API | UC-001, UC-002, UC-003, UC-004, UC-016 | `E_AUTH_REQUIRED` | sesión presente |
+| INV-ACC-002 | Una cuenta tiene como mucho una sesión activa; repetir el acceso la mantiene | API | UC-001, UC-017 | — | sesiones por correo ≤ 1 |
+| INV-ACC-006 | 5 intentos fallidos de una cuenta en 15 minutos la bloquean: durante 15 minutos desde el último fallo no se abre sesión, ni con la contraseña correcta; un acceso correcto pone el contador a cero; el bloqueo es por cuenta (REQ-F-017) | API | UC-001 | `E_AUTH_LOCKED` | `fallos(15 min) ≥ LOGIN_MAX_FAILURES → rechazo` |
+| INV-ACC-007 | La sesión termina al elegir "Salir" o tras 30 minutos sin actividad; cada operación con sesión renueva los 30 minutos; una sesión terminada no vale (REQ-F-018, REQ-F-019) | API | UC-017, UC-018 | `E_SESSION_EXPIRED` | `ahora − ultimaActividad ≤ SESSION_IDLE_MIN` y no cerrada |
+| INV-ACC-003 | Toda operación requiere sesión vigente (INV-ACC-007); sin ella se envía a Iniciar sesión sin datos | API | UC-001, UC-002, UC-003, UC-004, UC-016, UC-017, UC-018 | `E_AUTH_REQUIRED` | sesión presente |
 | INV-ACC-004 | Los datos de un socio (reservas, préstamos, multas) solo los ven su dueño, el encargado y la junta | API | UC-004, UC-005, UC-014, UC-016 | `E_FORBIDDEN_DATA` | `actor = dueño ∨ rol ∈ {encargado, junta}` |
 | INV-ACC-005 | La junta no puede reservar, cancelar, entregar, devolver, cambiar inventario ni marcar multas | API | UC-002, UC-006, UC-007, UC-010, UC-011, UC-012, UC-013, UC-015 | `E_FORBIDDEN_ROLE` | `rol ≠ junta` en toda escritura |
 | INV-RES-001 | Cada día del rango: reservas activas (Reservada/Entregada) del material < unidades activas al crear | API, REPO | UC-002, UC-005, UC-012 | `E_NO_STOCK` | ocupadas(d) < activas ∀ d ∈ [desde, hasta] |

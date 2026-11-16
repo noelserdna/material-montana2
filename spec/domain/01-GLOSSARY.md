@@ -13,3 +13,5 @@
 | Multa | Importe a pagar por retraso en una devolución (ENT-004) | sanción, recargo |
 | Baja | Retirada de unidades rotas del inventario (UC-012) | borrado |
 | Cuenta | Correo, contraseña con hash y rol de una persona (ENT-001) | perfil |
+| Bloqueo | Espera de 15 minutos sin poder entrar tras 5 fallos de contraseña en 15 minutos (INV-ACC-006) | castigo |
+| Sesión caducada | Sesión terminada por 30 minutos sin actividad; hay que entrar de nuevo (INV-ACC-007) | timeout |

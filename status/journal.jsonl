@@ -16,3 +16,5 @@
 {"at":"2026-11-16T15:25:52Z","feature":"initial","stage":"ux-designer","kind":"start","text":"Vamos a diseñar las pantallas y cómo se usan","refs":[]}
 {"at":"2026-11-16T15:32:26Z","feature":"initial","stage":"ux-designer","kind":"done","text":"Diseñamos 9 pantallas con sus estados, usables también con teclado y lector de pantalla","refs":[]}
 {"at":"2026-11-16T15:35:36Z","feature":"initial","stage":"task-implementer","kind":"decision","text":"Andres Leon respondió las preguntas del mantenimiento","refs":[],"by":"Andres Leon (Cliente)"}
+{"at":"2026-11-16T15:38:15Z","feature":"initial","stage":"req-change","kind":"change","text":"Añadimos que tras 5 fallos de contraseña en 15 minutos la cuenta espere 15 minutos para volver a entrar","refs":["REQ-F-017"],"by":"Andres Leon (Cliente)"}
+{"at":"2026-11-16T15:38:15Z","feature":"initial","stage":"req-change","kind":"change","text":"Añadimos un botón Salir y que la sesión se cierre sola tras 30 minutos sin actividad","refs":["REQ-F-018","REQ-F-019"],"by":"Andres Leon (Cliente)"}

@@ -4,26 +4,29 @@
 
 | Requirement | Spec | FASE | Tasks | Tests | Commits |
 |---|---|---|---|---|---|
-| REQ-F-001 | BDD-UC-001, UC-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-002 | BDD-UC-002, UC-002, WF-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
+| REQ-F-001 | BDD-UC-001, UC-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 3 |
+| REQ-F-002 | BDD-UC-002, UC-002, WF-001, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 2 |
 | REQ-F-003 | BDD-UC-003, UC-003, spec/contracts/API-inventario.md | — | — | — | 1 |
 | REQ-F-004 | BDD-UC-004, UC-004, spec/DERIVED-SPECS.md, spec/contracts/API-reservas.md | — | — | — | 1 |
-| REQ-F-005 | BDD-UC-005, UC-005, WF-001, spec/DERIVED-SPECS.md, spec/VALUE-REGISTRY.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-006 | BDD-UC-006, UC-006, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
+| REQ-F-005 | BDD-UC-005, UC-005, WF-001, spec/DERIVED-SPECS.md, spec/VALUE-REGISTRY.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 4 |
+| REQ-F-006 | BDD-UC-006, UC-006, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 3 |
 | REQ-F-007 | BDD-UC-007, UC-007, spec/DERIVED-SPECS.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
 | REQ-F-008 | BDD-UC-008, UC-007, UC-008, spec/CLARIFICATIONS.md, spec/contracts/API-multas.md | — | — | — | 1 |
 | REQ-F-009 | BDD-UC-002, BDD-UC-009, UC-002, UC-009, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
 | REQ-F-010 | BDD-UC-010, UC-010, spec/contracts/API-multas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
 | REQ-F-011 | BDD-UC-011, UC-011, spec/contracts/API-inventario.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
 | REQ-F-012 | BDD-UC-012, UC-012, spec/CLARIFICATIONS.md, spec/DERIVED-SPECS.md, spec/contracts/API-inventario.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-013 | BDD-UC-013, UC-013, spec/contracts/API-reservas.md | — | — | — | 1 |
+| REQ-F-013 | BDD-UC-013, UC-013, spec/contracts/API-reservas.md | — | — | — | 2 |
 | REQ-F-014 | BDD-UC-014, UC-014, spec/contracts/API-multas.md | — | — | — | 1 |
 | REQ-F-015 | BDD-UC-002, BDD-UC-005, BDD-UC-007, BDD-UC-011, BDD-UC-015, UC-015, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md | — | — | — | 1 |
-| REQ-F-016 | BDD-UC-003, BDD-UC-004, BDD-UC-014, BDD-UC-016, UC-004, UC-014, UC-016, spec/contracts/API-multas.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/SECURITY.md | — | — | — | 1 |
-| REQ-NF-001 | spec/DERIVED-SPECS.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/AVAILABILITY.md | — | — | — | 1 |
-| REQ-NF-002 | BDD-UC-001, UC-001, UC-016, spec/contracts/API-acceso.md, spec/nfr/SECURITY.md | — | — | — | 1 |
+| REQ-F-016 | BDD-UC-003, BDD-UC-004, BDD-UC-014, BDD-UC-016, UC-004, UC-014, UC-016, spec/contracts/API-multas.md, spec/contracts/API-reservas.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/SECURITY.md | — | — | — | 2 |
+| REQ-F-017 | BDD-UC-001, UC-001, spec/CLARIFICATIONS.md, spec/VALUE-REGISTRY.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | — | — | — | 0 |
+| REQ-F-018 | BDD-UC-017, UC-017, spec/README.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | — | — | — | 0 |
+| REQ-F-019 | BDD-UC-018, UC-018, spec/README.md, spec/VALUE-REGISTRY.md, spec/contracts/API-acceso.md, spec/domain/03-VALUE-OBJECTS.md, spec/domain/05-INVARIANTS.md | — | — | — | 0 |
+| REQ-NF-001 | spec/DERIVED-SPECS.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/AVAILABILITY.md | — | — | — | 4 |
+| REQ-NF-002 | BDD-UC-001, UC-001, UC-016, spec/contracts/API-acceso.md, spec/nfr/SECURITY.md | — | — | — | 3 |
 | REQ-C-001 | spec/nfr/MAINTAINABILITY.md | — | — | — | 1 |
-| REQ-C-002 | spec/nfr/MAINTAINABILITY.md | — | — | — | 1 |
+| REQ-C-002 | spec/nfr/MAINTAINABILITY.md | — | — | — | 2 |
 | REQ-C-003 | UC-008, spec/VALUE-REGISTRY.md, spec/domain/03-VALUE-OBJECTS.md, spec/nfr/MAINTAINABILITY.md | — | — | — | 1 |
 
-Coverage: 21/21 requirements specified or planned. Orphans: none. 21/21 with tests or commits.
+Coverage: 24/24 requirements specified or planned. Orphans: none. 21/24 with tests or commits.

@@ -1,11 +1,10 @@
 # Requirements Document
 
 > **Project:** material-montana2
-> **Version:** 1.0
+> **Version:** 1.1
 > **Last updated:** 2026-11-16
-> **Status:** Approved
-> **Approved by:** Andres Leon (Cliente), 2026-11-16
-> **Ejemplos revisados por:** Andres Leon (Cliente), 2026-11-16
+> **Status:** Review
+> **Ejemplos revisados por:** Andres Leon (Cliente), 2026-11-16 (v1.0; pendientes los de REQ-F-017..019)
 > **Customer needs:** [CUSTOMER-NEEDS.md](CUSTOMER-NEEDS.md)
 
 ## Functional Requirements
@@ -321,6 +320,68 @@
     - Se ve: "Iniciar sesión" en Iniciar sesión
 - **Dependencies:** REQ-F-001
 
+### REQ-F-017: Espera tras fallar la contraseña varias veces
+- **Statement:** IF an account has 5 failed login attempts within 15 minutes THEN THE system SHALL refuse every login for that account, even with the right password, until 15 minutes have passed since the last failed attempt
+- **Para el cliente:** Si alguien falla la contraseña 5 veces en 15 minutos, esa cuenta no deja entrar durante 15 minutos; pasado ese tiempo se puede volver a intentar.
+- **Category:** Functional
+- **Priority:** Must have
+- **Needs:** N-002, N-011
+- **Verification:** test
+- **Source:** intent/INT-002.md (Q-security-auditor-001)
+- **Rationale:** Impide adivinar contraseñas probando sin límite.
+- **Acceptance criteria:**
+  - GIVEN the account "lucia@club.es" with password "Cumbre2026" and 5 failed attempts with "incorrecta" between 10:00 and 10:10 WHEN she submits "Cumbre2026" at 10:11 THEN el usuario ve "Demasiados intentos fallidos: espera 15 minutos" and no session is started
+    - Se ve: "Demasiados intentos fallidos: espera 15 minutos" en Iniciar sesión
+  - GIVEN the same account locked after the 5th failed attempt at 10:10 WHEN she submits "Cumbre2026" at 10:26 THEN el usuario ve "Hola, lucia@club.es"
+    - Se ve: "Hola, {correo}" en Material
+  - GIVEN "lucia@club.es" with 4 failed attempts within 15 minutes WHEN she submits "Cumbre2026" THEN el usuario ve "Hola, lucia@club.es" and her failed attempts count again from zero
+    - Se ve: "Hola, {correo}" en Material
+  - GIVEN "lucia@club.es" locked WHEN "pablo@club.es" submits "Hielo2026" THEN el usuario ve "Hola, pablo@club.es" (the lock is per account)
+    - Se ve: "Hola, {correo}" en Material
+  - GIVEN the first of 5 failed attempts happened at 10:00 and the last at 10:16 WHEN she submits "Cumbre2026" at 10:17 THEN el usuario ve "Hola, lucia@club.es" (they did not fall within 15 minutes)
+    - Se ve: "Hola, {correo}" en Material
+- **Dependencies:** REQ-F-001
+
+### REQ-F-018: Cerrar sesión con un botón
+- **Statement:** WHEN a logged-in person chooses "Salir" THE system SHALL end their session and send them to the login screen
+- **Para el cliente:** Hay un botón "Salir" que cierra tu sesión; para volver a usar la web tienes que entrar otra vez.
+- **Category:** Functional
+- **Priority:** Must have
+- **Needs:** N-002, N-011
+- **Verification:** test
+- **Source:** intent/INT-002.md (Q-security-auditor-001)
+- **Rationale:** Quien usa un ordenador compartido puede dejar de ser reconocido.
+- **Acceptance criteria:**
+  - GIVEN lucia is logged in WHEN she chooses "Salir" THEN el usuario ve "Iniciar sesión" and no session remains
+    - Se ve: "Iniciar sesión" en Iniciar sesión
+  - GIVEN lucia chose "Salir" WHEN the Material address is requested with her old session THEN the user is sent to the login screen and no data is returned
+    - Se ve: "Iniciar sesión" en Iniciar sesión
+  - GIVEN lucia chose "Salir" WHEN she chooses "Salir" again with the old session THEN the user is sent to the login screen and nothing else changes
+    - Se ve: "Iniciar sesión" en Iniciar sesión
+- **Dependencies:** REQ-F-001
+
+### REQ-F-019: La sesión se cierra sola tras 30 minutos sin actividad
+- **Statement:** IF a session has had no activity for 30 minutes THEN THE system SHALL end it and require a new login
+- **Para el cliente:** Si dejas la web 30 minutos sin tocarla, tu sesión se cierra sola y tienes que entrar otra vez.
+- **Category:** Functional
+- **Priority:** Must have
+- **Needs:** N-002, N-011
+- **Verification:** test
+- **Source:** intent/INT-002.md (Q-security-auditor-001)
+- **Rationale:** Una sesión olvidada abierta deja datos personales al alcance de otros.
+- **Acceptance criteria:**
+  - GIVEN lucia's last activity was at 10:00 WHEN she opens Material at 10:31 THEN el usuario ve "Tu sesión ha caducado" en Iniciar sesión and no data is returned
+    - Se ve: "Tu sesión ha caducado" en Iniciar sesión
+  - GIVEN pablo's last activity was at 09:00 WHEN he opens Material at 09:45 THEN el usuario ve "Tu sesión ha caducado" en Iniciar sesión
+    - Se ve: "Tu sesión ha caducado" en Iniciar sesión
+  - GIVEN lucia's last activity was at 10:00 WHEN she opens Material at 10:29 THEN el usuario ve "Hola, lucia@club.es"
+    - Se ve: "Hola, {correo}" en Material
+  - GIVEN lucia was active at 10:00, 10:20 and 10:40 WHEN she opens Material at 10:55 THEN el usuario ve "Hola, lucia@club.es" (each activity renews the 30 minutes)
+    - Se ve: "Hola, {correo}" en Material
+  - GIVEN lucia's session expired WHEN she logs in again with "Cumbre2026" THEN el usuario ve "Hola, lucia@club.es"
+    - Se ve: "Hola, {correo}" en Material
+- **Dependencies:** REQ-F-001
+
 ## Nonfunctional Requirements
 
 ### REQ-NF-001: Datos compartidos entre dispositivos
@@ -401,6 +462,9 @@
 | REQ-F-014 | Functional | Must | intent/INT-001.md | N-010 | test | REQ-F-007, REQ-F-008 |
 | REQ-F-015 | Functional | Must | intent/INT-001.md | N-010 | test | REQ-F-001 |
 | REQ-F-016 | Functional | Must | intent/INT-001.md | N-011 | test | REQ-F-001 |
+| REQ-F-017 | Functional | Must | intent/INT-002.md | N-002, N-011 | test | REQ-F-001 |
+| REQ-F-018 | Functional | Must | intent/INT-002.md | N-002, N-011 | test | REQ-F-001 |
+| REQ-F-019 | Functional | Must | intent/INT-002.md | N-002, N-011 | test | REQ-F-001 |
 | REQ-NF-001 | Nonfunctional | Must | intent/INT-001.md | N-001, N-005 | test | None |
 | REQ-NF-002 | Nonfunctional | Must | método | N-002, N-011 | test | REQ-F-001 |
 | REQ-C-001 | Constraint | — | AGENTS.md | — | test | — |

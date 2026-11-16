@@ -17,3 +17,4 @@
 | RN-002 | REQ-F-012 (Q-requirements-engineer-002) | ¿Reserva futura de una unidad que se da de baja? | La baja se permite; la reserva sigue y el encargado avisa a quien corresponda | rechazar la baja | 2 |
 | RN-003 | REQ-F-002 | ¿Ocupa unidad el rango `desde..hasta` inclusivo? | Sí, ambos días inclusive, mientras la reserva sea Reservada o Entregada | solo noches | 2 |
 | RN-004 | REQ-F-008 | ¿Días de retraso? | `devueltaEl − hasta` en días naturales; devolver en `hasta` o antes = sin multa | contar el día de entrega | 2 |
+| RN-005 | REQ-F-017..019 (Q-security-auditor-001) | ¿Qué pasa tras fallar la contraseña muchas veces y cuánto dura una sesión? | Bloqueo de la cuenta 15 min tras 5 fallos en 15 min; sesión caduca a los 30 min sin actividad; botón "Salir" | solo botón de salir; dejarlo como está | 2 |
